@@ -17,6 +17,7 @@
         <kotlin.code.style>official</kotlin.code.style>
         <junit.version>4.12</junit.version>
         <java.release>11</java.release>
+        <ebean.version>11.44.1</ebean.version>
     </properties>
 
     <dependencies>
@@ -51,6 +52,39 @@
             <version>1.7.28</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.ebean</groupId>
+            <artifactId>ebean</artifactId>
+            <version>${ebean.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger.parser.v3</groupId>
+            <artifactId>swagger-parser</artifactId>
+            <version>2.0.16</version>
+        </dependency>
+
+        <!-- Optional: query bean support -->
+        <dependency>
+            <groupId>io.ebean</groupId>
+            <artifactId>ebean-querybean</artifactId>
+            <version>${ebean.version}</version>
+        </dependency>
+
+        <!-- Optional: query bean generation via APT -->
+        <dependency>
+            <groupId>io.ebean</groupId>
+            <artifactId>querybean-generator</artifactId>
+            <version>${ebean.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!--        Generators -->
         <dependency>
             <groupId>io.dinject</groupId>
@@ -78,14 +112,26 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Pull in as a traditional dependency -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <!-- use 2.9.1 for Java 7 projects -->
+            <version>3.11.1</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
             <version>3.1.02</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.ebean</groupId>
+            <artifactId>ebean-test</artifactId>
+            <version>${ebean.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 
@@ -96,30 +142,6 @@
 
         <plugins>
             <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
-                <configuration>
-                    <jvmTarget>${java.release}</jvmTarget>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>io.repaint.maven</groupId>
                 <artifactId>tiles-maven-plugin</artifactId>
                 <version>2.15</version>
@@ -127,6 +149,8 @@
                 <configuration>
                     <tiles>
                         <tile>io.dinject.kapt:dinject:1.10</tile>
+                        <tile>io.ebean.tile:enhancement:${ebean.version}</tile>
+                        <tile>io.ebean.tile:kotlin-kapt:1.6</tile>
                     </tiles>
                 </configuration>
             </plugin>

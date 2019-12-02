@@ -5,15 +5,9 @@ import io.dinject.controller.WebRoutes
 import io.javalin.Javalin
 
 fun main(args: Array<String>) {
-    val webRoutes = SystemContext.getBeans(WebRoutes::class.java)
-
-    create(webRoutes)
-        .start(8090);
+    startServer(8090)
 }
 
-/**
- * Can start up javalin server for testing
- */
 fun startServer(port: Int): Javalin {
     return create(SystemContext.getBeans(WebRoutes::class.java))
         .start(port)
