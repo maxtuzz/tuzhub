@@ -4,7 +4,7 @@ import io.ebean.docker.commands.PostgresConfig
 import io.ebean.docker.commands.PostgresContainer
 
 /**
- * Create a local postgres instance inside a docker container for local development (main not test)
+ * This will create postgres instance in docker used for local development
  */
 fun main(args: Array<String>) {
     val config = PostgresConfig("11")

@@ -1,6 +1,7 @@
 package io.tuzzy.portal.web
 
 import io.javalin.Javalin
+import io.tuzzy.portal.ResourceHelp
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.startServer
 import kong.unirest.GenericType
@@ -27,11 +28,15 @@ class ApiEntryControllerTest {
     fun get() {
         val apiEntry = getApiEntry("Max");
 
-        println(apiEntry.toString());
-
         assertThat(apiEntry.name).contains("Max")
     }
 
+    @Test
+    fun create() {
+        val bodyA = ResourceHelp.read("/request/api-1a.json")
+
+        println(bodyA)
+    }
 
     private fun getApiEntry(s: String): ApiEntry {
         return Unirest.get("http://localhost:9091/api-entries/${s}")

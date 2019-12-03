@@ -1,0 +1,6 @@
+{
+  "name": "Identity API",
+  "description": "The identity API acts as the organisations main entry point for interacting with user data",
+  "specUrl": "https://api.mycompany.org/api/users/open-api.json",
+  "authEnabled": false
+}

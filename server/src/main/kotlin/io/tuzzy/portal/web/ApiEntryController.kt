@@ -1,14 +1,14 @@
 package io.tuzzy.portal.web
 
 import io.dinject.controller.*
-import io.javalin.http.Context
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.api.ListResponse
-import io.tuzzy.portal.domain.DApiEntry
+import io.tuzzy.portal.service.ApiEntryService
 
 @Controller
 @Path("/api-entries")
-class ApiEntryController {
+class ApiEntryController(private val apiEntryService: ApiEntryService) {
+
     @Get("/:name")
     fun get(name: String): ApiEntry {
         return ApiEntry(name, "test description")
@@ -16,22 +16,18 @@ class ApiEntryController {
 
     @Get
     fun getAll(): ListResponse<ApiEntry> {
-        val description = "test description"
+        val apiEntries = apiEntryService.getApiEntries()
 
-        // Create some dummy objects
-        val api = ApiEntry("Dog API", description)
-        val api2 = ApiEntry("Cat API", description)
-
-        return ListResponse(listOf(api, api2))
+        return ListResponse(apiEntries)
     }
 
     @Post
-    fun create(apiEntry: ApiEntry) {
-        TODO()
+    fun create(apiEntryReq: ApiEntry) {
+        apiEntryService.createApiEntry(apiEntryReq)
     }
 
     @Put("/:name")
-    fun update(apiEntry: ApiEntry, name: String) {
+    fun update(name: String, apiEntry: ApiEntry) {
         TODO("Put not implemented yet for $name")
     }
 

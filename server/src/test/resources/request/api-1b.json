@@ -1,0 +1,6 @@
+{
+  "name": "Order Service API",
+  "description": "The Order Service API manages all orders in our system, including distribution and shipping allocations",
+  "specUrl": "https://api.mycompany.org/api/orders/open-api.json",
+  "authEnabled": true
+}

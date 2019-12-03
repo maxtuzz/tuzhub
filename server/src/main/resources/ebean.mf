@@ -1,4 +1,4 @@
 entity-packages: io.tuzzy.portal.domain
-transactional-packages: io.tuzzy.portal
-querybean-packages: io.tuzzy.portal.domain
+top-packages: io.tuzzy.portal
+profile-location: true
 
