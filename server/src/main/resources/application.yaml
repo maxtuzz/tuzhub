@@ -1,20 +1,30 @@
+##
+## Postgres setup - To use local docker instance see src/test/main/StartPostgresDocker.main()
+##
+ebean:
+  dbSchema: tuzzy_portal
+  migration:
+    run: true
+
+db:
+  user: tuzzy_portal
+  password: test
+  url: jdbc:postgresql://localhost:7432/tuzzy_portal
 
 datasource:
   db:
-    username: sa
-    password: sa
-    url: jdbc:h2:mem:myapp
-    driver: org.h2.Driver
+    username: ${db.user:tuzzy_portal}
+    password: ${db.password:test}
+    url: jdbc:postgresql://localhost:7432/tuzzy_portal
+    driver: ${db.driver:org.postgresql.Driver}
 
+# datasource:
 #  db:
-#    username: myapp
-#    password: ${db.password:fred}
-#    url: jdbc:postgresql://localhost:6432/myapp
-#    driver: org.postgresql.Driver
+#    username: sa
+#    password: sa
+#    url: jdbc:h2:mem:myapp
+#    driver: org.h2.Driver
 
-#ebean:
-#  migration:
-#   run: true
 #
 #  docstore:
 #    url: http://127.0.0.1:9200

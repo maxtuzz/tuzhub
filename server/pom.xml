@@ -31,6 +31,7 @@
             <artifactId>javalin</artifactId>
             <version>3.6.0</version>
         </dependency>
+
         <dependency>
             <groupId>io.dinject</groupId>
             <artifactId>dinject</artifactId>
@@ -46,12 +47,20 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.10.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.28</version>
-        </dependency>
 
+        <!--        Logging-->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+<!--        <dependency>  -->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-simple</artifactId>-->
+<!--            <version>1.7.28</version>-->
+<!--        </dependency>-->
+
+        <!--Database-->
         <dependency>
             <groupId>io.ebean</groupId>
             <artifactId>ebean</artifactId>

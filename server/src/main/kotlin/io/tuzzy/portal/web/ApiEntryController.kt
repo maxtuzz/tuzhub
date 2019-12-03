@@ -9,8 +9,13 @@ import io.tuzzy.portal.domain.DApiEntry
 @Controller
 @Path("/api-entries")
 class ApiEntryController {
+    @Get("/:name")
+    fun get(name: String): ApiEntry {
+        return ApiEntry(name, "test description")
+    }
+
     @Get
-    fun getAll(context: Context): ListResponse<ApiEntry> {
+    fun getAll(): ListResponse<ApiEntry> {
         val description = "test description"
 
         // Create some dummy objects
@@ -18,11 +23,6 @@ class ApiEntryController {
         val api2 = ApiEntry("Cat API", description)
 
         return ListResponse(listOf(api, api2))
-    }
-
-    @Get("/:name")
-    fun get(name: String): ApiEntry {
-        return ApiEntry(name, "test description")
     }
 
     @Post

@@ -16,6 +16,8 @@ class DApiEntryTest() {
             .name.eq("My new API")
             .findOne()
 
+        println(foundEntry?.name)
+
         // Test retrieved is the same
         assertThat(foundEntry).isEqualTo(apiEntry)
 
