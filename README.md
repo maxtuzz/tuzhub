@@ -1,1 +1,1 @@
-# tuzzy-dev-portal
+# Tuzzy API Developer Portal
