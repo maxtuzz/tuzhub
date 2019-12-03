@@ -2,6 +2,7 @@ package io.tuzzy.portal.domain.finder
 
 import io.ebean.Finder
 import io.tuzzy.portal.domain.DApiSpec
+import java.util.UUID
 
-open class DApiSpecFinder : Finder<Long, DApiSpec>(DApiSpec::class.java)
+open class DApiSpecFinder : Finder<UUID, DApiSpec>(DApiSpec::class.java)
 

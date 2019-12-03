@@ -24,7 +24,7 @@ class ApiEntryControllerTest {
     }
 
     @Test
-    fun sayHello() {
+    fun getSingleEntry() {
         val apiEntry = getApi("Max");
 
         println(apiEntry.toString());
@@ -33,7 +33,7 @@ class ApiEntryControllerTest {
     }
 
     private fun getApi(s: String): ApiEntry {
-        return Unirest.get("http://localhost:9091/api/${s}")
+        return Unirest.get("http://localhost:9091/api-entries/${s}")
             .header("Content-Type", "application/json")
             .asObject(object : GenericType<ApiEntry>() {})
             .getBody()

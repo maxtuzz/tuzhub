@@ -11,11 +11,14 @@ import javax.persistence.Table
 class DApiSpec(
     apiEntry: DApiEntry,
     specVersion: String? = "default",
-    content: Map<String, Any>?,
+    openApi: Map<String, Any>?,
     manuallyConfigured: Boolean = false
 ) : BaseDomain() {
+    /**
+     * OpenAPI field is the physical open api doc stored as a json document
+     */
     @DbJsonB
-    var content = content
+    var openApi = openApi
     var specVersion = specVersion
 
     @ManyToOne

@@ -17,7 +17,7 @@
         <kotlin.code.style>official</kotlin.code.style>
         <junit.version>4.12</junit.version>
         <java.release>11</java.release>
-        <ebean.version>11.44.1</ebean.version>
+        <ebean.version>12.1.5</ebean.version>
     </properties>
 
     <dependencies>
@@ -56,6 +56,12 @@
             <groupId>io.ebean</groupId>
             <artifactId>ebean</artifactId>
             <version>${ebean.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.8</version>
         </dependency>
 
         <dependency>

@@ -1,16 +1,27 @@
 package io.tuzzy.portal.web
 
 import io.dinject.controller.*
-import io.swagger.parser.OpenAPIParser
-import io.swagger.v3.oas.models.OpenAPI
-import io.swagger.v3.parser.OpenAPIV3Parser
+import io.javalin.http.Context
 import io.tuzzy.portal.api.ApiEntry
+import io.tuzzy.portal.api.ListResponse
+import io.tuzzy.portal.domain.DApiEntry
 
 @Controller
-@Path("/api")
+@Path("/api-entries")
 class ApiEntryController {
+    @Get
+    fun getAll(context: Context): ListResponse<ApiEntry> {
+        val description = "test description"
+
+        // Create some dummy objects
+        val api = ApiEntry("Dog API", description)
+        val api2 = ApiEntry("Cat API", description)
+
+        return ListResponse(listOf(api, api2))
+    }
+
     @Get("/:name")
-    fun getApi(name: String): ApiEntry {
+    fun get(name: String): ApiEntry {
         return ApiEntry(name, "test description")
     }
 

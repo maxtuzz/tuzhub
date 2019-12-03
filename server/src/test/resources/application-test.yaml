@@ -1,5 +1,6 @@
 ebean:
   test:
+    shutdown: remove
     platform: postgres # h2, postgres, mysql, mariadb, oracle, sqlserver, hana, clickhouse, sqlite
     ddlMode: dropCreate # none | dropCreate | migration
     dbName: tuzzy_portal
