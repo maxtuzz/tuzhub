@@ -1,7 +1,9 @@
 package io.tuzzy.portal.service
 
+import io.ebean.DB
 import io.tuzzy.portal.api.ApiEntry
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertFailsWith
@@ -14,6 +16,11 @@ class ApiEntryServiceTest {
     fun setup() {
         apiEntryService = ApiEntryService()
         dummyEntry = ApiEntry("Hello", "There", "https://execute.order.66.com/api-spec")
+    }
+
+    @After
+    fun tearDown() {
+
     }
 
     @Test

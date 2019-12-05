@@ -1,7 +1,10 @@
 package io.tuzzy.portal.web
 
 import io.dinject.controller.*
+import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.api.ApiEntry
+import io.tuzzy.portal.api.HalLink
+import io.tuzzy.portal.api.Links
 import io.tuzzy.portal.api.ListResponse
 import io.tuzzy.portal.service.ApiEntryService
 
@@ -11,14 +14,21 @@ class ApiEntryController(private val apiEntryService: ApiEntryService) {
 
     @Get("/:name")
     fun get(name: String): ApiEntry {
-        return ApiEntry(name, "test description")
+        val entry = apiEntryService.getByName(name)
+
+        return ApiEntry(entry.name, entry.description)
     }
 
     @Get
     fun getAll(): ListResponse<ApiEntry> {
         val apiEntries = apiEntryService.getApiEntries()
 
-        return ListResponse(apiEntries)
+        val self = HalLink("http://localhost:9080/api-entries")
+
+        return ListResponse(
+            content = apiEntries,
+            links = Links(self)
+        )
     }
 
     @Post
@@ -28,7 +38,7 @@ class ApiEntryController(private val apiEntryService: ApiEntryService) {
 
     @Put("/:name")
     fun update(name: String, apiEntry: ApiEntry) {
-        TODO("Put not implemented yet for $name")
+        apiEntryService.updateApiEntry(name, apiEntry)
     }
 
     @Delete("/:name")

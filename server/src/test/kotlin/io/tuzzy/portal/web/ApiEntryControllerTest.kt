@@ -4,13 +4,16 @@ import io.javalin.Javalin
 import io.tuzzy.portal.ResourceHelp.Companion.read
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.api.ListResponse
+import io.tuzzy.portal.domain.DApiEntry
 import io.tuzzy.portal.startServer
 import kong.unirest.GenericType
 import kong.unirest.Unirest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
+import kotlin.test.BeforeTest
 
 class ApiEntryControllerTest {
     lateinit var app: Javalin
@@ -27,15 +30,18 @@ class ApiEntryControllerTest {
 
     @Test
     fun get() {
-        val apiEntry = getApi("Max");
+        val yes = DApiEntry("TestAPI", "API")
+        yes.save()// #1
+
+        val apiEntry = getApi("TestAPI");
 
         assertThat(apiEntry.name).contains("Max")
     }
 
     @Test
     fun create() {
-        val bodyA = read("/request/api-1a.json")
-        val bodyB = read("/request/api-2a.json")
+        val bodyA = read("/request/api-1a.json") // #2
+        val bodyB = read("/request/api-2a.json")// #3
 
         post(bodyA)
         post(bodyB)

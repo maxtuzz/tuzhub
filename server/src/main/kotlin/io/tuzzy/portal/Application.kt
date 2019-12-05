@@ -22,7 +22,5 @@ fun create(routes: List<WebRoutes>): Javalin {
         config.logIfServerNotStarted = true;
     }
 
-    app.get("/") { ctx -> ctx.result("Welcome to the tuzzy portal api!") }
-
     return app.routes { routes.forEach(WebRoutes::registerRoutes) }
 }

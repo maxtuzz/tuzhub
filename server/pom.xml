@@ -26,6 +26,7 @@
             <artifactId>kotlin-stdlib</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
+
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
@@ -151,7 +152,6 @@
             <version>${ebean.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
 
