@@ -1,11 +1,13 @@
 -- apply changes
 create table api_entry (
   id                            uuid not null,
+  display_name                  varchar(45) not null,
   name                          varchar(45) not null,
   description                   varchar(255),
   version                       bigint not null,
   when_created                  timestamptz not null,
   when_modified                 timestamptz not null,
+  constraint uq_api_entry_display_name unique (display_name),
   constraint uq_api_entry_name unique (name),
   constraint pk_api_entry primary key (id)
 );

@@ -15,17 +15,16 @@ class ApiEntryService {
         val apiEntry = saveApiEntry(apiEntryReq)
 
         // Create spec record associated with it
-        val apiSpec = DApiSpec(apiEntry, "v1", null, true)
-        apiSpec.save()
+        DApiSpec(apiEntry = apiEntry, specVersion = "v1").save()
     }
 
     /**
      * Finds a single API entry by name
      */
-    fun getByName(name: String): DApiEntry{
+    fun getByName(name: String): DApiEntry? {
         return QDApiEntry()
             .name.eq(name)
-            .findOne() ?: DApiEntry("notme", "stupid")
+            .findOne()
     }
 
     /**
@@ -34,7 +33,7 @@ class ApiEntryService {
     fun getApiEntries(): List<ApiEntry> {
         return QDApiEntry()
             .findList()
-            .map { entry -> ApiEntry(entry.name, entry.description) }
+            .map { ApiEntry(it.displayName, it.description) }
     }
 
     /**
@@ -50,11 +49,11 @@ class ApiEntryService {
     // Saves/updates api entry
     private fun saveApiEntry(apiEntryReq: ApiEntry): DApiEntry {
         if (apiEntryReq.specUrl == null) {
-            throw Exception("Spec url not defined in request body")
+            throw RuntimeException("Spec url not defined in request body")
         }
 
         // Create entry record
-        val apiEntry = DApiEntry(apiEntryReq.name, apiEntryReq.description)
+        val apiEntry = DApiEntry(apiEntryReq.displayName, apiEntryReq.description)
         apiEntry.save()
 
         return apiEntry

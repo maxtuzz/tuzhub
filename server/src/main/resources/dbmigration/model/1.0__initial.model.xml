@@ -3,6 +3,7 @@
     <changeSet type="apply">
         <createTable name="api_entry" identityType="external" pkName="pk_api_entry">
             <column name="id" type="uuid" primaryKey="true" identity="true"/>
+            <column name="display_name" type="varchar(45)" notnull="true" unique="uq_api_entry_display_name"/>
             <column name="name" type="varchar(45)" notnull="true" unique="uq_api_entry_name"/>
             <column name="description" type="varchar"/>
             <column name="version" type="bigint" notnull="true"/>

@@ -11,7 +11,7 @@ import javax.persistence.Table
 class DApiSpec(
     apiEntry: DApiEntry,
     specVersion: String? = "default",
-    openApi: Map<String, Any>?,
+    openApi: Map<String, Any>? = mutableMapOf(),
     manuallyConfigured: Boolean = false
 ) : BaseDomain() {
     /**

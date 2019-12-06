@@ -9,9 +9,11 @@ import javax.persistence.Table
 @Cache(nearCache = true, naturalKey = ["name"])
 @Entity
 @Table(name = "api_entry")
-class DApiEntry(name: String, description: String?) : BaseDomain() {
+class DApiEntry(displayName: String, description: String?) : BaseDomain() {
     @Column(unique = true, nullable = false, length = 45)
-    var name: String = name
+    var displayName: String = displayName
+    @Column(unique = true, nullable = false, length = 45)
+    var name: String = displayName.toLowerCase().replace(" ", "-")
     var description: String? = description
 
     companion object Find : DApiEntryFinder()

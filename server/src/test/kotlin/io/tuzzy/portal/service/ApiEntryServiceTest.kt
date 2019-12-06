@@ -1,26 +1,22 @@
 package io.tuzzy.portal.service
 
-import io.ebean.DB
 import io.tuzzy.portal.api.ApiEntry
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 
 class ApiEntryServiceTest {
-    lateinit var apiEntryService: ApiEntryService
-    lateinit var dummyEntry: ApiEntry
+    private lateinit var apiEntryService: ApiEntryService
+    private lateinit var dummyEntry: ApiEntry
 
-    @Before
+    @BeforeEach
     fun setup() {
         apiEntryService = ApiEntryService()
-        dummyEntry = ApiEntry("Hello", "There", "https://execute.order.66.com/api-spec")
-    }
-
-    @After
-    fun tearDown() {
-
+        dummyEntry = ApiEntry(
+            displayName = "Jedi Order",
+            specUrl = "https://execute.order.66.com/api-spec"
+        )
     }
 
     @Test
@@ -29,6 +25,7 @@ class ApiEntryServiceTest {
 
         assertThat(apiEntryService.getApiEntries()).contains(dummyEntry)
     }
+
 
     @Test
     fun creationFails() {

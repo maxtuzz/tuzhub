@@ -2,14 +2,15 @@ package io.tuzzy.portal.api
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class ApiEntry(val name: String, val description: String?) : HalResourse() {
+data class ApiEntry(val displayName: String, val description: String?) : HalResourse() {
+    // SpecUrl only used for initial creation request
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     var specUrl: String? = null
-
     var authEnabled: Boolean = false
+    var name: String? = displayName.toLowerCase().replace(" ", "-")
 
-    constructor(name: String, description: String?, specUrl: String) : this(name, description) {
-        this.specUrl = specUrl;
+    constructor(displayName: String, description: String? = null, specUrl: String?) : this(displayName, description) {
+        this.specUrl = specUrl
     }
 
     // Add links here - api specs etc.

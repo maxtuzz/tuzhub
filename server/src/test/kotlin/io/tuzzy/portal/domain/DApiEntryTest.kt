@@ -2,7 +2,7 @@ package io.tuzzy.portal.domain
 
 import io.tuzzy.portal.domain.query.QDApiEntry
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class DApiEntryTest() {
     @Test
@@ -13,7 +13,7 @@ class DApiEntryTest() {
 
         // Find by name
         val foundEntry = QDApiEntry()
-            .name.eq("My new API")
+            .name.eq("my-new-api")
             .findOne()
 
         // Test retrieved is the same

@@ -1,7 +1,6 @@
 package io.tuzzy.portal.web
 
 import io.dinject.controller.*
-import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.api.HalLink
 import io.tuzzy.portal.api.Links
@@ -14,9 +13,9 @@ class ApiEntryController(private val apiEntryService: ApiEntryService) {
 
     @Get("/:name")
     fun get(name: String): ApiEntry {
-        val entry = apiEntryService.getByName(name)
+        val entry = apiEntryService.getByName(name) ?: throw RuntimeException("nawt found")
 
-        return ApiEntry(entry.name, entry.description)
+        return ApiEntry(displayName = entry.displayName, description = entry.description)
     }
 
     @Get
