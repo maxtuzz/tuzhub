@@ -39,11 +39,18 @@ class ApiEntryService {
     /**
      * Updates an api entry record
      */
-    fun updateApiEntry(name: String, apiEntryUpdate: ApiEntry) {
-        getByName(name)
+    fun updateApiEntry(name: String, apiUpdate: ApiEntry) {
+        val rows = QDApiEntry()
+            .name.eq(name)
+            .asUpdate()
+            .set("display_name", apiUpdate.displayName)
+            .set("name", apiUpdate.displayName.toLowerCase().replace(" ", "-"))
+            .set("description", apiUpdate.description)
+            .update()
 
-        // Save updated entry
-        saveApiEntry(apiEntryUpdate)
+        if (rows < 1) {
+            throw RuntimeException("Api entry not found; no api updated")
+        }
     }
 
     // Saves/updates api entry

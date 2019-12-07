@@ -1,0 +1,5 @@
+{
+  "displayName": "User API",
+  "description": "The User API acts as the organisations main entry point for interacting with user data",
+  "authEnabled": false
+}
