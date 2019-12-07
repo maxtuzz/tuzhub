@@ -4,6 +4,7 @@ import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.domain.DApiEntry
 import io.tuzzy.portal.domain.DApiSpec
 import io.tuzzy.portal.domain.query.QDApiEntry
+import io.tuzzy.portal.domain.query.QDApiSpec
 import javax.inject.Singleton
 
 @Singleton
@@ -12,7 +13,13 @@ class ApiEntryService {
      * Initial creation
      */
     fun createApiEntry(apiEntryReq: ApiEntry) {
-        val apiEntry = saveApiEntry(apiEntryReq)
+        if (apiEntryReq.specUrl == null) {
+            throw RuntimeException("Spec url not defined in request body")
+        }
+
+        // Create entry record
+        val apiEntry = DApiEntry(apiEntryReq.displayName, apiEntryReq.description)
+        apiEntry.save()
 
         // Create spec record associated with it
         DApiSpec(apiEntry = apiEntry, specVersion = "v1").save()
@@ -53,16 +60,19 @@ class ApiEntryService {
         }
     }
 
-    // Saves/updates api entry
-    private fun saveApiEntry(apiEntryReq: ApiEntry): DApiEntry {
-        if (apiEntryReq.specUrl == null) {
-            throw RuntimeException("Spec url not defined in request body")
-        }
+    /**
+     * Delete api entry by name and associated specs
+     */
+    fun deleteByName(api: String) {
+        val entry = QDApiEntry()
+            .name.eq(api)
+            .findOne() ?: throw RuntimeException("User not found")
 
-        // Create entry record
-        val apiEntry = DApiEntry(apiEntryReq.displayName, apiEntryReq.description)
-        apiEntry.save()
+        QDApiSpec()
+            .apiEntry
+            .id.eq(entry.id)
+            .delete()
 
-        return apiEntry
+        entry.delete()
     }
 }

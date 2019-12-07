@@ -35,7 +35,7 @@ class ApiEntryControllerTest : WebTest() {
         assertThat(apiEntries.content.map { it.name }).contains("identity-api")
 
         val bodyA2 = read("/request/api-1b.json")
-        put(bodyA2)
+        "identity-api".put(bodyA2)
 
         // Refresh apis
         apiEntries = getApiList()
@@ -45,10 +45,32 @@ class ApiEntryControllerTest : WebTest() {
         assertThat(apiEntries.content.map { it.name }).contains("user-api")
     }
 
-    private fun put(body: String) {
-        val toUpdate = "identity-api"
+    @Test
+    fun delete() {
+        val bodyA = read("/request/api-1a.json")
+        post(bodyA)
 
-        val httpResponse = Unirest.put("http://localhost:${servicePort}/api-entries/$toUpdate")
+        assertThat(getApiList().content).hasSize(1)
+
+        "identity-api".del()
+
+        assertThat(getApiList().content).hasSize(0)
+    }
+
+    private fun String.del() {
+        val httpResponse = Unirest
+            .delete("http://localhost:$servicePort/api-entries/${this}")
+            .header("Content-Type", "application/json")
+            .asEmpty()
+
+        if (!httpResponse.isSuccess) {
+            throw IllegalStateException("Failed ingest request " + httpResponse.status);
+        }
+    }
+
+    private fun String.put(body: String) {
+        val httpResponse = Unirest
+            .put("http://localhost:$servicePort/api-entries/${this}")
             .header("Content-Type", "application/json")
             .body(body)
             .asEmpty()

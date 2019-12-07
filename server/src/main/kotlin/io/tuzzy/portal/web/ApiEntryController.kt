@@ -42,6 +42,6 @@ class ApiEntryController(private val apiEntryService: ApiEntryService) {
 
     @Delete("/:name")
     fun delete(name: String) {
-        TODO("Delete not implemented yet for $name")
+        apiEntryService.deleteByName(name)
     }
 }
