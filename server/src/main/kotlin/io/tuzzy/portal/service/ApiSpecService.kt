@@ -44,4 +44,37 @@ class ApiSpecService {
 
         if (rows < 1) throw RuntimeException("Update failed, no specification found")
     }
+
+    /**
+     * Will update and set new active spec record
+     */
+    fun createSpecVersion(apiName: String, spec: ApiSpec) {
+        // Update active spec and set to historic
+        if (spec.status == SpecStatus.ACTIVE) {
+            QDApiSpec()
+                .apiEntry.name.eq(apiName)
+                .status.eq(SpecStatus.ACTIVE)
+                .asUpdate()
+                .set("status", SpecStatus.HISTORIC)
+                .update()
+        }
+
+        val historicSpec = QDApiSpec()
+            .apiEntry.name.eq(apiName)
+            .findOne() ?: throw RuntimeException("Oh no")
+
+        // Save new entry
+        DApiSpec(historicSpec.apiEntry, spec.specVersion, spec.status, spec.specUrl).save()
+    }
+
+    /**
+     * Returns a list of specs for api
+     */
+    fun getApiSpecs(apiName: String): List<ApiSpec> {
+        return QDApiSpec()
+            .apiEntry
+            .name.eq(apiName)
+            .findList()
+            .map { ApiSpec(it.apiEntry.name, it.specVersion, it.status, it.specUrl) }
+    }
 }

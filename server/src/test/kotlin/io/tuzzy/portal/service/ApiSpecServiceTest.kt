@@ -73,4 +73,31 @@ internal class ApiSpecServiceTest {
         assertThat(spec?.specVersion).isEqualTo(updateSpecVersion)
         assertThat(spec?.specUrl).isEqualTo(updateSpecUrl)
     }
+
+    @Test
+    fun getAllSpecs() {
+        val specs: List<ApiSpec> = specService.getApiSpecs(apiName)
+
+        assertThat(specs).hasSize(1)
+    }
+
+    @Test
+    fun createNewSpecVersion() {
+        val updateSpecVersion = "v2"
+        val updateSpecUrl = "http://execute.order.66/v2"
+
+        specService.createSpecVersion(apiName, ApiSpec(
+            specVersion = updateSpecVersion,
+            specUrl = updateSpecUrl,
+            status = SpecStatus.ACTIVE
+        ))
+
+        val specs: List<ApiSpec> = specService.getApiSpecs(apiName)
+
+        assertThat(specs).hasSize(2)
+
+        val statuses = specs.map { it.status }
+        assertThat(statuses).contains(SpecStatus.ACTIVE)
+        assertThat(statuses).contains(SpecStatus.HISTORIC)
+    }
 }
