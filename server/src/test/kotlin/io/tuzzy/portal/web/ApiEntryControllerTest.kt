@@ -40,7 +40,7 @@ class ApiEntryControllerTest : WebTest() {
         // Refresh apis
         apiEntries = getApiList()
 
-        // Assert size is still 2
+        // Assert size is still 2 and api name has been updated
         assertThat(apiEntries.content).hasSize(2)
         assertThat(apiEntries.content.map { it.name }).contains("user-api")
     }
@@ -59,7 +59,7 @@ class ApiEntryControllerTest : WebTest() {
 
     private fun String.del() {
         val httpResponse = Unirest
-            .delete("http://localhost:$servicePort/api-entries/${this}")
+            .delete("http://localhost:$servicePort/api-entries/$this")
             .header("Content-Type", "application/json")
             .asEmpty()
 
@@ -70,7 +70,7 @@ class ApiEntryControllerTest : WebTest() {
 
     private fun String.put(body: String) {
         val httpResponse = Unirest
-            .put("http://localhost:$servicePort/api-entries/${this}")
+            .put("http://localhost:$servicePort/api-entries/$this")
             .header("Content-Type", "application/json")
             .body(body)
             .asEmpty()
@@ -81,7 +81,7 @@ class ApiEntryControllerTest : WebTest() {
     }
 
     private fun post(body: String) {
-        val httpResponse = Unirest.post("http://localhost:${servicePort}/api-entries")
+        val httpResponse = Unirest.post("http://localhost:$servicePort/api-entries")
             .header("Content-Type", "application/json")
             .body(body)
             .asEmpty()

@@ -21,7 +21,6 @@ class ApiSpecControllerTest : WebTest() {
         val apiSpec = DApiSpec(dApiEntry, specVersion, SpecStatus.ACTIVE, "http://hello.there.general")
         apiSpec.save()
 
-
         // Get spec via rest call
         val spec = getApiSpec(dApiEntry.name, specVersion);
 

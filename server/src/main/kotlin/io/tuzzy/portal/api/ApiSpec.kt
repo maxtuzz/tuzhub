@@ -3,7 +3,7 @@ package io.tuzzy.portal.api
 import io.tuzzy.portal.domain.SpecStatus
 
 data class ApiSpec(
-    val apiName: String,
+    val apiName: String? = null,
     val specVersion: String = "v1",
     val status: SpecStatus,
     val specUrl: String? = null,
