@@ -4,6 +4,7 @@ create table api_entry (
   display_name                  varchar(45) not null,
   name                          varchar(45) not null,
   description                   varchar(255),
+  manually_configured           boolean default false not null,
   version                       bigint not null,
   when_created                  timestamptz not null,
   when_modified                 timestamptz not null,
@@ -14,13 +15,15 @@ create table api_entry (
 
 create table api_spec (
   id                            uuid not null,
-  open_api                      jsonb,
-  spec_version                  varchar(255),
   api_entry_id                  uuid not null,
-  manually_configured           boolean default false not null,
+  spec_version                  varchar(255),
+  status                        integer not null,
+  spec_url                      varchar(255),
+  open_api                      jsonb,
   version                       bigint not null,
   when_created                  timestamptz not null,
   when_modified                 timestamptz not null,
+  constraint ck_api_spec_status check ( status in (0,1,2,3,4)),
   constraint pk_api_spec primary key (id)
 );
 

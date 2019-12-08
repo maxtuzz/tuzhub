@@ -3,6 +3,7 @@ package io.tuzzy.portal.service
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.domain.DApiEntry
 import io.tuzzy.portal.domain.DApiSpec
+import io.tuzzy.portal.domain.SpecStatus
 import io.tuzzy.portal.domain.query.QDApiEntry
 import io.tuzzy.portal.domain.query.QDApiSpec
 import javax.inject.Singleton
@@ -10,28 +11,33 @@ import javax.inject.Singleton
 @Singleton
 class ApiEntryService {
     /**
-     * Initial creation
+     * Initial creation of api and first spec
      */
     fun createApiEntry(apiEntryReq: ApiEntry) {
-        if (apiEntryReq.specUrl == null) {
-            throw RuntimeException("Spec url not defined in request body")
+        if (apiEntryReq.specUrl == null && !apiEntryReq.manuallyConfigured) {
+            throw RuntimeException("Spec url not defined in request body, and manual configuration is set to off")
         }
 
         // Create entry record
         val apiEntry = DApiEntry(apiEntryReq.displayName, apiEntryReq.description)
         apiEntry.save()
 
-        // Create spec record associated with it
-        DApiSpec(apiEntry = apiEntry, specVersion = "v1").save()
+        // Create initial spec record associated with it
+        DApiSpec(
+            apiEntry = apiEntry,
+            status = SpecStatus.ACTIVE,
+            specVersion = "v1",
+            specUrl = apiEntryReq.specUrl
+        ).save()
     }
 
     /**
      * Finds a single API entry by name
      */
-    fun getByName(name: String): DApiEntry? {
+    fun getByName(name: String): DApiEntry {
         return QDApiEntry()
             .name.eq(name)
-            .findOne()
+            .findOne() ?: throw RuntimeException("nawt found")
     }
 
     /**
@@ -40,7 +46,7 @@ class ApiEntryService {
     fun getApiEntries(): List<ApiEntry> {
         return QDApiEntry()
             .findList()
-            .map { ApiEntry(it.displayName, it.description) }
+            .map { ApiEntry(it.displayName, it.description, it.manuallyConfigured) }
     }
 
     /**

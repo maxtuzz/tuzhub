@@ -13,9 +13,12 @@ class ApiEntryController(private val apiEntryService: ApiEntryService) {
 
     @Get("/:name")
     fun get(name: String): ApiEntry {
-        val entry = apiEntryService.getByName(name) ?: throw RuntimeException("nawt found")
+        val entry = apiEntryService.getByName(name)
 
-        return ApiEntry(displayName = entry.displayName, description = entry.description)
+        return ApiEntry(
+            displayName = entry.displayName,
+            description = entry.description
+        )
     }
 
     @Get

@@ -10,24 +10,22 @@ import javax.persistence.Table
 @Table(name = "api_spec")
 class DApiSpec(
     apiEntry: DApiEntry,
-    specVersion: String? = "default",
-    openApi: Map<String, Any>? = mutableMapOf(),
-    manuallyConfigured: Boolean = false
+    specVersion: String? = "v1",
+    status: SpecStatus = SpecStatus.ACTIVE,
+    specUrl: String? = null
 ) : BaseDomain() {
+    @ManyToOne
+    var apiEntry: DApiEntry = apiEntry
+
+    var specVersion = specVersion
+    var status = status
+    var specUrl = specUrl
+
     /**
      * OpenAPI field is the physical open api doc stored as a json document
      */
     @DbJsonB
-    var openApi = openApi
-    var specVersion = specVersion
-
-    @ManyToOne
-    var apiEntry: DApiEntry = apiEntry
-
-    /**
-     * Manually configured api specs will not be polled for updates
-     */
-    var manuallyConfigured: Boolean = manuallyConfigured;
+    var openApi: Map<String, Any>? = mutableMapOf()
 
     companion object Find : DApiSpecFinder()
 }

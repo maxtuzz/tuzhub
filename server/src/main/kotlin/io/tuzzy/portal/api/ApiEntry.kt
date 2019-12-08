@@ -2,7 +2,8 @@ package io.tuzzy.portal.api
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class ApiEntry(val displayName: String, val description: String?) : HalResourse() {
+data class ApiEntry(val displayName: String, val description: String?, val manuallyConfigured: Boolean = false) :
+    HalResourse() {
     // SpecUrl only used for initial creation request
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     var specUrl: String? = null
@@ -19,7 +20,7 @@ data class ApiEntry(val displayName: String, val description: String?) : HalReso
 
         self(entryHref)
 
-        links.add("specs", "${entryHref}/specs")
-        links.add("currentSpec", "${entryHref}/specs/current")
+        links.add("specs", "$entryHref/specs")
+        links.add("activeSpec", "$entryHref/specs/active")
     }
 }

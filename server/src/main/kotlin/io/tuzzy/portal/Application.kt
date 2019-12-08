@@ -4,7 +4,7 @@ import io.dinject.SystemContext
 import io.dinject.controller.WebRoutes
 import io.javalin.Javalin
 
-fun main(args: Array<String>) {
+fun main() {
     startServer(8090)
 }
 
