@@ -1,5 +1,6 @@
 package io.tuzzy.portal.service
 
+import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.domain.DApiSpec
 import io.tuzzy.portal.domain.SpecStatus
@@ -11,11 +12,11 @@ class ApiSpecService {
     /**
      * Returns the active api spec for an api entry
      */
-    fun getActiveSpec(apiName: String): DApiSpec? {
+    fun getActiveSpec(apiName: String): DApiSpec {
         return QDApiSpec().apiEntry
             .name.eq(apiName)
             .status.eq(SpecStatus.ACTIVE)
-            .findOne()
+            .findOne() ?: throw NotFoundResponse("No active spec found for this API. Please set an active spec.")
     }
 
     /**
@@ -27,7 +28,7 @@ class ApiSpecService {
             .specVersion.eq(version)
             .delete()
 
-        if (rows < 1) throw RuntimeException("Delete failed, no specification found")
+        if (rows < 1) throw NotFoundResponse("Delete failed, no specification found")
     }
 
     /**
@@ -61,7 +62,7 @@ class ApiSpecService {
 
         val historicSpec = QDApiSpec()
             .apiEntry.name.eq(apiName)
-            .findOne() ?: throw RuntimeException("Oh no")
+            .findOne() ?: throw NotFoundResponse("Not found for wahtever reason")
 
         // Save new entry
         DApiSpec(historicSpec.apiEntry, spec.specVersion, spec.status, spec.specUrl).save()
@@ -76,5 +77,27 @@ class ApiSpecService {
             .name.eq(apiName)
             .findList()
             .map { ApiSpec(it.apiEntry.name, it.specVersion, it.status, it.specUrl) }
+    }
+
+    /**
+     * Will get spec by supplied version or if specVersion is set to active will fetch by active spec status
+     */
+    fun getSpecByVersion(apiName: String, specVersion: String): ApiSpec {
+        val dApiSpec: DApiSpec = if (specVersion.toLowerCase() == "active") {
+            this.getActiveSpec(apiName)
+        } else {
+            QDApiSpec()
+                .apiEntry.name.eq(apiName)
+                .specVersion.eq(specVersion)
+                .findOne() ?: throw NotFoundResponse("No specification with that version can be found for this API")
+        }
+
+        return ApiSpec(
+            apiName = dApiSpec.apiEntry.name,
+            specVersion = dApiSpec.specVersion,
+            specUrl = dApiSpec.specUrl,
+            status = dApiSpec.status
+//            openApi = dApiSpec.openApi
+        )
     }
 }

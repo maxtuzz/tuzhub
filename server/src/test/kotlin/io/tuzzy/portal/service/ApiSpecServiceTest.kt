@@ -1,5 +1,6 @@
 package io.tuzzy.portal.service
 
+import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.domain.DApiEntry
 import io.tuzzy.portal.domain.DApiSpec
@@ -10,6 +11,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 internal class ApiSpecServiceTest {
     private lateinit var specService: ApiSpecService
@@ -40,19 +42,31 @@ internal class ApiSpecServiceTest {
 
     @Test
     fun getActiveSpec() {
-        val spec: DApiSpec? = specService.getActiveSpec(apiName)
+        val spec: DApiSpec = specService.getActiveSpec(apiName)
 
         assertThat(spec).isNotNull
-        assertThat(spec?.apiEntry?.name).isEqualTo(apiName)
+        assertThat(spec.apiEntry.name).isEqualTo(apiName)
+    }
+
+    @Test
+    fun getSpecByVersion() {
+        val spec: ApiSpec = specService.getSpecByVersion(apiName, "v1")
+
+        assertThat(spec).isNotNull
+        assertThat(spec.apiName).isEqualTo(apiName)
     }
 
     @Test
     fun deleteSpec() {
+        val spec: DApiSpec = specService.getActiveSpec(apiName)
+        assertThat(spec).isNotNull
+
+        // Delete active spec by its api + spec version tag
         specService.deleteSpec(apiName, "v1")
 
-        val spec: DApiSpec? = specService.getActiveSpec(apiName)
-
-        assertThat(spec).isNull()
+        assertThrows<NotFoundResponse> {
+            specService.getActiveSpec(apiName)
+        }
     }
 
     @Test
@@ -86,11 +100,13 @@ internal class ApiSpecServiceTest {
         val updateSpecVersion = "v2"
         val updateSpecUrl = "http://execute.order.66/v2"
 
-        specService.createSpecVersion(apiName, ApiSpec(
-            specVersion = updateSpecVersion,
-            specUrl = updateSpecUrl,
-            status = SpecStatus.ACTIVE
-        ))
+        specService.createSpecVersion(
+            apiName, ApiSpec(
+                specVersion = updateSpecVersion,
+                specUrl = updateSpecUrl,
+                status = SpecStatus.ACTIVE
+            )
+        )
 
         val specs: List<ApiSpec> = specService.getApiSpecs(apiName)
 

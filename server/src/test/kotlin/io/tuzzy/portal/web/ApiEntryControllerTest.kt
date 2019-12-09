@@ -4,8 +4,6 @@ import io.tuzzy.portal.ResourceHelp.Companion.read
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.api.ListResponse
 import io.tuzzy.portal.domain.DApiEntry
-import kong.unirest.GenericType
-import kong.unirest.Unirest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -26,8 +24,8 @@ class ApiEntryControllerTest : WebTest() {
         val bodyA = read("/request/api-1a.json")
         val bodyB = read("/request/api-2a.json")
 
-        post(bodyA)
-        post(bodyB)
+        postApi(bodyA)
+        postApi(bodyB)
 
         var apiEntries: ListResponse<ApiEntry> = getApiList()
 
@@ -35,7 +33,7 @@ class ApiEntryControllerTest : WebTest() {
         assertThat(apiEntries.content.map { it.name }).contains("identity-api")
 
         val bodyA2 = read("/request/api-1b.json")
-        "identity-api".put(bodyA2)
+        putApi("identity-api", bodyA2)
 
         // Refresh apis
         apiEntries = getApiList()
@@ -48,60 +46,12 @@ class ApiEntryControllerTest : WebTest() {
     @Test
     fun delete() {
         val bodyA = read("/request/api-1a.json")
-        post(bodyA)
+        postApi(bodyA)
 
         assertThat(getApiList().content).hasSize(1)
 
-        "identity-api".del()
+        delApi("identity-api")
 
         assertThat(getApiList().content).hasSize(0)
-    }
-
-    private fun String.del() {
-        val httpResponse = Unirest
-            .delete("http://localhost:$servicePort/api-entries/$this")
-            .header("Content-Type", "application/json")
-            .asEmpty()
-
-        if (!httpResponse.isSuccess) {
-            throw IllegalStateException("Failed ingest request " + httpResponse.status);
-        }
-    }
-
-    private fun String.put(body: String) {
-        val httpResponse = Unirest
-            .put("http://localhost:$servicePort/api-entries/$this")
-            .header("Content-Type", "application/json")
-            .body(body)
-            .asEmpty()
-
-        if (!httpResponse.isSuccess) {
-            throw IllegalStateException("Failed ingest request " + httpResponse.status);
-        }
-    }
-
-    private fun post(body: String) {
-        val httpResponse = Unirest.post("http://localhost:$servicePort/api-entries")
-            .header("Content-Type", "application/json")
-            .body(body)
-            .asEmpty()
-
-        if (!httpResponse.isSuccess) {
-            throw IllegalStateException("Failed ingest request " + httpResponse.status);
-        }
-    }
-
-    private fun getApi(apiName: String): ApiEntry {
-        return Unirest.get("http://localhost:${servicePort}/api-entries/${apiName}")
-            .header("Content-Type", "application/json")
-            .asObject(object : GenericType<ApiEntry>() {})
-            .getBody()
-    }
-
-    private fun getApiList(): ListResponse<ApiEntry> {
-        return Unirest.get("http://localhost:${servicePort}/api-entries")
-            .header("Content-Type", "application/json")
-            .asObject(object : GenericType<ListResponse<ApiEntry>>() {})
-            .getBody()
     }
 }

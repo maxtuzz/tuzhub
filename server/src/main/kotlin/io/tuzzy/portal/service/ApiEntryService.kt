@@ -1,5 +1,6 @@
 package io.tuzzy.portal.service
 
+import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.domain.DApiEntry
 import io.tuzzy.portal.domain.DApiSpec
@@ -15,7 +16,7 @@ class ApiEntryService {
      */
     fun createApiEntry(apiEntryReq: ApiEntry) {
         if (apiEntryReq.specUrl == null && !apiEntryReq.manuallyConfigured) {
-            throw RuntimeException("Spec url not defined in request body, and manual configuration is set to off")
+            throw NotFoundResponse("Spec url not defined in request body, and manual configuration is set to off")
         }
 
         // Create entry record
@@ -37,7 +38,7 @@ class ApiEntryService {
     fun getByName(name: String): DApiEntry {
         return QDApiEntry()
             .name.eq(name)
-            .findOne() ?: throw RuntimeException("nawt found")
+            .findOne() ?: throw NotFoundResponse("nawt found")
     }
 
     /**
@@ -62,7 +63,7 @@ class ApiEntryService {
             .update()
 
         if (rows < 1) {
-            throw RuntimeException("Api entry not found; no api updated")
+            throw NotFoundResponse("Api entry not found; no api updated")
         }
     }
 
@@ -72,7 +73,7 @@ class ApiEntryService {
     fun deleteByName(api: String) {
         val entry = QDApiEntry()
             .name.eq(api)
-            .findOne() ?: throw RuntimeException("User not found")
+            .findOne() ?: throw NotFoundResponse("User not found")
 
         QDApiSpec()
             .apiEntry
