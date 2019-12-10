@@ -2,14 +2,11 @@ package io.tuzzy.portal.web
 
 import io.tuzzy.portal.ResourceHelp.Companion.read
 import io.tuzzy.portal.api.ApiSpec
-import io.tuzzy.portal.domain.DApiEntry
-import io.tuzzy.portal.domain.DApiSpec
 import io.tuzzy.portal.domain.SpecStatus
 import kong.unirest.GenericType
 import kong.unirest.Unirest
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Ignore
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class ApiSpecControllerTest : WebTest() {
@@ -22,7 +19,7 @@ class ApiSpecControllerTest : WebTest() {
     }
 
     @Test
-    @Ignore
+    @Disabled
     fun getActiveSpec() {
         val apiSpec = getApiSpec(apiName, "active")
 
@@ -31,7 +28,7 @@ class ApiSpecControllerTest : WebTest() {
     }
 
     @Test
-    @Ignore
+    @Disabled
     fun getBySpecVersion() {
         val preReleaseVersion = "v2-dev"
 
