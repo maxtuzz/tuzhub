@@ -1,8 +1,8 @@
 package io.tuzzy.portal.domain
 
 import io.tuzzy.portal.domain.query.QDApiEntry
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 class DApiEntryTest() {
     @Test
@@ -17,7 +17,7 @@ class DApiEntryTest() {
             .findOne()
 
         // Test retrieved is the same
-        assertThat(foundEntry).isEqualTo(apiEntry)
+        assertEquals(foundEntry, apiEntry)
 
         // Delete
         apiEntry.delete();

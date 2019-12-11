@@ -9,9 +9,11 @@ import io.tuzzy.portal.domain.query.QDApiEntry
 import io.tuzzy.portal.domain.query.QDApiSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.function.Executable
+import kotlin.test.assertFailsWith
 
 internal class ApiSpecServiceTest {
     private lateinit var specService: ApiSpecService
@@ -41,36 +43,40 @@ internal class ApiSpecServiceTest {
     }
 
     @Test
-    fun getActiveSpec() {
+    fun `Get spec with active status`() {
         val spec: DApiSpec = specService.getActiveSpec(apiName)
 
-        assertThat(spec).isNotNull
-        assertThat(spec.apiEntry.name).isEqualTo(apiName)
+        assertAll(
+            Executable { assertThat(spec).isNotNull },
+            Executable { assertThat(spec.apiEntry.name).isEqualTo(apiName) }
+        )
     }
 
     @Test
-    fun getSpecByVersion() {
+    fun `Get spec by its version`() {
         val spec: ApiSpec = specService.getSpecByVersion(apiName, "v1")
 
-        assertThat(spec).isNotNull
-        assertThat(spec.apiName).isEqualTo(apiName)
+        assertAll(
+            Executable { assertThat(spec).isNotNull },
+            Executable { assertThat(spec.apiName).isEqualTo(apiName) }
+        )
     }
 
     @Test
-    fun deleteSpec() {
+    fun `Delete spec`() {
         val spec: DApiSpec = specService.getActiveSpec(apiName)
         assertThat(spec).isNotNull
 
         // Delete active spec by its api + spec version tag
         specService.deleteSpec(apiName, "v1")
 
-        assertThrows<NotFoundResponse> {
+        assertFailsWith<NotFoundResponse> {
             specService.getActiveSpec(apiName)
         }
     }
 
     @Test
-    fun updateSpec() {
+    fun `Update spec`() {
         val updateSpecVersion = "v2"
         val updateSpecUrl = "http://execute.order.66/v2"
 
@@ -84,19 +90,21 @@ internal class ApiSpecServiceTest {
 
         val spec: DApiSpec? = specService.getActiveSpec(apiName)
 
-        assertThat(spec?.specVersion).isEqualTo(updateSpecVersion)
-        assertThat(spec?.specUrl).isEqualTo(updateSpecUrl)
+        assertAll(
+            Executable { assertThat(spec?.specVersion).isEqualTo(updateSpecVersion) },
+            Executable { assertThat(spec?.specUrl).isEqualTo(updateSpecUrl) }
+        )
     }
 
     @Test
-    fun getAllSpecs() {
+    fun `Get all specs`() {
         val specs: List<ApiSpec> = specService.getApiSpecs(apiName)
 
         assertThat(specs).hasSize(1)
     }
 
     @Test
-    fun createNewSpecVersion() {
+    fun `Create new spec version`() {
         val updateSpecVersion = "v2"
         val updateSpecUrl = "http://execute.order.66/v2"
 
@@ -113,7 +121,10 @@ internal class ApiSpecServiceTest {
         assertThat(specs).hasSize(2)
 
         val statuses = specs.map { it.status }
-        assertThat(statuses).contains(SpecStatus.ACTIVE)
-        assertThat(statuses).contains(SpecStatus.HISTORIC)
+
+        assertAll(
+            Executable { assertThat(statuses).contains(SpecStatus.ACTIVE) },
+            Executable { assertThat(statuses).contains(SpecStatus.HISTORIC) }
+        )
     }
 }

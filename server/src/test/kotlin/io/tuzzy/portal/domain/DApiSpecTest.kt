@@ -1,8 +1,9 @@
 package io.tuzzy.portal.domain
 
 import io.tuzzy.portal.domain.query.QDApiSpec
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 internal class DApiSpecTest {
     @Test
@@ -18,13 +19,12 @@ internal class DApiSpecTest {
         spec.save()
 
         var foundSpec = find()
-
-        assertThat(foundSpec).isEqualTo(spec)
+        assertEquals(foundSpec, spec)
 
         spec.delete()
 
         foundSpec = find()
-        assertThat(foundSpec).isNull()
+        assertNull(foundSpec)
     }
 
     private fun find(): DApiSpec? {

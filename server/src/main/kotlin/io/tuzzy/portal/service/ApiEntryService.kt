@@ -1,5 +1,6 @@
 package io.tuzzy.portal.service
 
+import io.javalin.http.BadRequestResponse
 import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.domain.DApiEntry
@@ -16,7 +17,7 @@ class ApiEntryService {
      */
     fun createApiEntry(apiEntryReq: ApiEntry) {
         if (apiEntryReq.specUrl == null && !apiEntryReq.manuallyConfigured) {
-            throw NotFoundResponse("Spec url not defined in request body, and manual configuration is set to off")
+            throw BadRequestResponse("Spec url not defined in request body, and manual configuration is set to off")
         }
 
         // Create entry record

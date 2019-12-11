@@ -4,12 +4,15 @@ import io.tuzzy.portal.ResourceHelp.Companion.read
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.api.ListResponse
 import io.tuzzy.portal.domain.DApiEntry
+import io.tuzzy.portal.startServer
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.function.Executable
 
 class ApiEntryControllerTest : WebTest() {
     @Test
-    fun get() {
+    fun `GET ApiEntry`() {
         val dApiEntry = DApiEntry("Test API", "API")
         dApiEntry.save()
 
@@ -20,7 +23,7 @@ class ApiEntryControllerTest : WebTest() {
     }
 
     @Test
-    fun createAndUpdate() {
+    fun `POST and PUT ApiEntry`() {
         val bodyA = read("/request/api-1a.json")
         val bodyB = read("/request/api-2a.json")
 
@@ -29,8 +32,10 @@ class ApiEntryControllerTest : WebTest() {
 
         var apiEntries: ListResponse<ApiEntry> = getApiList()
 
-        assertThat(apiEntries.content).hasSize(2)
-        assertThat(apiEntries.content.map { it.name }).contains("identity-api")
+        assertAll(
+            Executable { assertThat(apiEntries.content).hasSize(2) },
+            Executable { assertThat(apiEntries.content.map { it.name }).contains("identity-api") }
+        )
 
         val bodyA2 = read("/request/api-1b.json")
         putApi("identity-api", bodyA2)
@@ -39,12 +44,14 @@ class ApiEntryControllerTest : WebTest() {
         apiEntries = getApiList()
 
         // Assert size is still 2 and api name has been updated
-        assertThat(apiEntries.content).hasSize(2)
-        assertThat(apiEntries.content.map { it.name }).contains("user-api")
+        assertAll(
+            Executable { assertThat(apiEntries.content).hasSize(2) },
+            Executable { assertThat(apiEntries.content.map { it.name }).contains("user-api") }
+        )
     }
 
     @Test
-    fun delete() {
+    fun `DELETE ApiEntry`() {
         val bodyA = read("/request/api-1a.json")
         postApi(bodyA)
 

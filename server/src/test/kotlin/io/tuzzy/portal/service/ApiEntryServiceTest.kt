@@ -1,5 +1,6 @@
 package io.tuzzy.portal.service
 
+import io.javalin.http.BadRequestResponse
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.domain.query.QDApiEntry
 import io.tuzzy.portal.domain.query.QDApiSpec
@@ -29,14 +30,14 @@ class ApiEntryServiceTest {
     }
 
     @Test
-    fun createAndFetchApiEntry() {
+    fun `Create and fetch API entry`() {
         apiEntryService.createApiEntry(dummyEntry)
 
         assertThat(apiEntryService.getApiEntries()).contains(dummyEntry)
     }
 
     @Test
-    fun deleteByName() {
+    fun `Create and delete API entry`() {
         apiEntryService.createApiEntry(dummyEntry)
 
         assertThat(apiEntryService.getApiEntries()).hasSize(1)
@@ -47,10 +48,10 @@ class ApiEntryServiceTest {
     }
 
     @Test
-    fun creationFails() {
+    fun `Creation of API spec fails with no spec`() {
         val dummyEntry2 = ApiEntry("General", "Kenobi")
 
-        assertFailsWith<Exception> {
+        assertFailsWith<BadRequestResponse> {
             apiEntryService.createApiEntry(dummyEntry2)
         }
     }
