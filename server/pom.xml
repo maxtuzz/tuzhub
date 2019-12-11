@@ -18,7 +18,7 @@
         <junit.version>4.12</junit.version>
         <java.release>11</java.release>
         <ebean.version>12.1.5</ebean.version>
-        <javalin-generator.version>1.15-SNAPSHOT</javalin-generator.version>
+        <dinject.version>1.15</dinject.version>
     </properties>
 
     <dependencies>
@@ -143,8 +143,8 @@
                 <configuration>
                     <tiles>
                         <tile>io.avaje.kapt:compile:1.1</tile>
-                        <tile>io.avaje.kapt:dinject-generator:1.1</tile>
-                        <tile>io.avaje.kapt:javalin-generator:1.1</tile>
+                        <tile>io.avaje.kapt:dinject-generator:${dinject.version}</tile>
+                        <tile>io.avaje.kapt:javalin-generator:${dinject.version}</tile>
                         <tile>io.avaje.kapt:querybean-generator:1.1</tile>
                         <tile>io.ebean.tile:enhancement:${ebean.version}</tile>
                     </tiles>

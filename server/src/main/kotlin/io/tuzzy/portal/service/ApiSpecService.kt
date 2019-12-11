@@ -97,7 +97,7 @@ class ApiSpecService {
             specVersion = dApiSpec.specVersion,
             specUrl = dApiSpec.specUrl,
             status = dApiSpec.status
-//            openApi = dApiSpec.openApi
+            // openApi = dApiSpec.openApi TODO: Change DApiSpec openapi to openapi type
         )
     }
 }

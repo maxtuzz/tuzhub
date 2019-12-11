@@ -2,6 +2,7 @@ package io.tuzzy.portal.web
 
 import io.javalin.Javalin
 import io.tuzzy.portal.api.ApiEntry
+import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.api.ListResponse
 import io.tuzzy.portal.domain.query.QDApiEntry
 import io.tuzzy.portal.domain.query.QDApiSpec
@@ -97,7 +98,14 @@ open class WebTest {
             .asEmpty()
 
         if (!httpResponse.isSuccess) {
-            throw IllegalStateException("Failed ingest request ${httpResponse.status}")
+            throw IllegalStateException("Failed ingest request ${httpResponse.status}, ${httpResponse.parsingError}")
         }
+    }
+
+    fun getApiSpec(apiName: String, specVersion: String): ApiSpec {
+        return Unirest.get("http://localhost:${servicePort}/api-entries/${apiName}/specs/$specVersion")
+            .header("Content-Type", "application/json")
+            .asObject(object : GenericType<ApiSpec>() {})
+            .getBody()
     }
 }
