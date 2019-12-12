@@ -1,9 +1,6 @@
 package io.tuzzy.portal.web
 
-import io.dinject.controller.Controller
-import io.dinject.controller.Get
-import io.dinject.controller.Path
-import io.dinject.controller.Post
+import io.dinject.controller.*
 import io.swagger.v3.parser.OpenAPIV3Parser
 import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.service.ApiSpecService
@@ -26,5 +23,15 @@ class ApiSpecController(private val specService: ApiSpecService) {
     @Post
     fun create(apiName: String, apiSpec: ApiSpec) {
         specService.createSpecVersion(apiName, apiSpec)
+    }
+
+    @Put("/:specVersion")
+    fun update(apiName: String, specVersion: String, apiSpec: ApiSpec) {
+        specService.updateSpec(apiName, specVersion, apiSpec)
+    }
+
+    @Delete("/:specVersion")
+    fun delete(apiName: String, specVersion: String) {
+        specService.deleteSpec(apiName, specVersion)
     }
 }

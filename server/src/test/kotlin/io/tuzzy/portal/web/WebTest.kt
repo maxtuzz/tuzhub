@@ -1,6 +1,7 @@
 package io.tuzzy.portal.web
 
 import io.javalin.Javalin
+import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.api.ListResponse
@@ -8,6 +9,7 @@ import io.tuzzy.portal.domain.query.QDApiEntry
 import io.tuzzy.portal.domain.query.QDApiSpec
 import io.tuzzy.portal.startServer
 import kong.unirest.GenericType
+import kong.unirest.HttpResponse
 import kong.unirest.Unirest
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.AfterEach
@@ -49,9 +51,7 @@ open class WebTest {
             .header("Content-Type", "application/json")
             .asEmpty()
 
-        if (!httpResponse.isSuccess) {
-            throw IllegalStateException("Failed ingest request ${httpResponse.status}")
-        }
+        handleErrors(httpResponse)
     }
 
     fun putApi(apiEntry: String, body: String) {
@@ -61,9 +61,7 @@ open class WebTest {
             .body(body)
             .asEmpty()
 
-        if (!httpResponse.isSuccess) {
-            throw IllegalStateException("Failed ingest request ${httpResponse.status}");
-        }
+        handleErrors(httpResponse)
     }
 
     fun postApi(body: String) {
@@ -72,9 +70,7 @@ open class WebTest {
             .body(body)
             .asEmpty()
 
-        if (!httpResponse.isSuccess) {
-            throw IllegalStateException("Failed ingest request ${httpResponse.status}")
-        }
+        handleErrors(httpResponse)
     }
 
     fun getApi(apiName: String): ApiEntry {
@@ -97,9 +93,25 @@ open class WebTest {
             .body(body)
             .asEmpty()
 
-        if (!httpResponse.isSuccess) {
-            throw IllegalStateException("Failed ingest request ${httpResponse.status}, ${httpResponse.parsingError}")
-        }
+        handleErrors(httpResponse)
+    }
+
+    fun putSpec(apiName: String, specVersion: String, body: String) {
+        val httpResponse = Unirest.put("$baseUrl/api-entries/$apiName/specs/$specVersion")
+            .header("Content-Type", "application/json")
+            .body(body)
+            .asEmpty()
+
+        handleErrors(httpResponse)
+    }
+
+    fun delSpec(apiName: String, specVersion: String) {
+        val httpResponse = Unirest
+            .delete("$baseUrl/api-entries/$apiName/specs/$specVersion")
+            .header("Content-Type", "application/json")
+            .asEmpty()
+
+        handleErrors(httpResponse)
     }
 
     fun getApiSpec(apiName: String, specVersion: String): ApiSpec {
@@ -107,5 +119,15 @@ open class WebTest {
             .header("Content-Type", "application/json")
             .asObject(object : GenericType<ApiSpec>() {})
             .getBody()
+    }
+
+    private fun handleErrors(httpResponse: HttpResponse<Any>) {
+        if (httpResponse.status == 404) {
+            throw NotFoundResponse("Not found")
+        }
+
+        if (!httpResponse.isSuccess) {
+            throw IllegalStateException("Failed request ${httpResponse.status}")
+        }
     }
 }

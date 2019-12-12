@@ -1,5 +1,5 @@
 {
   "specVersion": "v2-dev",
-  "specUrl": "https://api.mycompany.org/api/users/open-api.json",
-  "status": "PRE_RELEASE"
+  "specUrl": "https://api.mycompany.org/api/users/open-api-new.json",
+  "status": "ACTIVE"
 }

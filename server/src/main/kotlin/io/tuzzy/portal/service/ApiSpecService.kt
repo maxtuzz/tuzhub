@@ -34,9 +34,10 @@ class ApiSpecService {
     /**
      * Updates a spec based on it's api entry and a request body
      */
-    fun updateSpec(apiName: String, updateReq: ApiSpec) {
+    fun updateSpec(apiName: String, specVersion: String, updateReq: ApiSpec) {
         val rows = QDApiSpec()
             .apiEntry.name.eq(apiName)
+            .specVersion.eq(specVersion)
             .asUpdate()
             .set("spec_version", updateReq.specVersion)
             .set("spec_url", updateReq.specUrl)

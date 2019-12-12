@@ -86,7 +86,7 @@ internal class ApiSpecServiceTest {
             status = SpecStatus.ACTIVE
         )
 
-        specService.updateSpec(apiName, updateReq)
+        specService.updateSpec(apiName, "v1", updateReq)
 
         val spec: DApiSpec? = specService.getActiveSpec(apiName)
 
