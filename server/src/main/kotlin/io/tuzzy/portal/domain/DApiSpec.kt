@@ -1,6 +1,7 @@
 package io.tuzzy.portal.domain
 
 import io.ebean.annotation.DbJsonB
+import io.swagger.v3.oas.models.OpenAPI
 import io.tuzzy.portal.domain.finder.DApiSpecFinder
 import javax.persistence.Entity
 import javax.persistence.ManyToOne
@@ -25,7 +26,7 @@ class DApiSpec(
      * OpenAPI field is the physical open api doc stored as a json document
      */
     @DbJsonB
-    var openApi: Map<String, Any>? = mutableMapOf()
+    var spec: OpenAPI? = null
 
     companion object Find : DApiSpecFinder()
 }

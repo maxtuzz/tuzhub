@@ -43,7 +43,7 @@ class ApiSpecService {
             .set("status", updateReq.status)
             .update()
 
-        if (rows < 1) throw RuntimeException("Update failed, no specification found")
+        if (rows < 1) throw NotFoundResponse("Update failed, no specification found")
     }
 
     /**
@@ -96,8 +96,8 @@ class ApiSpecService {
             apiName = dApiSpec.apiEntry.name,
             specVersion = dApiSpec.specVersion,
             specUrl = dApiSpec.specUrl,
-            status = dApiSpec.status
-            // openApi = dApiSpec.openApi TODO: Change DApiSpec openapi to openapi type
+            status = dApiSpec.status,
+            spec = dApiSpec.spec
         )
     }
 }
