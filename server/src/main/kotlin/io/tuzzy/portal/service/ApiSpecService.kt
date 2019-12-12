@@ -101,4 +101,13 @@ class ApiSpecService {
             spec = dApiSpec.spec
         )
     }
+
+    /**
+     * Returns a list of api specs for supplied api
+     */
+    fun getAll(apiName: String): MutableList<DApiSpec> {
+        return QDApiSpec()
+            .apiEntry.name.eq(apiName)
+            .findList()
+    }
 }

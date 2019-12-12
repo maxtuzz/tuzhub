@@ -8,6 +8,10 @@ data class Links(var self: HalLink = HalLink()) {
     fun add(propertyName: String, link: String) {
         links[propertyName] = HalLink(link)
     }
+    
+    fun addAll(newLinks: MutableMap<String, HalLink>) {
+        this.links.putAll(newLinks)
+    }
 
     /**
      * Will serialise the contents of links

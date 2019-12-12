@@ -1,23 +1,36 @@
 package io.tuzzy.portal.web
 
 import io.dinject.controller.*
-import io.swagger.v3.parser.OpenAPIV3Parser
+import io.javalin.http.Context
 import io.tuzzy.portal.api.ApiSpec
+import io.tuzzy.portal.api.HalLink
+import io.tuzzy.portal.api.HalResourse
+import io.tuzzy.portal.api.Links
 import io.tuzzy.portal.service.ApiSpecService
 
 
 @Controller
 @Path("/api-entries/:apiName/specs")
 class ApiSpecController(private val specService: ApiSpecService) {
+
+    @Get
+    fun getMeta(apiName: String, ctx: Context): HalResourse {
+        val links = Links(HalLink(ctx.fullUrl()))
+        val discoveryLinks: MutableMap<String, HalLink> = mutableMapOf()
+
+        specService.getAll(apiName).forEach {
+            discoveryLinks[it.specVersion ?: "undefined"] =
+                HalLink("${ctx.fullUrl()}/${it.specVersion}")
+        }
+
+        links.addAll(discoveryLinks)
+
+        return HalResourse(links)
+    }
+
     @Get("/:specVersion")
     fun get(apiName: String, specVersion: String): ApiSpec {
-        // TODO haha just playing around
-        val openAPI =
-            OpenAPIV3Parser().read("https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml")
-        val specByVersion = specService.getSpecByVersion(apiName, specVersion)
-        specByVersion.spec = openAPI
-
-        return specByVersion
+        return specService.getSpecByVersion(apiName, specVersion)
     }
 
     @Post

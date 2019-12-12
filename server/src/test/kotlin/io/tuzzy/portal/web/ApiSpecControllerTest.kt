@@ -1,7 +1,10 @@
 package io.tuzzy.portal.web
 
 import io.tuzzy.portal.ResourceHelp.Companion.read
+import io.tuzzy.portal.api.HalResourse
 import io.tuzzy.portal.domain.SpecStatus
+import kong.unirest.GenericType
+import kong.unirest.Unirest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Test
@@ -12,6 +15,29 @@ import kotlin.test.assertFailsWith
 class ApiSpecControllerTest : WebTest() {
     private val apiName = "identity-api"
     private val specVersion = "v2-dev"
+
+    @Test
+    fun `GET hateoas spec discovery`() {
+        postApiSpec()
+
+        val halResourse: HalResourse = getSpecMeta(apiName)
+
+        val flattenLinks = halResourse.links.flattenLinks()
+
+        assertThat(flattenLinks["self"]).isNull() // fixme
+    }
+
+    private fun getSpecMeta(apiName: String): HalResourse {
+        val reqUrl = "http://localhost:${servicePort}/api-entries/${apiName}/specs"
+
+        System.err.println("Doing GET to $reqUrl")
+
+        return Unirest.get(reqUrl)
+
+            .header("Content-Type", "application/json")
+            .asObject(object : GenericType<HalResourse>() {})
+            .body
+    }
 
     @Test
     fun `POST and GET ApiSpec`() {

@@ -127,4 +127,12 @@ internal class ApiSpecServiceTest {
             Executable { assertThat(statuses).contains(SpecStatus.HISTORIC) }
         )
     }
+
+
+    @Test
+    fun `Get all specs for an API`() {
+        val specs = specService.getAll(apiName)
+
+        assertThat(specs).hasSize(1)
+    }
 }
