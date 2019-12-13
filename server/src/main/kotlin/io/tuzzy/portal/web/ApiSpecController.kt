@@ -12,7 +12,6 @@ import io.tuzzy.portal.service.ApiSpecService
 @Controller
 @Path("/api-entries/:apiName/specs")
 class ApiSpecController(private val specService: ApiSpecService) {
-
     @Get
     fun getMeta(apiName: String, ctx: Context): HalResourse {
         val links = Links(HalLink(ctx.fullUrl()))
@@ -29,8 +28,9 @@ class ApiSpecController(private val specService: ApiSpecService) {
     }
 
     @Get("/:specVersion")
-    fun get(apiName: String, specVersion: String): ApiSpec {
+    fun get(apiName: String, specVersion: String, ctx: Context): ApiSpec {
         return specService.getSpecByVersion(apiName, specVersion)
+            .withHal(ctx)
     }
 
     @Post

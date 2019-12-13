@@ -16,7 +16,7 @@ create table api_entry (
 create table api_spec (
   id                            uuid not null,
   api_entry_id                  uuid not null,
-  spec_version                  varchar(255),
+  spec_version                  varchar(255) not null,
   status                        integer not null,
   spec_url                      varchar(255),
   spec                          jsonb,

@@ -1,8 +1,10 @@
 package io.tuzzy.portal.service
 
 import io.javalin.http.BadRequestResponse
+import io.javalin.http.Context
 import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.api.ApiEntry
+import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.domain.DApiEntry
 import io.tuzzy.portal.domain.DApiSpec
 import io.tuzzy.portal.domain.SpecStatus
@@ -45,10 +47,18 @@ class ApiEntryService {
     /**
      * Returns list of organisations APIs
      */
-    fun getApiEntries(): List<ApiEntry> {
+    fun getApiEntries(): MutableList<DApiEntry> {
         return QDApiEntry()
             .findList()
-            .map { ApiEntry(it.displayName, it.description, it.manuallyConfigured) }
+    }
+
+    /**
+     * Returns API entries in a restful context
+     */
+    fun getApiEntries(ctx: Context): List<ApiEntry> {
+        return getApiEntries().map {
+            ApiEntry(it.displayName, it.description, it.manuallyConfigured).withHal(ctx)
+        }
     }
 
     /**

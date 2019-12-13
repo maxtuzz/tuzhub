@@ -11,7 +11,7 @@ import javax.persistence.Table
 @Table(name = "api_spec")
 class DApiSpec(
     apiEntry: DApiEntry,
-    specVersion: String? = "v1",
+    specVersion: String = "v1",
     status: SpecStatus = SpecStatus.ACTIVE,
     specUrl: String? = null
 ) : BaseDomain() {

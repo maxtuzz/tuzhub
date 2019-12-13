@@ -33,7 +33,7 @@ class ApiEntryServiceTest {
     fun `Create and fetch API entry`() {
         apiEntryService.createApiEntry(dummyEntry)
 
-        assertThat(apiEntryService.getApiEntries()).contains(dummyEntry)
+        assertThat(apiEntryService.getApiEntries().map { it.name }).contains("jedi-order")
     }
 
     @Test

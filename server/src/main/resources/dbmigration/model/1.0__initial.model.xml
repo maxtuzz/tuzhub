@@ -14,7 +14,7 @@
         <createTable name="api_spec" identityType="external" pkName="pk_api_spec">
             <column name="id" type="uuid" primaryKey="true" identity="true"/>
             <column name="api_entry_id" type="uuid" notnull="true" references="api_entry.id" foreignKeyName="fk_api_spec_api_entry_id" foreignKeyIndex="ix_api_spec_api_entry_id"/>
-            <column name="spec_version" type="varchar"/>
+            <column name="spec_version" type="varchar" notnull="true"/>
             <column name="status" type="integer" notnull="true" checkConstraint="check ( status in (0,1,2,3,4))" checkConstraintName="ck_api_spec_status"/>
             <column name="spec_url" type="varchar"/>
             <column name="spec" type="jsonb"/>

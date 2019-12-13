@@ -1,22 +1,27 @@
 package io.tuzzy.portal.api
 
+import io.javalin.http.Context
 import io.swagger.v3.oas.models.OpenAPI
 import io.tuzzy.portal.domain.SpecStatus
 
 data class ApiSpec(
     val apiName: String? = null,
-    val specVersion: String? = "v1",
+    val specVersion: String = "v1",
     val status: SpecStatus,
     val specUrl: String? = null,
     var spec: OpenAPI? = null
 ) :
     HalResourse() {
-    init {
-        val apiHref = "http://localhost:8090/api-entries/$apiName"
-        val entryHref = "$apiHref/specs/$specVersion"
+    fun withHal(ctx: Context): ApiSpec {
+        if (apiName == null) throw IllegalStateException("Api name is not initiated, cannot build hal")
 
-        self(entryHref)
+        links.addAll {
+            HalBuilder(ctx)
+                .apiSpec("self", apiName, specVersion)
+                .apiEntry("api", apiName)
+                .build()
+        }
 
-        links.add("api", apiHref)
+        return this
     }
 }
