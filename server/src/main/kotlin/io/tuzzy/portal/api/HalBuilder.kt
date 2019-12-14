@@ -3,7 +3,7 @@ package io.tuzzy.portal.api
 import io.javalin.http.Context
 
 /**
- * Helper class for build common hateoas links based on javalin context
+ * Generates links to REST resources
  */
 class HalBuilder(ctx: Context) {
     private val links: MutableMap<String, HalLink> = mutableMapOf()

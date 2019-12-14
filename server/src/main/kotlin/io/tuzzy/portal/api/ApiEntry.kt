@@ -14,7 +14,7 @@ data class ApiEntry(val displayName: String, val description: String?, val manua
     constructor(displayName: String, description: String? = null, specUrl: String?) : this(displayName, description) {
         this.specUrl = specUrl
     }
-    
+
     fun withHal(ctx: Context): ApiEntry {
         links.addAll {
             HalBuilder(ctx)

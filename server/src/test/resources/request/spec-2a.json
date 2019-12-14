@@ -1,5 +1,5 @@
 {
   "specVersion": "v2-dev",
-  "specUrl": "https://api.mycompany.org/api/users/open-api.json",
+  "specUrl": "https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml",
   "status": "PRE_RELEASE"
 }

@@ -9,8 +9,8 @@ data class Links(var self: HalLink = HalLink()) {
         links[propertyName] = HalLink(link)
     }
 
-    fun addAll(newLinks: () -> MutableMap<String, HalLink>) {
-        this.links.putAll(newLinks.invoke())
+    fun addAll(fetchLinks: () -> MutableMap<String, HalLink>) {
+        this.links.putAll(fetchLinks.invoke())
     }
 
     fun addAll(newLinks: MutableMap<String, HalLink>) {
