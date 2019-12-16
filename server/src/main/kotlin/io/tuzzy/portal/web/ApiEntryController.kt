@@ -26,7 +26,7 @@ class ApiEntryController(private val apiEntryService: ApiEntryService) {
     fun getAll(ctx: Context): ListResponse<ApiEntry> {
         val apiEntries = apiEntryService.getApiEntries(ctx)
 
-        val self = HalLink("http://localhost:9080/api-entries")
+        val self = HalLink(ctx.fullUrl())
 
         return ListResponse(
             content = apiEntries,
