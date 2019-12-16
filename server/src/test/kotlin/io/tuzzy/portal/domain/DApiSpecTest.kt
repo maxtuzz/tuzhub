@@ -13,8 +13,8 @@ internal class DApiSpecTest {
 
         val spec = DApiSpec(
             apiEntry = apiEntry,
-            specUrl = "http://order.66.com",
-            status = SpecStatus.ACTIVE
+            status = SpecStatus.ACTIVE,
+            specUrl = "http://order.66.com"
         )
         spec.save()
 

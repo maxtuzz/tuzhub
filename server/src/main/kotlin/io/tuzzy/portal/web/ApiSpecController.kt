@@ -29,7 +29,9 @@ class ApiSpecController(private val specService: ApiSpecService) {
 
     @Get("/:specVersion")
     fun get(apiName: String, specVersion: String, ctx: Context): ApiSpec {
-        return specService.getSpecByVersion(apiName, specVersion)
+        val specByVersion = specService.getSpecByVersion(apiName, specVersion)
+
+        return specByVersion
             .withHal(ctx)
     }
 

@@ -11,6 +11,8 @@ data class ApiEntry(val displayName: String, val description: String?, val manua
     var authEnabled: Boolean = false
     var name: String = displayName.toLowerCase().replace(" ", "-")
 
+    var fullSpec: Map<String, Any>? = null
+
     constructor(displayName: String, description: String? = null, specUrl: String?) : this(displayName, description) {
         this.specUrl = specUrl
     }

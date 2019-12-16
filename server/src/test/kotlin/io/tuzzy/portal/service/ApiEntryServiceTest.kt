@@ -16,10 +16,10 @@ class ApiEntryServiceTest {
 
     @BeforeEach
     fun setup() {
-        apiEntryService = ApiEntryService()
+        apiEntryService = ApiEntryService(RemoteOpenAPIService())
         dummyEntry = ApiEntry(
             displayName = "Jedi Order",
-            specUrl = "https://execute.order.66.com/api-spec"
+            specUrl = "https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
         )
     }
 

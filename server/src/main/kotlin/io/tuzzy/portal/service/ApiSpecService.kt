@@ -1,5 +1,6 @@
 package io.tuzzy.portal.service
 
+import io.javalin.http.ForbiddenResponse
 import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.domain.DApiSpec
@@ -7,8 +8,9 @@ import io.tuzzy.portal.domain.SpecStatus
 import io.tuzzy.portal.domain.query.QDApiSpec
 import javax.inject.Singleton
 
+
 @Singleton
-class ApiSpecService {
+class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
     /**
      * Returns the active api spec for an api entry
      */
@@ -51,7 +53,7 @@ class ApiSpecService {
      * Will update and set new active spec record
      */
     fun createSpecVersion(apiName: String, spec: ApiSpec) {
-        // Update active spec and set to historic
+        // Update old active spec and set to historic
         if (spec.status == SpecStatus.ACTIVE) {
             QDApiSpec()
                 .apiEntry.name.eq(apiName)
@@ -65,8 +67,15 @@ class ApiSpecService {
             .apiEntry.name.eq(apiName)
             .findOne() ?: throw NotFoundResponse("Not found for wahtever reason")
 
+
+        if (spec.specUrl == null) {
+            throw ForbiddenResponse("New specs only supported with remote call for now")
+        }
+
+        val jsonSpec = remoteOpenAPIService.getJson(spec.specUrl)
+
         // Save new entry
-        DApiSpec(historicSpec.apiEntry, spec.specVersion, spec.status, spec.specUrl).save()
+        DApiSpec(historicSpec.apiEntry, spec.specVersion, spec.status, spec.specUrl, jsonSpec).save()
     }
 
     /**
@@ -84,14 +93,7 @@ class ApiSpecService {
      * Will get spec by supplied version or if specVersion is set to active will fetch by active spec status
      */
     fun getSpecByVersion(apiName: String, specVersion: String): ApiSpec {
-        val dApiSpec: DApiSpec = if (specVersion.toLowerCase() == "active") {
-            this.getActiveSpec(apiName)
-        } else {
-            QDApiSpec()
-                .apiEntry.name.eq(apiName)
-                .specVersion.eq(specVersion)
-                .findOne() ?: throw NotFoundResponse("No specification with that version can be found for this API")
-        }
+        val dApiSpec: DApiSpec = getDSpecByVersion(apiName, specVersion)
 
         return ApiSpec(
             apiName = dApiSpec.apiEntry.name,
@@ -102,6 +104,7 @@ class ApiSpecService {
         )
     }
 
+
     /**
      * Returns a list of api specs for supplied api
      */
@@ -109,5 +112,38 @@ class ApiSpecService {
         return QDApiSpec()
             .apiEntry.name.eq(apiName)
             .findList()
+    }
+
+    /**
+     * Refreshes an API spec based on it's spec url
+     */
+    fun refreshSpec(apiName: String, specVersion: String) {
+        val apiSpec = getDSpecByVersion(apiName, specVersion)
+
+        if (apiSpec.apiEntry.manuallyConfigured || apiSpec.specUrl == null) {
+            throw ForbiddenResponse(
+                "API $apiName, is set to manual spec control. Edit API" +
+                        " entry to use dynamic configuration and include an open api specification url to use this feature"
+            )
+        }
+
+        val jsonSpec = remoteOpenAPIService.getJson(apiSpec.specUrl!!)
+
+        apiSpec.spec = jsonSpec
+        apiSpec.save()
+    }
+
+    /**
+     * Get DAO by version
+     */
+    private fun getDSpecByVersion(apiName: String, specVersion: String): DApiSpec {
+        return if (specVersion.toLowerCase() == "active") {
+            getActiveSpec(apiName)
+        } else {
+            QDApiSpec()
+                .apiEntry.name.eq(apiName)
+                .specVersion.eq(specVersion)
+                .findOne() ?: throw NotFoundResponse("No specification with that version can be found for this API")
+        }
     }
 }

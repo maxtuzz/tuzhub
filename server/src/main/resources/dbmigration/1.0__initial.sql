@@ -19,7 +19,7 @@ create table api_spec (
   spec_version                  varchar(255) not null,
   status                        integer not null,
   spec_url                      varchar(255),
-  spec                          jsonb,
+  spec                          json,
   version                       bigint not null,
   when_created                  timestamptz not null,
   when_modified                 timestamptz not null,

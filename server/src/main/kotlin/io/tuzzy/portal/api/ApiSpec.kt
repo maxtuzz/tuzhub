@@ -1,7 +1,6 @@
 package io.tuzzy.portal.api
 
 import io.javalin.http.Context
-import io.swagger.v3.oas.models.OpenAPI
 import io.tuzzy.portal.domain.SpecStatus
 
 data class ApiSpec(
@@ -9,7 +8,7 @@ data class ApiSpec(
     val specVersion: String = "v1",
     val status: SpecStatus,
     val specUrl: String? = null,
-    var spec: OpenAPI? = null
+    var spec: Map<String, Any>? = null
 ) :
     HalResourse() {
     fun withHal(ctx: Context): ApiSpec {

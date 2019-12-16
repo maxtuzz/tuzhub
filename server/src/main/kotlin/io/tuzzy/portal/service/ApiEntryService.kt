@@ -4,7 +4,6 @@ import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
 import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.api.ApiEntry
-import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.domain.DApiEntry
 import io.tuzzy.portal.domain.DApiSpec
 import io.tuzzy.portal.domain.SpecStatus
@@ -13,14 +12,22 @@ import io.tuzzy.portal.domain.query.QDApiSpec
 import javax.inject.Singleton
 
 @Singleton
-class ApiEntryService {
+class ApiEntryService(private val remoteOpenAPIService: RemoteOpenAPIService) {
     /**
      * Initial creation of api and first spec
      */
     fun createApiEntry(apiEntryReq: ApiEntry) {
-        if (apiEntryReq.specUrl == null && !apiEntryReq.manuallyConfigured) {
-            throw BadRequestResponse("Spec url not defined in request body, and manual configuration is set to off")
-        }
+        val jsonSpec: Map<String, Any> = (
+                if (apiEntryReq.manuallyConfigured) {
+                    apiEntryReq.fullSpec
+                } else {
+                    if (apiEntryReq.specUrl == null) {
+                        throw BadRequestResponse("Spec url not defined in request body, and manual configuration is set to off")
+                    }
+
+                    remoteOpenAPIService.getJson(apiEntryReq.specUrl!!)
+                })
+            ?: throw IllegalStateException("Unable to fetch json spec")
 
         // Create entry record
         val apiEntry = DApiEntry(apiEntryReq.displayName, apiEntryReq.description)
@@ -31,7 +38,8 @@ class ApiEntryService {
             apiEntry = apiEntry,
             status = SpecStatus.ACTIVE,
             specVersion = "v1",
-            specUrl = apiEntryReq.specUrl
+            specUrl = apiEntryReq.specUrl,
+            spec = jsonSpec
         ).save()
     }
 

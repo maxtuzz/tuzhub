@@ -22,7 +22,7 @@ internal class ApiSpecServiceTest {
 
     @BeforeEach
     fun setup() {
-        specService = ApiSpecService()
+        specService = ApiSpecService(RemoteOpenAPIService())
 
         // Create api entry with a spec
         val entry = DApiEntry("Empire API", "Deprecating the old republic")
@@ -30,7 +30,8 @@ internal class ApiSpecServiceTest {
 
         val spec = DApiSpec(
             apiEntry = entry,
-            specUrl = "http://execute.order.66"
+            status = SpecStatus.ACTIVE,
+            specUrl = "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore-expanded.yaml"
         )
 
         spec.save()
@@ -106,7 +107,7 @@ internal class ApiSpecServiceTest {
     @Test
     fun `Create new spec version`() {
         val updateSpecVersion = "v2"
-        val updateSpecUrl = "http://execute.order.66/v2"
+        val updateSpecUrl = "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/uspto.yaml"
 
         specService.createSpecVersion(
             apiName, ApiSpec(
@@ -128,6 +129,14 @@ internal class ApiSpecServiceTest {
         )
     }
 
+    @Test
+    fun `Refresh spec`() {
+        specService.refreshSpec(apiName, "active")
+
+        val dApiSpec = specService.getActiveSpec(apiName)
+
+        assertThat(dApiSpec.spec).isNotNull
+    }
 
     @Test
     fun `Get all specs for an API`() {
