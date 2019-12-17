@@ -4,16 +4,15 @@ import io.dinject.controller.*
 import io.javalin.http.Context
 import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.api.HalLink
-import io.tuzzy.portal.api.HalResourse
+import io.tuzzy.portal.api.HalResource
 import io.tuzzy.portal.api.Links
 import io.tuzzy.portal.service.ApiSpecService
-
 
 @Controller
 @Path("/api-entries/:apiName/specs")
 class ApiSpecController(private val specService: ApiSpecService) {
     @Get
-    fun getMeta(apiName: String, ctx: Context): HalResourse {
+    fun getMeta(apiName: String, ctx: Context): HalResource {
         val links = Links(HalLink(ctx.fullUrl()))
         val discoveryLinks: MutableMap<String, HalLink> = mutableMapOf()
 
@@ -24,7 +23,7 @@ class ApiSpecController(private val specService: ApiSpecService) {
 
         links.addAll(discoveryLinks)
 
-        return HalResourse(links)
+        return HalResource(links)
     }
 
     @Get("/:specVersion")

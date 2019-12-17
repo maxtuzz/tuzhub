@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * Open class to supply all resources restful hateoas metadata
  */
-open class HalResourse(
+open class HalResource(
     links: Links = Links(),
     embedded: MutableMap<String, Any>? = mutableMapOf()
 ) {
@@ -15,13 +15,13 @@ open class HalResourse(
     @JsonProperty("_embedded")
     val embedded = embedded
 
-    fun self(href: String): HalResourse {
+    fun self(href: String): HalResource {
         links.self = HalLink(href)
 
         return this
     }
 
-    fun embed(propertyName: String, resource: Any): HalResourse {
+    fun embed(propertyName: String, resource: Any): HalResource {
         embedded?.set(propertyName, resource)
 
         return this

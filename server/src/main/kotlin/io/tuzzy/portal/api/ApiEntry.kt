@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import io.javalin.http.Context
 
 data class ApiEntry(val displayName: String, val description: String?, val manuallyConfigured: Boolean = false) :
-    HalResourse() {
+    HalResource() {
     // SpecUrl only used for initial creation request
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     var specUrl: String? = null

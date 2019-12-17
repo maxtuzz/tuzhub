@@ -1,7 +1,7 @@
 package io.tuzzy.portal.web
 
 import io.tuzzy.portal.ResourceHelp.Companion.read
-import io.tuzzy.portal.api.HalResourse
+import io.tuzzy.portal.api.HalResource
 import io.tuzzy.portal.domain.SpecStatus
 import kong.unirest.GenericType
 import kong.unirest.Unirest
@@ -20,14 +20,14 @@ class ApiSpecControllerTest : WebTest() {
     fun `GET hateoas spec discovery`() {
         postApiSpec()
 
-        val halResourse: HalResourse = getSpecMeta(apiName)
+        val halResource: HalResource = getSpecMeta(apiName)
 
-        val flattenLinks = halResourse.links.flattenLinks()
+        val flattenLinks = halResource.links.flattenLinks()
 
         assertThat(flattenLinks["self"]).isNull() // fixme
     }
 
-    private fun getSpecMeta(apiName: String): HalResourse {
+    private fun getSpecMeta(apiName: String): HalResource {
         val reqUrl = "http://localhost:${servicePort}/api-entries/${apiName}/specs"
 
         System.err.println("Doing GET to $reqUrl")
@@ -35,7 +35,7 @@ class ApiSpecControllerTest : WebTest() {
         return Unirest.get(reqUrl)
 
             .header("Content-Type", "application/json")
-            .asObject(object : GenericType<HalResourse>() {})
+            .asObject(object : GenericType<HalResource>() {})
             .body
     }
 

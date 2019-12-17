@@ -10,7 +10,7 @@ data class ApiSpec(
     val specUrl: String? = null,
     var spec: Map<String, Any>? = null
 ) :
-    HalResourse() {
+    HalResource() {
     fun withHal(ctx: Context): ApiSpec {
         if (apiName == null) throw IllegalStateException("Api name is not initiated, cannot build hal")
 

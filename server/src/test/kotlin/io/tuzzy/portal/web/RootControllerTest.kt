@@ -1,6 +1,6 @@
 package io.tuzzy.portal.web
 
-import io.tuzzy.portal.api.HalResourse
+import io.tuzzy.portal.api.HalResource
 import kong.unirest.GenericType
 import kong.unirest.Unirest
 import org.assertj.core.api.Assertions.assertThat
@@ -15,10 +15,10 @@ class RootControllerTest : WebTest() {
         assertThat(resp.links.flattenLinks()).isEmpty()
     }
 
-    private fun fetchRoot(): HalResourse {
+    private fun fetchRoot(): HalResource {
         return Unirest.get("http://localhost:${servicePort}/")
             .header("Content-Type", "application/json")
-            .asObject(object : GenericType<HalResourse>() {})
+            .asObject(object : GenericType<HalResource>() {})
             .getBody()
     }
 }

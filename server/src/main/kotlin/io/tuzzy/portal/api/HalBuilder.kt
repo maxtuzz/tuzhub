@@ -4,6 +4,9 @@ import io.javalin.http.Context
 
 /**
  * Generates links to REST resources
+ *
+ * TODO: Test how this works behind a load balancer
+ *  - may need to use ctx headers to check for x_forwarded headers
  */
 class HalBuilder(ctx: Context) {
     private val links: MutableMap<String, HalLink> = mutableMapOf()
