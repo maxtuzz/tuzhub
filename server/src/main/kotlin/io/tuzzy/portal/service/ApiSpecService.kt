@@ -6,11 +6,21 @@ import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.domain.DApiSpec
 import io.tuzzy.portal.domain.SpecStatus
 import io.tuzzy.portal.domain.query.QDApiSpec
+import org.slf4j.LoggerFactory
+import java.util.*
 import javax.inject.Singleton
+import kotlin.concurrent.schedule
 
 
 @Singleton
 class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
+    private lateinit var dynamicUpdateJob: TimerTask
+    private val logger = LoggerFactory.getLogger(javaClass)
+
+    init {
+        startDynamicConfig()
+    }
+
     /**
      * Returns the active api spec for an api entry
      */
@@ -104,7 +114,6 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
         )
     }
 
-
     /**
      * Returns a list of api specs for supplied api
      */
@@ -114,15 +123,23 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
             .findList()
     }
 
+
     /**
-     * Refreshes an API spec based on it's spec url
+     * Refreshes an API spec based on its apiname and spec version
      */
     fun refreshSpec(apiName: String, specVersion: String) {
         val apiSpec = getDSpecByVersion(apiName, specVersion)
 
+        refreshDSpec(apiSpec)
+    }
+
+    /**
+     * Refreshes the open api entry for supplied dao spec bean
+     */
+    private fun refreshDSpec(apiSpec: DApiSpec) {
         if (apiSpec.apiEntry.manuallyConfigured || apiSpec.specUrl == null) {
             throw ForbiddenResponse(
-                "API $apiName, is set to manual spec control. Edit API" +
+                "API ${apiSpec.apiEntry.name}, is set to manual spec control. Edit API" +
                         " entry to use dynamic configuration and include an open api specification url to use this feature"
             )
         }
@@ -145,5 +162,39 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
                 .specVersion.eq(specVersion)
                 .findOne() ?: throw NotFoundResponse("No specification with that version can be found for this API")
         }
+    }
+
+    // TODO: Create admin api to toggle on/off dynamic polling
+    fun startDynamicConfig() {
+        val refreshInterval: Long = 10000
+        logger.info("Starting spec update service, polling interval set to $refreshInterval")
+
+        val refresh: TimerTask.() -> Unit = {
+            logger.info("Polling for API specification changes ...")
+
+            val specs = QDApiSpec()
+                .apiEntry.manuallyConfigured.eq(false)
+                .or()
+                    .status.eq(SpecStatus.ACTIVE)
+                    .status.eq(SpecStatus.PRE_RELEASE)
+                    .status.eq(SpecStatus.ADMIN_ONLY)
+                .endOr()
+                .findList()
+
+            logger.info("Fetching the following specs:")
+
+            specs.forEach {
+                logger.info("${it.apiEntry.name}/${it.specVersion}")
+
+                refreshDSpec(it)
+            }
+        }
+
+        dynamicUpdateJob = Timer("dynamic-config", false)
+            .schedule(2000, refreshInterval, refresh)
+    }
+
+    fun stopDynamicUpdate() {
+        dynamicUpdateJob.cancel()
     }
 }

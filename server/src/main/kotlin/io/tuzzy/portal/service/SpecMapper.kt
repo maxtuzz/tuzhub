@@ -7,12 +7,16 @@ import io.swagger.v3.oas.models.OpenAPI
 /**
  * Helper class for converting between json and an openapi dto bean
  */
-class SpecMapper(private val mapper: ObjectMapper = ObjectMapper()) {
-    fun toJson(apiSpec: OpenAPI): Map<String, Any> {
-        return mapper.convertValue(apiSpec, object : TypeReference<Map<String, Any>>() {})
-    }
+class SpecMapper {
+    companion object {
+        private val mapper: ObjectMapper = ObjectMapper()
 
-    fun toOpenAPI(json: Map<String, Any>): OpenAPI {
-        return mapper.convertValue(json, object : TypeReference<OpenAPI>() {})
+        fun toOpenAPI(json: Map<String, Any>): OpenAPI {
+            return mapper.convertValue(json, object : TypeReference<OpenAPI>() {})
+        }
+
+        fun toJson(apiSpec: OpenAPI): Map<String, Any> {
+            return mapper.convertValue(apiSpec, object : TypeReference<Map<String, Any>>() {})
+        }
     }
 }

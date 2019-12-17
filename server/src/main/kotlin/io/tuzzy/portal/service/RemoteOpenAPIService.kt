@@ -24,6 +24,6 @@ class RemoteOpenAPIService {
     fun getJson(specUrl: String): Map<String, Any> {
         val openAPI = get(specUrl)
 
-        return SpecMapper().toJson(openAPI)
+        return SpecMapper.toJson(openAPI)
     }
 }
