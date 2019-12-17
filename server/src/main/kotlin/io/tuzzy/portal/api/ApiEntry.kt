@@ -20,9 +20,9 @@ data class ApiEntry(val displayName: String, val description: String?, val manua
     fun withHal(ctx: Context): ApiEntry {
         links.addAll {
             HalBuilder(ctx)
-                .apiEntry("self", apiName = name)
-                .apiSpecs("specs", apiName = name)
-                .apiSpec("activeSpec", apiName = name, specVersion = "active")
+                .toApiEntry("self", apiName = name)
+                .toSpecMeta("specs", apiName = name)
+                .toSpec("activeSpec", apiName = name, specVersion = "active")
                 .build()
         }
 

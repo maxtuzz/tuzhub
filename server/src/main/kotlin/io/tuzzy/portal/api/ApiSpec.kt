@@ -16,8 +16,8 @@ data class ApiSpec(
 
         links.addAll {
             HalBuilder(ctx)
-                .apiSpec("self", apiName, specVersion)
-                .apiEntry("api", apiName)
+                .toSpec("self", apiName, specVersion)
+                .toApiEntry("api", apiName)
                 .build()
         }
 

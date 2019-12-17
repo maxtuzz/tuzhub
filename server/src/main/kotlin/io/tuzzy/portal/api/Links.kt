@@ -2,7 +2,7 @@ package io.tuzzy.portal.api
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 
-data class Links(var self: HalLink = HalLink()) {
+data class Links(var self: HalLink? = null) {
     private var links: MutableMap<String, HalLink> = mutableMapOf()
 
     fun add(propertyName: String, link: String) {

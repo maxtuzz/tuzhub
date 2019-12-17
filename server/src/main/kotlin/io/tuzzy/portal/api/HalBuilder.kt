@@ -8,7 +8,7 @@ import io.javalin.http.Context
  * TODO: Test how this works behind a load balancer
  *  - may need to use ctx headers to check for x_forwarded headers
  */
-class HalBuilder(ctx: Context) {
+class HalBuilder(private val ctx: Context) {
     private val links: MutableMap<String, HalLink> = mutableMapOf()
 
     private val proto = if (ctx.protocol().contains("s")) {
@@ -20,19 +20,25 @@ class HalBuilder(ctx: Context) {
     private val baseUrl = "${proto}://${ctx.host()}"
     private val apiEntryBase = "${baseUrl}/api-entries"
 
-    fun apiEntry(propertyName: String, apiName: String): HalBuilder {
-        links[propertyName] = HalLink("${apiEntryBase}/$apiName")
+    fun toContextPath(propertyName: String): HalBuilder {
+        links[propertyName] = HalLink(ctx.fullUrl())
 
-        return this;
+        return this
     }
 
-    fun apiSpecs(propertyName: String, apiName: String): HalBuilder {
+    fun toApiEntry(propertyName: String, apiName: String): HalBuilder {
+        links[propertyName] = HalLink("${apiEntryBase}/$apiName")
+
+        return this
+    }
+
+    fun toSpecMeta(propertyName: String, apiName: String): HalBuilder {
         links[propertyName] = HalLink("${apiEntryBase}/${apiName}/specs")
 
         return this
     }
 
-    fun apiSpec(propertyName: String, apiName: String, specVersion: String): HalBuilder {
+    fun toSpec(propertyName: String, apiName: String, specVersion: String): HalBuilder {
         links[propertyName] = HalLink("${apiEntryBase}/${apiName}/specs/$specVersion")
 
         return this

@@ -3,7 +3,7 @@ package io.tuzzy.portal.web
 import io.dinject.controller.*
 import io.javalin.http.Context
 import io.tuzzy.portal.api.ApiSpec
-import io.tuzzy.portal.api.HalLink
+import io.tuzzy.portal.api.HalBuilder
 import io.tuzzy.portal.api.HalResource
 import io.tuzzy.portal.api.Links
 import io.tuzzy.portal.service.ApiSpecService
@@ -13,15 +13,20 @@ import io.tuzzy.portal.service.ApiSpecService
 class ApiSpecController(private val specService: ApiSpecService) {
     @Get
     fun getMeta(apiName: String, ctx: Context): HalResource {
-        val links = Links(HalLink(ctx.fullUrl()))
-        val discoveryLinks: MutableMap<String, HalLink> = mutableMapOf()
+        val links = Links()
+        val specVersion = "active"
 
+        // Create hal link builder with self path and active spec defined
+        val linkBuilder = HalBuilder(ctx)
+            .toContextPath("self")
+            .toSpec(specVersion, apiName, specVersion)
+
+        // Find tuzzy specs and create a reference link to them
         specService.getAll(apiName).forEach {
-            discoveryLinks[it.specVersion ?: "undefined"] =
-                HalLink("${ctx.fullUrl()}/${it.specVersion}")
+            linkBuilder.toSpec(it.specVersion, apiName, it.specVersion)
         }
 
-        links.addAll(discoveryLinks)
+        links.addAll(linkBuilder.build())
 
         return HalResource(links)
     }
