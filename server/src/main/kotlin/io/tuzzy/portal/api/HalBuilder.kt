@@ -19,6 +19,7 @@ class HalBuilder(private val ctx: Context) {
 
     private val baseUrl = "${proto}://${ctx.host()}"
     private val apiEntryBase = "${baseUrl}/api-entries"
+    private fun specBase(apiName: String) = "${apiEntryBase}/${apiName}/specs"
 
     fun toContextPath(propertyName: String): HalBuilder {
         links[propertyName] = HalLink(ctx.fullUrl())
@@ -33,13 +34,13 @@ class HalBuilder(private val ctx: Context) {
     }
 
     fun toSpecMeta(propertyName: String, apiName: String): HalBuilder {
-        links[propertyName] = HalLink("${apiEntryBase}/${apiName}/specs")
+        links[propertyName] = HalLink(specBase(apiName))
 
         return this
     }
 
     fun toSpec(propertyName: String, apiName: String, specVersion: String): HalBuilder {
-        links[propertyName] = HalLink("${apiEntryBase}/${apiName}/specs/$specVersion")
+        links[propertyName] = HalLink("${specBase(apiName)}/$specVersion")
 
         return this
     }

@@ -8,6 +8,7 @@ import io.tuzzy.portal.domain.SpecStatus
 import io.tuzzy.portal.domain.query.QDApiSpec
 import org.slf4j.LoggerFactory
 import java.util.*
+import javax.annotation.PreDestroy
 import javax.inject.Singleton
 import kotlin.concurrent.schedule
 
@@ -47,16 +48,12 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
      * Updates a spec based on it's api entry and a request body
      */
     fun updateSpec(apiName: String, specVersion: String, updateReq: ApiSpec) {
-        val rows = QDApiSpec()
-            .apiEntry.name.eq(apiName)
-            .specVersion.eq(specVersion)
-            .asUpdate()
-            .set("spec_version", updateReq.specVersion)
-            .set("spec_url", updateReq.specUrl)
-            .set("status", updateReq.status)
-            .update()
+        val dSpec = getDSpecByVersion(apiName, specVersion)
+        dSpec.specVersion = updateReq.specVersion
+        dSpec.specUrl = updateReq.specUrl
+        dSpec.status = updateReq.status
 
-        if (rows < 1) throw NotFoundResponse("Update failed, no specification found")
+        refreshDSpec(dSpec)
     }
 
     /**
@@ -160,18 +157,18 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
             QDApiSpec()
                 .apiEntry.name.eq(apiName)
                 .specVersion.eq(specVersion)
-                .findOne() ?: throw NotFoundResponse("No specification with that version can be found for this API")
+                .findOne() ?: throw NotFoundResponse("No specification can be found for $apiName/$specVersion")
         }
     }
 
     // TODO: Create admin api to toggle on/off dynamic polling
-    fun startDynamicConfig() {
-        val refreshInterval: Long = 10000
+    fun startDynamicConfig(refreshInterval: Long = 60000) {
         logger.info("Starting spec update service, polling interval set to $refreshInterval")
 
         val refresh: TimerTask.() -> Unit = {
             logger.info("Polling for API specification changes ...")
 
+            // Get all pollable spec entries
             val specs = QDApiSpec()
                 .apiEntry.manuallyConfigured.eq(false)
                 .or()
@@ -194,7 +191,9 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
             .schedule(2000, refreshInterval, refresh)
     }
 
+    @PreDestroy
     fun stopDynamicUpdate() {
+        logger.info("Stopping [dynamic-config] thread ...")
         dynamicUpdateJob.cancel()
     }
 }

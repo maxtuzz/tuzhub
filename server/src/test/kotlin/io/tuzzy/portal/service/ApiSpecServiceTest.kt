@@ -19,6 +19,8 @@ internal class ApiSpecServiceTest {
     private lateinit var specService: ApiSpecService
 
     private val apiName = "empire-api"
+    private val updateSpecUrl =
+        "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/uspto.yaml"
 
     @BeforeEach
     fun setup() {
@@ -79,11 +81,11 @@ internal class ApiSpecServiceTest {
     @Test
     fun `Update spec`() {
         val updateSpecVersion = "v2"
-        val updateSpecUrl = "http://execute.order.66/v2"
+        val specUrl = "https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
 
         val updateReq = ApiSpec(
             specVersion = updateSpecVersion,
-            specUrl = updateSpecUrl,
+            specUrl = specUrl,
             status = SpecStatus.ACTIVE
         )
 
@@ -93,7 +95,7 @@ internal class ApiSpecServiceTest {
 
         assertAll(
             Executable { assertThat(spec?.specVersion).isEqualTo(updateSpecVersion) },
-            Executable { assertThat(spec?.specUrl).isEqualTo(updateSpecUrl) }
+            Executable { assertThat(spec?.specUrl).isEqualTo(specUrl) }
         )
     }
 
@@ -107,7 +109,6 @@ internal class ApiSpecServiceTest {
     @Test
     fun `Create new spec version`() {
         val updateSpecVersion = "v2"
-        val updateSpecUrl = "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/uspto.yaml"
 
         specService.createSpecVersion(
             apiName, ApiSpec(
