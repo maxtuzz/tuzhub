@@ -9,16 +9,24 @@ import kotlin.concurrent.schedule
 @Singleton
 class DynamicUpdateService(private val specService: ApiSpecService) {
     private lateinit var dynamicUpdateJob: TimerTask
+    private var pollingStatus = PollingStatus.STOPPED
     private val logger = LoggerFactory.getLogger(javaClass)
 
+    enum class PollingStatus {
+        RUNNING,
+        STOPPED
+    }
+
     init {
-        startDynamicConfig()
+        startPolling()
     }
 
     /**
      * Kick starts dynamic update polling
      */
-    fun startDynamicConfig(refreshInterval: Long = 60000) {
+    fun startPolling(refreshInterval: Long = 60000) {
+        pollingStatus = PollingStatus.RUNNING
+
         logger.info("Starting spec update service, polling interval set to $refreshInterval")
 
         val refresh: TimerTask.() -> Unit = {
@@ -41,9 +49,16 @@ class DynamicUpdateService(private val specService: ApiSpecService) {
     }
 
     /**
+     * Returns the service polling status
+     */
+    fun getStatus(): PollingStatus {
+        return pollingStatus
+    }
+
+    /**
      * Returns next update time
      */
-    fun getScheduledTime(): Date {
+    fun getNextUpdateTime(): Date {
         dynamicUpdateJob.cancel()
         val time = dynamicUpdateJob.scheduledExecutionTime()
         return Date(time)
@@ -52,6 +67,7 @@ class DynamicUpdateService(private val specService: ApiSpecService) {
     @PreDestroy
     fun stopDynamicUpdate() {
         logger.info("Stopping [dynamic-config] thread ...")
+        pollingStatus = PollingStatus.STOPPED
         dynamicUpdateJob.cancel()
     }
 }

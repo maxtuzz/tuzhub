@@ -1,8 +1,11 @@
 package io.tuzzy.portal.service
 
+import io.tuzzy.portal.service.DynamicUpdateService.PollingStatus
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.function.Executable
 import java.util.*
 
 class DynamicUpdateServiceTest {
@@ -19,15 +22,19 @@ class DynamicUpdateServiceTest {
     }
 
     @Test
-    fun `Turn on dynamic spec update`() {
-        dynamicUpdateService.startDynamicConfig(1000)
+    fun `Turn on + off dynamic spec update`() {
+        dynamicUpdateService.startPolling(1000)
 
-        var nextRefresh = dynamicUpdateService.getScheduledTime()
+        val nextRefresh = dynamicUpdateService.getNextUpdateTime()
         val currentDate = Date(System.currentTimeMillis())
 
-        assertThat(nextRefresh).isAfter(currentDate)
+        Assertions.assertAll(
+            Executable { assertThat(nextRefresh).isAfter(currentDate) },
+            Executable { assertThat(dynamicUpdateService.getStatus()).isEqualTo(PollingStatus.RUNNING) }
+        )
 
         dynamicUpdateService.stopDynamicUpdate()
-        nextRefresh = dynamicUpdateService.getScheduledTime()
+
+        assertThat(dynamicUpdateService.getStatus()).isEqualTo(PollingStatus.STOPPED)
     }
 }
