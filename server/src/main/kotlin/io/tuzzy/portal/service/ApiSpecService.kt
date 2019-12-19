@@ -3,10 +3,13 @@ package io.tuzzy.portal.service
 import io.javalin.http.ForbiddenResponse
 import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.api.ApiSpec
+import io.tuzzy.portal.domain.DApiEntry
 import io.tuzzy.portal.domain.DApiSpec
 import io.tuzzy.portal.domain.SpecStatus
+import io.tuzzy.portal.domain.query.QDApiEntry
 import io.tuzzy.portal.domain.query.QDApiSpec
 import org.slf4j.LoggerFactory
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.annotation.PreDestroy
 import javax.inject.Singleton
@@ -15,13 +18,6 @@ import kotlin.concurrent.schedule
 
 @Singleton
 class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
-    private lateinit var dynamicUpdateJob: TimerTask
-    private val logger = LoggerFactory.getLogger(javaClass)
-
-    init {
-        startDynamicConfig()
-    }
-
     /**
      * Returns the active api spec for an api entry
      */
@@ -60,20 +56,14 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
      * Will update and set new active spec record
      */
     fun createSpecVersion(apiName: String, spec: ApiSpec) {
-        // Update old active spec and set to historic
+        val api = QDApiEntry()
+            .name.eq(apiName)
+            .findOne() ?: throw NotFoundResponse("An API with that name cannot be found")
+
+        // If created spec is set to active, then de
         if (spec.status == SpecStatus.ACTIVE) {
-            QDApiSpec()
-                .apiEntry.name.eq(apiName)
-                .status.eq(SpecStatus.ACTIVE)
-                .asUpdate()
-                .set("status", SpecStatus.HISTORIC)
-                .update()
+            markSpecHistoric(api)
         }
-
-        val historicSpec = QDApiSpec()
-            .apiEntry.name.eq(apiName)
-            .findOne() ?: throw NotFoundResponse("Not found for wahtever reason")
-
 
         if (spec.specUrl == null) {
             throw ForbiddenResponse("New specs only supported with remote call for now")
@@ -82,7 +72,7 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
         val jsonSpec = remoteOpenAPIService.getJson(spec.specUrl)
 
         // Save new entry
-        DApiSpec(historicSpec.apiEntry, spec.specVersion, spec.status, spec.specUrl, jsonSpec).save()
+        DApiSpec(api, spec.specVersion, spec.status, spec.specUrl, jsonSpec).save()
     }
 
     /**
@@ -120,7 +110,6 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
             .findList()
     }
 
-
     /**
      * Refreshes an API spec based on its apiname and spec version
      */
@@ -131,9 +120,23 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
     }
 
     /**
+     * Returns a list of pollable specs
+     */
+    fun getPollableSpecs(): List<DApiSpec> {
+        return QDApiSpec()
+            .apiEntry.manuallyConfigured.eq(false)
+            .or()
+                .status.eq(SpecStatus.ACTIVE)
+                .status.eq(SpecStatus.PRE_RELEASE)
+                .status.eq(SpecStatus.ADMIN_ONLY)
+            .endOr()
+            .findList()
+    }
+
+    /**
      * Refreshes the open api entry for supplied dao spec bean
      */
-    private fun refreshDSpec(apiSpec: DApiSpec) {
+    fun refreshDSpec(apiSpec: DApiSpec) {
         if (apiSpec.apiEntry.manuallyConfigured || apiSpec.specUrl == null) {
             throw ForbiddenResponse(
                 "API ${apiSpec.apiEntry.name}, is set to manual spec control. Edit API" +
@@ -161,39 +164,15 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
         }
     }
 
-    // TODO: Create admin api to toggle on/off dynamic polling
-    fun startDynamicConfig(refreshInterval: Long = 60000) {
-        logger.info("Starting spec update service, polling interval set to $refreshInterval")
-
-        val refresh: TimerTask.() -> Unit = {
-            logger.info("Polling for API specification changes ...")
-
-            // Get all pollable spec entries
-            val specs = QDApiSpec()
-                .apiEntry.manuallyConfigured.eq(false)
-                .or()
-                    .status.eq(SpecStatus.ACTIVE)
-                    .status.eq(SpecStatus.PRE_RELEASE)
-                    .status.eq(SpecStatus.ADMIN_ONLY)
-                .endOr()
-                .findList()
-
-            logger.info("Fetching the following specs:")
-
-            specs.forEach {
-                logger.info("${it.apiEntry.name}/${it.specVersion}")
-
-                refreshDSpec(it)
-            }
-        }
-
-        dynamicUpdateJob = Timer("dynamic-config", false)
-            .schedule(2000, refreshInterval, refresh)
-    }
-
-    @PreDestroy
-    fun stopDynamicUpdate() {
-        logger.info("Stopping [dynamic-config] thread ...")
-        dynamicUpdateJob.cancel()
+    /**
+     * Marks current active spec for an api as historic
+     */
+    private fun markSpecHistoric(api: DApiEntry) {
+        QDApiSpec()
+            .apiEntry.name.eq(api.name)
+            .status.eq(SpecStatus.ACTIVE)
+            .asUpdate()
+            .set("status", SpecStatus.HISTORIC)
+            .update()
     }
 }

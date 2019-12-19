@@ -1,3 +1,3 @@
 package io.tuzzy.portal.api
 
-class HalLink(var href: String = "")
+class HalLink(val href: String = "")

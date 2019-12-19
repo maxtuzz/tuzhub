@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
+import java.util.*
 import kotlin.test.assertFailsWith
 
 internal class ApiSpecServiceTest {
@@ -43,6 +44,29 @@ internal class ApiSpecServiceTest {
     fun tearDown() {
         QDApiSpec().delete()
         QDApiEntry().delete()
+    }
+
+    @Test
+    fun `Get pollable specs`() {
+        val entry = DApiEntry("Baby Yoda", "The force is strong with this one")
+        entry.save()
+
+        // Create 2 specs, one of which is pollable
+        DApiSpec(
+            apiEntry = entry,
+            status = SpecStatus.PRE_RELEASE,
+            specUrl = "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore-expanded.yaml"
+        ).save()
+
+        DApiSpec(
+            apiEntry = entry,
+            status = SpecStatus.HISTORIC,
+            specUrl = "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore-expanded.yaml"
+        ).save()
+
+        val specs: List<DApiSpec> = specService.getPollableSpecs()
+
+        assertThat(specs).hasSize(2)
     }
 
     @Test
