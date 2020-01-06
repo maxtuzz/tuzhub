@@ -6,7 +6,7 @@
             <column name="display_name" type="varchar(45)" notnull="true" unique="uq_api_entry_display_name"/>
             <column name="name" type="varchar(45)" notnull="true" unique="uq_api_entry_name"/>
             <column name="description" type="varchar"/>
-            <column name="manually_configured" type="boolean" defaultValue="false" notnull="true"/>
+            <column name="dynamic_conf" type="boolean" defaultValue="false" notnull="true"/>
             <column name="version" type="bigint" notnull="true"/>
             <column name="when_created" type="timestamp" notnull="true"/>
             <column name="when_modified" type="timestamp" notnull="true"/>

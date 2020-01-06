@@ -18,7 +18,7 @@ class ApiEntryService(private val remoteOpenAPIService: RemoteOpenAPIService) {
      */
     fun createApiEntry(apiEntryReq: ApiEntry) {
         val jsonSpec: Map<String, Any> = (
-                if (apiEntryReq.manuallyConfigured) {
+                if (!apiEntryReq.dynamicConf) {
                     apiEntryReq.fullSpec
                 } else {
                     if (apiEntryReq.specUrl == null) {
@@ -65,7 +65,7 @@ class ApiEntryService(private val remoteOpenAPIService: RemoteOpenAPIService) {
      */
     fun getApiEntries(ctx: Context): List<ApiEntry> {
         return getApiEntries().map {
-            ApiEntry(it.displayName, it.description, it.manuallyConfigured).withHal(ctx)
+            ApiEntry(it.displayName, it.description, it.dynamicConf).withHal(ctx)
         }
     }
 

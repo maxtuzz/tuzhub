@@ -4,7 +4,7 @@ create table api_entry (
   display_name                  varchar(45) not null,
   name                          varchar(45) not null,
   description                   varchar(255),
-  manually_configured           boolean default false not null,
+  dynamic_conf                  boolean default false not null,
   version                       bigint not null,
   when_created                  timestamptz not null,
   when_modified                 timestamptz not null,

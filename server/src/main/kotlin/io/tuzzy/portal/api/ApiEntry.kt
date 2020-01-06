@@ -3,7 +3,7 @@ package io.tuzzy.portal.api
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.javalin.http.Context
 
-data class ApiEntry(val displayName: String, val description: String?, val manuallyConfigured: Boolean = false) :
+data class ApiEntry(val displayName: String, val description: String?, val dynamicConf: Boolean = true) :
     HalResource() {
     // SpecUrl only used for initial creation request
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

@@ -33,7 +33,6 @@ class ApiSpecControllerTest : WebTest() {
         System.err.println("Doing GET to $reqUrl")
 
         return Unirest.get(reqUrl)
-
             .header("Content-Type", "application/json")
             .asObject(object : GenericType<HalResource>() {})
             .body

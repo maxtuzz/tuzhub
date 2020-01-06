@@ -8,12 +8,7 @@ import io.tuzzy.portal.domain.DApiSpec
 import io.tuzzy.portal.domain.SpecStatus
 import io.tuzzy.portal.domain.query.QDApiEntry
 import io.tuzzy.portal.domain.query.QDApiSpec
-import org.slf4j.LoggerFactory
-import java.text.SimpleDateFormat
-import java.util.*
-import javax.annotation.PreDestroy
 import javax.inject.Singleton
-import kotlin.concurrent.schedule
 
 
 @Singleton
@@ -29,7 +24,7 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
     }
 
     /**
-     * Deletes a spec based on it's version tag
+     * Deletes a spec based on its version tag
      */
     fun deleteSpec(apiName: String, version: String) {
         val rows = QDApiSpec()
@@ -124,7 +119,7 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
      */
     fun getPollableSpecs(): List<DApiSpec> {
         return QDApiSpec()
-            .apiEntry.manuallyConfigured.eq(false)
+            .apiEntry.dynamicConf.eq(true)
             .or()
                 .status.eq(SpecStatus.ACTIVE)
                 .status.eq(SpecStatus.PRE_RELEASE)
@@ -137,7 +132,7 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
      * Refreshes the open api entry for supplied dao spec bean
      */
     fun refreshDSpec(apiSpec: DApiSpec) {
-        if (apiSpec.apiEntry.manuallyConfigured || apiSpec.specUrl == null) {
+        if (!apiSpec.apiEntry.dynamicConf || apiSpec.specUrl == null) {
             throw ForbiddenResponse(
                 "API ${apiSpec.apiEntry.name}, is set to manual spec control. Edit API" +
                         " entry to use dynamic configuration and include an open api specification url to use this feature"
@@ -172,7 +167,7 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
             .apiEntry.name.eq(api.name)
             .status.eq(SpecStatus.ACTIVE)
             .asUpdate()
-            .set("status", SpecStatus.HISTORIC)
+                .set("status", SpecStatus.HISTORIC)
             .update()
     }
 }
