@@ -80,7 +80,7 @@ class ApiSpecControllerTest : WebTest() {
 
         val spec = getApiSpec(apiName, specVersion)
 
-        assertThat(spec.specUrl).contains("open-api-new.json")
+        assertThat(spec.specUrl).contains("api-with-examples.yaml")
     }
 
 

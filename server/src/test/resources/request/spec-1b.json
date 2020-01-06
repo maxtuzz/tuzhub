@@ -1,5 +1,5 @@
 {
   "specVersion": "v2-dev",
-  "specUrl": "https://api.mycompany.org/api/users/open-api-new.json",
+  "specUrl": "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/api-with-examples.yaml",
   "status": "ACTIVE"
 }
