@@ -5,3 +5,4 @@ target/
 /server/.settings/
 /server/.classpath
 /server/.project
+/flutter_client/
