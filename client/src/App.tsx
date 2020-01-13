@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import styled from "styled-components";
 import logo from './logo.svg';
-import Button from "./lib/Button";
+import Button from "./components/lib/Button";
+import Sidebar from "./components/Sidebar";
 
 const Parent = styled.div`
   display: grid;
@@ -20,33 +21,30 @@ const ScrollableMenuStyled = styled.div`
 
 const RoutableContent = styled.div`
   grid-area: 1 / 2 / 2 / 3; 
-  background-color: #c88664;
 `;
 
 /**
  * Main app layout
  * @constructor
  */
-const App: React.FC = () => {
-    return (
-        <Parent>
-            <ScrollableMenuStyled>
-                <span>Hello</span>
-            </ScrollableMenuStyled>
+const App: React.FC = () => (
+    <Parent>
+        <Sidebar>
+            <span>Hello</span>
+        </Sidebar>
 
-            <RoutableContent>
-                <div className="App">
-                    <header className="App-header">
-                        <img src={logo} className="App-logo" alt="logo"/>
-                        <p>
-                            Tuzzy
-                        </p>
-                        <Button>Click me</Button>
-                    </header>
-                </div>
-            </RoutableContent>
-        </Parent>
-    )
-};
+        <RoutableContent>
+            <div className="App">
+                <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo"/>
+                    <p>
+                        Tuzzy
+                    </p>
+                    <Button>Click me</Button>
+                </header>
+            </div>
+        </RoutableContent>
+    </Parent>
+);
 
 export default App;
