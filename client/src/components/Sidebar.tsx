@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import SvgIcon from "./lib/SvgIcon";
 
 const SidebarContainer = styled.div`
     display: flex;
@@ -17,20 +18,23 @@ const SidebarMenu = styled.ul`
     flex-direction: column;
     list-style: none;
     width: 100%;
+    padding: 0 30px;
 `;
 
 const SidebarMenuItem = styled.li`
     height: 40px;
-    width: 100%; 
-`;
-
-const Icon = styled.svg`
-    width: 20px;
-    height: 20px;
+    width: 100%;
+    font-weight: 600; 
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: inset 3px 0 0 0 #ffffff;
+      cursor: pointer;
+    }
 `;
 
 const SidebarMenuItemLabel = styled.p`
-    font-family: "Open Sans", sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 14px;
     line-height: 1.5;
     font-weight: 500;
@@ -46,11 +50,11 @@ const Sidebar: React.FC = () => (
     <SidebarContainer>
         <SidebarMenu>
             <SidebarMenuItem>
-                <Icon/>
+                <SvgIcon/>
                 <SidebarMenuItemLabel>APIs</SidebarMenuItemLabel>
             </SidebarMenuItem>
             <SidebarMenuItem>
-                <Icon/>
+                <SvgIcon/>
                 <SidebarMenuItemLabel>Configure</SidebarMenuItemLabel>
             </SidebarMenuItem>
         </SidebarMenu>
