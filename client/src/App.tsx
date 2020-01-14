@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import styled from "styled-components";
 import Sidebar from "./components/Sidebar";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import * as Icons from "@fortawesome/free-solid-svg-icons"
 
 const Parent = styled.div`
   display: flex;
@@ -25,11 +27,10 @@ const App: React.FC = () => (
 
         <RoutableContent>
             <header className="App-header">
-                {/*<img src={logo} className="App-logo" alt="logo"/>*/}
                 <p>
-                    Tuzzy
+                    {"{ Routable content area }"}
                 </p>
-                {/*<Button>Click me</Button>*/}
+                <FontAwesomeIcon icon={Icons.faCopyright} />
             </header>
         </RoutableContent>
     </Parent>
