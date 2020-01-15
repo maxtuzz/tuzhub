@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import SvgIcon from "./lib/SvgIcon";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import * as Icons from "@fortawesome/free-solid-svg-icons"
-import ApiIcon from "./lib/ApiIcon";
 
 const SidebarContainer = styled.div`
     display: flex;
@@ -11,8 +9,9 @@ const SidebarContainer = styled.div`
     align-items: flex-start;
     list-style: none;
     height: 100vh;
-    width: 300px;
     background-color: #252529;
+    overflow-y: scroll;
+    overflow-x: hidden;
  `;
 
 const SidebarMenu = styled.ul`
@@ -31,12 +30,17 @@ const SidebarHeader = styled.div`
     gap: 16px;
     font-size: 18px;
     font-weight: 600;
-    line-height: 1.5px;
     color: #FFF;
     margin: 10px 30px 30px 0;
     padding-left: 30px;
     padding-bottom: 20px;
     border-bottom: 1px solid #2e2e33;
+`;
+
+const SidebarHeaderLabel = styled.div`
+  @media (max-width: 1126px) {
+      display: none;
+  }
 `;
 
 const SidebarMenuItem = styled.li`
@@ -55,7 +59,7 @@ const SidebarMenuItem = styled.li`
     }
 `;
 
-const Divider = styled.hr`
+const MenuDivider = styled.hr`
   width: 90%;
   height: 2px;
   box-sizing: border-box;
@@ -71,42 +75,61 @@ const SidebarMenuItemLabel = styled.p`
     font-weight: 600; 
     text-align: left;
     margin-left: 20px;
+    
+    @media (max-width: 1126px) {
+      display: none;
+    }
 `;
 
 /**
  * Renders the side bar for navigation
  * @constructor
  */
-const Sidebar: React.FC = () => (
-    <SidebarContainer>
-        <SidebarMenu>
-            <SidebarHeader>
-                {" "}
-                <FontAwesomeIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
-                Dev Portal
-            </SidebarHeader>
-            <SidebarMenuItem>
-                <ApiIcon/>
-                <SidebarMenuItemLabel>APIs</SidebarMenuItemLabel>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-                <FontAwesomeIcon icon={Icons.faChartLine} color={"white"} size={"lg"}/>
-                <SidebarMenuItemLabel>Metrics</SidebarMenuItemLabel>
-            </SidebarMenuItem>
+const Sidebar: React.FC = () => {
+    const elements: Array<JSX.Element> = [];
+
+    for (let i = 0; i < 30; i++) {
+        elements.push(
             <SidebarMenuItem>
                 <FontAwesomeIcon icon={Icons.faCogs} color={"white"}/>
-                <SidebarMenuItemLabel>Configure</SidebarMenuItemLabel>
+                <SidebarMenuItemLabel>Test item #{i}</SidebarMenuItemLabel>
             </SidebarMenuItem>
+        )
+    }
 
-            <Divider/>
-        </SidebarMenu>
-        <SidebarMenu>
-            <SidebarMenuItem>
-                <SvgIcon/>
-                <SidebarMenuItemLabel>-> This section changes based on navigation state</SidebarMenuItemLabel>
-            </SidebarMenuItem>
-        </SidebarMenu>
-    </SidebarContainer>
-);
+    return (
+        <SidebarContainer>
+            <SidebarMenu>
+                <SidebarHeader>
+                    {" "}
+                    <FontAwesomeIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
+                    <SidebarHeaderLabel>
+                        Tuzzy Dev Portal
+                    </SidebarHeaderLabel>
+                </SidebarHeader>
+                <SidebarMenuItem>
+                    {/*<ApiIcon/>*/}
+                    <FontAwesomeIcon icon={Icons.faProjectDiagram} color={"white"}/>
+                    <SidebarMenuItemLabel>APIs</SidebarMenuItemLabel>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                    <FontAwesomeIcon icon={Icons.faChartLine} color={"white"} size={"lg"}/>
+                    <SidebarMenuItemLabel>Metrics</SidebarMenuItemLabel>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                    <FontAwesomeIcon icon={Icons.faCogs} color={"white"}/>
+                    <SidebarMenuItemLabel>Configure</SidebarMenuItemLabel>
+                </SidebarMenuItem>
+
+                <MenuDivider/>
+            </SidebarMenu>
+            <SidebarMenu>
+                {
+                    elements
+                }
+            </SidebarMenu>
+        </SidebarContainer>
+    );
+};
 
 export default Sidebar;
