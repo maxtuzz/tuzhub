@@ -28,8 +28,7 @@ const SidebarHeader = styled.div`
     align-items: center;
     justify-content: flex-start;
     gap: 16px;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 16px;
     color: #FFF;
     margin: 10px 30px 30px 0;
     padding-left: 30px;
@@ -38,6 +37,10 @@ const SidebarHeader = styled.div`
 `;
 
 const SidebarHeaderLabel = styled.div`
+  font-size: 15px;
+  text-transform: uppercase;
+  font-weight: 800;
+  
   @media (max-width: 1126px) {
       display: none;
   }

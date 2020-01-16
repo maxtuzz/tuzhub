@@ -1,7 +1,7 @@
 import React from 'react';
-import './App.css';
 import styled from "styled-components";
 import Sidebar from "./components/Sidebar";
+import HomeScreen from "./components/screens/HomeScreen";
 
 const Parent = styled.div`
   display: grid;
@@ -23,7 +23,6 @@ const Parent = styled.div`
 `;
 
 const RoutableContent = styled.div`
-  text-align: center;
   width: 100%; 
   grid-area: main;
 `;
@@ -41,11 +40,7 @@ const App: React.FC = () => (
         <GriddedSidebar/>
 
         <RoutableContent>
-            <header className="App-header">
-                <p>
-                    {"{ Routable content area }"}
-                </p>
-            </header>
+            <HomeScreen/>
         </RoutableContent>
     </Parent>
 );
