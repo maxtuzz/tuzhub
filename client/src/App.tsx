@@ -2,6 +2,8 @@ import React from 'react';
 import styled from "styled-components";
 import Sidebar from "./components/Sidebar";
 import HomeScreen from "./components/screens/HomeScreen";
+import {Route, Switch} from "react-router-dom";
+import ConfigureScreen from "./components/screens/ConfigureScreen";
 
 const Parent = styled.div`
   display: grid;
@@ -40,7 +42,14 @@ const App: React.FC = () => (
         <GriddedSidebar/>
 
         <RoutableContent>
-            <HomeScreen/>
+            <Switch>
+                <Route path="/config">
+                    <ConfigureScreen/>
+                </Route>
+                <Route path="/">
+                    <HomeScreen/>
+                </Route>
+            </Switch>
         </RoutableContent>
     </Parent>
 );

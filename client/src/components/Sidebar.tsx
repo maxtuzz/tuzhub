@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import * as Icons from "@fortawesome/free-solid-svg-icons"
+import {Link} from "react-router-dom";
 
 const SidebarContainer = styled.div`
     display: flex;
@@ -84,6 +85,12 @@ const SidebarMenuItemLabel = styled.p`
     }
 `;
 
+const StyledLink = styled(Link)<{ width?: string, height?: string }>`
+    text-decoration: none;
+    height: ${props => props.height ? props.height : "40px"};
+    width: ${props => props.width ? props.width : "100%"};
+`;
+
 /**
  * Renders the side bar for navigation
  * @constructor
@@ -110,19 +117,25 @@ const Sidebar: React.FC = () => {
                         Tuzzy Dev Portal
                     </SidebarHeaderLabel>
                 </SidebarHeader>
-                <SidebarMenuItem>
-                    {/*<ApiIcon/>*/}
-                    <FontAwesomeIcon icon={Icons.faProjectDiagram} color={"white"}/>
-                    <SidebarMenuItemLabel>APIs</SidebarMenuItemLabel>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                    <FontAwesomeIcon icon={Icons.faChartLine} color={"white"} size={"lg"}/>
-                    <SidebarMenuItemLabel>Metrics</SidebarMenuItemLabel>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                    <FontAwesomeIcon icon={Icons.faCogs} color={"white"}/>
-                    <SidebarMenuItemLabel>Configure</SidebarMenuItemLabel>
-                </SidebarMenuItem>
+                <StyledLink to="/config">
+                    <SidebarMenuItem>
+                        {/*<ApiIcon/>*/}
+                        <FontAwesomeIcon icon={Icons.faProjectDiagram} color={"white"}/>
+                        <SidebarMenuItemLabel>APIs</SidebarMenuItemLabel>
+                    </SidebarMenuItem>
+                </StyledLink>
+                <StyledLink to="/metrics">
+                    <SidebarMenuItem>
+                        <FontAwesomeIcon icon={Icons.faChartLine} color={"white"} size={"lg"}/>
+                        <SidebarMenuItemLabel>Metrics</SidebarMenuItemLabel>
+                    </SidebarMenuItem>
+                </StyledLink>
+                <StyledLink to="/config">
+                    <SidebarMenuItem>
+                        <FontAwesomeIcon icon={Icons.faCogs} color={"white"}/>
+                        <SidebarMenuItemLabel>Configure</SidebarMenuItemLabel>
+                    </SidebarMenuItem>
+                </StyledLink>
 
                 <MenuDivider/>
             </SidebarMenu>
