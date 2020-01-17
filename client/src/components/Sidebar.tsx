@@ -117,7 +117,7 @@ const Sidebar: React.FC = () => {
                         Tuzzy Dev Portal
                     </SidebarHeaderLabel>
                 </SidebarHeader>
-                <StyledLink to="/config">
+                <StyledLink to="/apis">
                     <SidebarMenuItem>
                         {/*<ApiIcon/>*/}
                         <FontAwesomeIcon icon={Icons.faProjectDiagram} color={"white"}/>

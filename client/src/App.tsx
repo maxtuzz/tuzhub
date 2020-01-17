@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar";
 import HomeScreen from "./components/screens/HomeScreen";
 import {Route, Switch} from "react-router-dom";
 import ConfigureScreen from "./components/screens/ConfigureScreen";
+import ApiScreen from "./components/screens/ApiScreen";
 
 const Parent = styled.div`
   display: grid;
@@ -45,6 +46,9 @@ const App: React.FC = () => (
             <Switch>
                 <Route path="/config">
                     <ConfigureScreen/>
+                </Route>
+                <Route path="/apis">
+                    <ApiScreen/>
                 </Route>
                 <Route path="/">
                     <HomeScreen/>
