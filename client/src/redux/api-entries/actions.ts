@@ -2,9 +2,14 @@ import {Action, ActionCreator} from "redux";
 import ApiEntry from "../../model/ApiEntry";
 
 export enum ApiEntriesActionType {
+    FETCH_APIS = "@@api-entries/FETCH_APIS",
     SET_LOADING = "@@api-entries/SET_LOADING",
     SET_API_ENTRIES = "@@api-entries/SET_API_ENTRIES",
     SET_SELECTED_API = "@@api-entries/SET_SELECTED_API"
+}
+
+interface FetchApisAction extends Action {
+    type: ApiEntriesActionType.FETCH_APIS
 }
 
 interface SetLoadingAction extends Action {
@@ -21,6 +26,10 @@ interface SetSelectedApiAction extends Action {
     type: ApiEntriesActionType.SET_SELECTED_API,
     apiEntry: ApiEntry | undefined;
 }
+
+export const fetchApis: ActionCreator<FetchApisAction> =() => ({
+   type: ApiEntriesActionType.FETCH_APIS
+});
 
 export const setLoading: ActionCreator<SetLoadingAction> = (isLoading: boolean) => ({
     type: ApiEntriesActionType.SET_LOADING,

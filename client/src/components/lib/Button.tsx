@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import React from "react";
 
 /**
  * Standard configurable button
  */
-const Button = styled.button<{ primary?: boolean }>`
+const ButtonStyled = styled.button<{ primary?: boolean }>`
   /* Adapt the colors based on primary prop */
   background: ${({primary}) => primary ? "palevioletred" : "white"};
   color: ${({primary}) => primary ? "white" : "palevioletred"};
@@ -14,5 +15,9 @@ const Button = styled.button<{ primary?: boolean }>`
   border: 2px solid palevioletred;
   border-radius: 3px;
 `;
+
+const Button = ({getApis}: { getApis: () => any }) => (
+    <ButtonStyled onClick={getApis}/>
+);
 
 export default Button;
