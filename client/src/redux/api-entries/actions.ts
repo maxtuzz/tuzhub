@@ -1,7 +1,7 @@
 import {Action, ActionCreator} from "redux";
 import ApiEntry from "../../model/ApiEntry";
 
-export enum ApiEntriesActionType {
+export enum ApiEntryActions {
     FETCH_APIS = "@@api-entries/FETCH_APIS",
     SET_LOADING = "@@api-entries/SET_LOADING",
     SET_API_ENTRIES = "@@api-entries/SET_API_ENTRIES",
@@ -9,40 +9,40 @@ export enum ApiEntriesActionType {
 }
 
 interface FetchApisAction extends Action {
-    type: ApiEntriesActionType.FETCH_APIS
+    type: ApiEntryActions.FETCH_APIS
 }
 
 interface SetLoadingAction extends Action {
-    type: ApiEntriesActionType.SET_LOADING,
+    type: ApiEntryActions.SET_LOADING,
     isLoading: boolean;
 }
 
 interface SetApiEntriesAction extends Action {
-    type: ApiEntriesActionType.SET_API_ENTRIES,
+    type: ApiEntryActions.SET_API_ENTRIES,
     apiEntries: ApiEntry[];
 }
 
 interface SetSelectedApiAction extends Action {
-    type: ApiEntriesActionType.SET_SELECTED_API,
+    type: ApiEntryActions.SET_SELECTED_API,
     apiEntry: ApiEntry | undefined;
 }
 
-export const fetchApis: ActionCreator<FetchApisAction> =() => ({
-   type: ApiEntriesActionType.FETCH_APIS
+export const fetchApis: ActionCreator<FetchApisAction> = () => ({
+    type: ApiEntryActions.FETCH_APIS
 });
 
 export const setLoading: ActionCreator<SetLoadingAction> = (isLoading: boolean) => ({
-    type: ApiEntriesActionType.SET_LOADING,
+    type: ApiEntryActions.SET_LOADING,
     isLoading: isLoading
 });
 
 export const setApiEntries: ActionCreator<SetApiEntriesAction> = (apiEntries: ApiEntry[]) => ({
-    type: ApiEntriesActionType.SET_API_ENTRIES,
+    type: ApiEntryActions.SET_API_ENTRIES,
     apiEntries: apiEntries
 });
 
 export const setSelectedApi: ActionCreator<SetSelectedApiAction> = (apiEntry: ApiEntry) => ({
-    type: ApiEntriesActionType.SET_SELECTED_API,
+    type: ApiEntryActions.SET_SELECTED_API,
     apiEntry: apiEntry
 });
 

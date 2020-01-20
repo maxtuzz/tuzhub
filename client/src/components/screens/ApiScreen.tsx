@@ -2,7 +2,7 @@ import React from "react";
 import ScreenArea from "./ScreenArea";
 import PageTitle from "../lib/PageTitle";
 import Text from "../lib/Text";
-import {ApiListContainer} from "../containers/ApiListContainer";
+import {ApiListContainer} from "../../containers/ApiListContainer";
 
 const ApiScreen: React.FC = () => (
     <ScreenArea>

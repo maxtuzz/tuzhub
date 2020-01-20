@@ -5,8 +5,6 @@ import helloSaga from "./api-entries/sagas"
 import createSagaMiddleware from "redux-saga";
 
 
-export type AppState = ReturnType<typeof rootReducer>;
-
 const sagaMiddleware = createSagaMiddleware();
 const middleware = applyMiddleware(sagaMiddleware);
 
@@ -14,7 +12,9 @@ function* rootSaga() {
     yield all([fork(helloSaga)])
 }
 
-const rootReducer = combineReducers({apiEntriesReducer},);
+const rootReducer = combineReducers({apiEntriesReducer});
+
+export type AppState = ReturnType<typeof rootReducer>;
 
 export const AppStore = createStore(rootReducer, middleware);
 

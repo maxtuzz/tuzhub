@@ -1,5 +1,5 @@
 import ApiEntry from "../../model/ApiEntry";
-import {ApiEntriesActionType, TApiEntryActions} from "./actions";
+import {ApiEntryActions, TApiEntryActions} from "./actions";
 
 interface IApiEntryState {
     readonly selectedApi: ApiEntry | undefined;
@@ -13,13 +13,13 @@ const initialState: IApiEntryState = {
     isLoading: false
 };
 
-export default function(state: IApiEntryState = initialState, action: TApiEntryActions) {
+export default function (state: IApiEntryState = initialState, action: TApiEntryActions) {
     switch (action.type) {
-        case ApiEntriesActionType.SET_SELECTED_API:
+        case ApiEntryActions.SET_SELECTED_API:
             return {...state, selectedApi: action.apiEntry};
-        case ApiEntriesActionType.SET_LOADING:
+        case ApiEntryActions.SET_LOADING:
             return {...state, isLoading: action.isLoading};
-        case ApiEntriesActionType.SET_API_ENTRIES:
+        case ApiEntryActions.SET_API_ENTRIES:
             return {...state, apiEntries: action.apiEntries};
         default:
             return state;
