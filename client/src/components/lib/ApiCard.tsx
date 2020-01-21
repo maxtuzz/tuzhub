@@ -1,29 +1,7 @@
 import React from "react";
 import ApiEntry from "../../model/ApiEntry";
-import styled from "styled-components";
 import Words from "./Words";
-
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 250px;
-  height: 200px;
-  margin-bottom: 20px;
-  margin-right: 20px;
-  padding: 20px; 
-  border-radius: 10px;
-  background-color: #2c2c30;
-`;
-
-const CardTitle = styled.div`
-  color: #b9bbbe;
-  font-size: 16px;
-  line-height: 1.3;
-  font-weight: 600;
-`;
+import {Card, CardTitle} from "./Card";
 
 type CardProps = {
     apiEntry: ApiEntry;
@@ -43,5 +21,6 @@ const ApiCard: React.FC<CardProps> = ({apiEntry}) => (
         </Words>
     </Card>
 );
+
 export default ApiCard;
 
