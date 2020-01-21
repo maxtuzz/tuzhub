@@ -1,13 +1,13 @@
 import React from "react";
 import ScreenArea from "./ScreenArea";
 import PageTitle from "../lib/PageTitle";
-import Text from "../lib/Text";
-import {ApiListContainer} from "../../containers/ApiListContainer";
+import Words from "../lib/Words";
+import ApiListContainer from "../../containers/ApiListContainer";
 
 const ApiScreen: React.FC = () => (
     <ScreenArea>
         <PageTitle>APIs</PageTitle>
-        <Text>Search for APIs </Text>
+        <Words>Discover organisation APIs</Words>
 
         <ApiListContainer/>
     </ScreenArea>

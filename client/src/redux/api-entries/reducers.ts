@@ -3,7 +3,7 @@ import {ApiEntryActions, TApiEntryActions} from "./actions";
 
 interface IApiEntryState {
     readonly selectedApi: ApiEntry | undefined;
-    readonly apiEntries: Array<ApiEntry>[];
+    readonly apiEntries: ApiEntry[];
     readonly isLoading: boolean;
 }
 
@@ -18,6 +18,7 @@ export default function (state: IApiEntryState = initialState, action: TApiEntry
         case ApiEntryActions.SET_SELECTED_API:
             return {...state, selectedApi: action.apiEntry};
         case ApiEntryActions.SET_LOADING:
+            console.log("called set loading: " + action.isLoading);
             return {...state, isLoading: action.isLoading};
         case ApiEntryActions.SET_API_ENTRIES:
             return {...state, apiEntries: action.apiEntries};

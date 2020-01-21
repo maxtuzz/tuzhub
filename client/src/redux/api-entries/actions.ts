@@ -31,7 +31,7 @@ export const fetchApis: ActionCreator<FetchApisAction> = () => ({
     type: ApiEntryActions.FETCH_APIS
 });
 
-export const setLoading: ActionCreator<SetLoadingAction> = (isLoading: boolean) => ({
+export const setLoadingApis: ActionCreator<SetLoadingAction> = (isLoading: boolean) => ({
     type: ApiEntryActions.SET_LOADING,
     isLoading: isLoading
 });

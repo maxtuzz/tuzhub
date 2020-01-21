@@ -1,10 +1,18 @@
 import {Dispatch} from "redux";
 import {fetchApis} from "../redux/api-entries/actions";
 import {connect} from "react-redux";
-import Button from "../components/lib/Button";
+import {AppState} from "../redux/AppStore";
+import ApiList from "../components/ApiList";
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  getApis: () => dispatch(fetchApis())
+const mapStateToProps = (state: AppState) => ({
+    apiEntries: state.apiEntriesReducer.apiEntries,
+    isLoading: state.apiEntriesReducer.isLoading
 });
 
-export const ApiListContainer = connect(null, mapDispatchToProps)(Button);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    getApis: () => dispatch(fetchApis())
+});
+
+const ApiListContainer = connect(mapStateToProps, mapDispatchToProps)(ApiList);
+
+export default ApiListContainer;

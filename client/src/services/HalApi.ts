@@ -2,6 +2,13 @@
  * The hateoas client service simply follows a supplied link for generic CRUD operations
  */
 export const HalApi = {
+    // First point of call, can act as base url
+    getApiEntries(): Promise<Response> {
+        return fetch("http://localhost:8090/api-entries", {
+            method: 'GET',
+        })
+            .then(resp => resp.json());
+    },
     get(url: string): Promise<Response> {
         return fetch(url, {
             method: 'GET',

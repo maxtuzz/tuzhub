@@ -10,7 +10,7 @@ const SidebarContainer = styled.div`
     align-items: flex-start;
     list-style: none;
     height: 100vh;
-    background-color: #252529;
+    background-color: #2c2c30;
     overflow-y: scroll;
     overflow-x: hidden;
  `;

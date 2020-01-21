@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React from "react";
+import ApiEntry from "../../model/ApiEntry";
 
 /**
  * Standard configurable button
@@ -16,7 +17,18 @@ const ButtonStyled = styled.button<{ primary?: boolean }>`
   border-radius: 3px;
 `;
 
-const Button = ({getApis}: { getApis: () => any }) => (
+interface Props {
+    apiEntries: ApiEntry[],
+    isLoading: boolean
+}
+
+interface Functions {
+    getApis: () => void
+}
+
+type ApiListProps = Props & Functions
+
+const Button = ({apiEntries, isLoading, getApis}: ApiListProps) => (
     <ButtonStyled onClick={getApis}/>
 );
 

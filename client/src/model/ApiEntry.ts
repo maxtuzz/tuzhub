@@ -3,6 +3,7 @@ import Hal from "./Hal";
 interface ApiEntry extends Hal {
     displayName: string;
     name: string;
+    description: string;
     dynamicConf: boolean;
     authEnabled: boolean;
 }

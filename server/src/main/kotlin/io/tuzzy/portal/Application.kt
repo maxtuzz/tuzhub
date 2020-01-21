@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import io.dinject.SystemContext
 import io.dinject.controller.WebRoutes
 import io.javalin.Javalin
-import io.javalin.http.Context
-import io.javalin.http.NotFoundResponse
+import io.javalin.core.util.Header
 import io.javalin.plugin.json.JavalinJackson
 import io.javalin.plugin.openapi.jackson.JacksonToJsonMapper.objectMapper
-import io.tuzzy.portal.api.ApiSpec
 
 fun main() {
     startServer(8090)
@@ -26,6 +24,10 @@ fun create(routes: List<WebRoutes>): Javalin {
     val app = Javalin.create() { config ->
         config.showJavalinBanner = false
         config.logIfServerNotStarted = true
+    }
+
+    app.before { ctx ->
+            ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
     }
 
     JavalinJackson.configure(
