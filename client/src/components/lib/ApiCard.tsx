@@ -1,12 +1,14 @@
 import React from "react";
 import ApiEntry from "../../model/ApiEntry";
 import styled from "styled-components";
+import Words from "./Words";
 
 const Card = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  
+  text-align: center;
   width: 250px;
   height: 200px;
   margin-bottom: 20px;
@@ -34,6 +36,11 @@ const ApiCard: React.FC<CardProps> = ({apiEntry}) => (
                 apiEntry.displayName
             }
         </CardTitle>
+        <Words>
+            {
+                apiEntry.description
+            }
+        </Words>
     </Card>
 );
 export default ApiCard;
