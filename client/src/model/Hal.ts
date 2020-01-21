@@ -1,8 +1,8 @@
 import {HalLinks} from "./HalLink";
 
-interface Hal {
+interface Hal<T = object> {
     _links?: HalLinks
-    _embedded?: object
+    _embedded?: T
 }
 
 export default Hal;
