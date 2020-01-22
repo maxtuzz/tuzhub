@@ -5,10 +5,11 @@ import {Card, CardTitle} from "./Card";
 
 type CardProps = {
     apiEntry: ApiEntry;
+    fadeInSeconds?: number;
 }
 
-const ApiCard: React.FC<CardProps> = ({apiEntry}) => (
-    <Card>
+const ApiCard: React.FC<CardProps> = ({apiEntry, fadeInSeconds = 0}) => (
+    <Card clickable fadeInFor={fadeInSeconds}>
         <CardTitle>
             {
                 apiEntry.displayName

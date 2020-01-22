@@ -19,14 +19,13 @@ const ListContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  //justify-content: center;
   width: 100%;
 `;
 
 const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis}) => {
     useEffect(() => {
         getApis()
-    }, []);
+    }, [getApis]);
 
     if (isLoading) {
         return <Words>Loading...</Words>
@@ -34,7 +33,11 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis}) => {
 
     return (
         <ListContainer>
-            {apiEntries.map(apiEntry => <ApiCard apiEntry={apiEntry}/>)}
+            {
+                apiEntries.map((apiEntry, index) => {
+                    return <ApiCard apiEntry={apiEntry} fadeInSeconds={0.5 * index}/>;
+                })
+            }
         </ListContainer>
     );
 };
