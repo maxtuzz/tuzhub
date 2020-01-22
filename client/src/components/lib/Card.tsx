@@ -21,6 +21,11 @@ export const Card = styled.div<{ clickable?: boolean, fadeInFor?: number }>`
   border-radius: 10px;
   background-color: #2c2c30;
   
+  @media (max-width: 1126px) {
+      width: 140px;
+      height: 100px;
+  }
+  
   ${props =>
     props.clickable && css`
         &:hover {
