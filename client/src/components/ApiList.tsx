@@ -35,7 +35,7 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis}) => {
         <ListContainer>
             {
                 apiEntries.map((apiEntry, index) => {
-                    return <ApiCard apiEntry={apiEntry} fadeInSeconds={0.5 * index}/>;
+                    return <ApiCard apiEntry={apiEntry} fadeInSeconds={0.5 * (index + 1)}/>;
                 })
             }
         </ListContainer>
