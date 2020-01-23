@@ -24,10 +24,11 @@ const SidebarMenu = styled.ul`
     padding-inline-start: 0;
 `;
 
-const SidebarHeader = styled.div`
+const SidebarHeader = styled(Link)`
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    text-decoration: none;
     gap: 16px;
     font-size: 16px;
     color: #FFF;
@@ -110,7 +111,7 @@ const Sidebar: React.FC = () => {
     return (
         <SidebarContainer>
             <SidebarMenu>
-                <SidebarHeader>
+                <SidebarHeader to="/">
                     {" "}
                     <FontAwesomeIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
                     <SidebarHeaderLabel>

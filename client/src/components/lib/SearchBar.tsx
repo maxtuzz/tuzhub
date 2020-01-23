@@ -30,7 +30,7 @@ const InputIcon = styled(FontAwesomeIcon)`
 const SearchBar = ({onChange}: { onChange: (e: React.ChangeEvent<HTMLInputElement>) => any }) => (
     <Form>
         <InputIcon icon={Icons.faSearch} color={"grey"}/>
-        <Input onChange={onChange} type="text" placeholder="Search"/>
+        <Input onChange={onChange} type="text" placeholder="Search" autoFocus/>
     </Form>
 );
 

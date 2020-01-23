@@ -44,9 +44,11 @@ export const Card = styled.div<{ clickable?: boolean, fadeInFor?: number }>`
   
   @keyframes fadein {
     from {
+        transform: scale(0);
         opacity: 0;
     }
     to {
+        transform: scale(1);
         opacity: 1;
     }
   }

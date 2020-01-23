@@ -61,13 +61,13 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis}) => {
                     :
                     <ListContainer>
                         {
-                            filteredApis.map((apiEntry, index) => {
-                                return <ApiCard
+                            filteredApis.map((apiEntry, index) =>
+                                <ApiCard
                                     key={index}
                                     apiEntry={apiEntry}
                                     fadeInSeconds={0.1 * (index + 1)}
-                                />;
-                            })
+                                />
+                            )
                         }
                     </ListContainer>
             }
