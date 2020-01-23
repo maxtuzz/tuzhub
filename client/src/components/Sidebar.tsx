@@ -19,7 +19,7 @@ const SidebarMenu = styled.ul`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 100%;  
+    width: 100%;
     list-style: none;
     padding-inline-start: 0;
 `;

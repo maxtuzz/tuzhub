@@ -13,8 +13,8 @@ export const Card = styled.div<{ clickable?: boolean, fadeInFor?: number }>`
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 250px;
-  height: 200px;
+  width: 230px;
+  height: 180px;
   margin-bottom: 20px;
   margin-right: 20px;
   padding: 20px; 

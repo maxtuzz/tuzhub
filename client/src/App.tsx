@@ -11,18 +11,17 @@ const Parent = styled.div`
   grid-template-columns: 250px 1fr;
   grid-template-rows: 72px 1fr;
   grid-template-areas:
-   //"sidebar head head head"
-   "sidebar main main main"
-   "sidebar main main main"
-   "sidebar main main main";
+  //"sidebar head head head"
+  "sidebar main main main"
+  "sidebar main main main"
+  "sidebar main main main";
 
    /* grid-container height = 100% of viewport height */
-   height: 100vh;
    
-   @media screen and (max-width: 1126px) {
-     grid-template-columns: 75px 1fr;
-     grid-template-rows: 72px 1fr;
-   }
+  @media screen and (max-width: 1126px) {
+    grid-template-columns: 75px 1fr;
+    grid-template-rows: 72px 1fr;
+  }
 `;
 
 const RoutableContent = styled.div`

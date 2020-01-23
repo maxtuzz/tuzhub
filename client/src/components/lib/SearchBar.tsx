@@ -5,21 +5,21 @@ import React from "react";
 
 const Form = styled.form`
   display: flex;
-  background-color: #2c2c30;
   flex-direction: row;
   align-items: center;
   margin-bottom: 24px;
   border-radius: 5px;
+  background-color: #2c2c30;
 `;
 
 const Input = styled.input`
   border: none; 
+  width: 95%;
+  height: 40px;
   background-color: #2c2c30;
   color: white;
   font-size: 16px;
   font-weight: 400;
-  width: 100%;
-  height: 40px;
 `;
 
 const InputIcon = styled(FontAwesomeIcon)`
@@ -27,10 +27,10 @@ const InputIcon = styled(FontAwesomeIcon)`
   padding-right: 10px;
 `;
 
-const SearchBar = () => (
+const SearchBar = ({onChange}: { onChange: (e: React.ChangeEvent<HTMLInputElement>) => any }) => (
     <Form>
         <InputIcon icon={Icons.faSearch} color={"grey"}/>
-        <Input type="text" placeholder="Search"/>
+        <Input onChange={onChange} type="text" placeholder="Search"/>
     </Form>
 );
 
