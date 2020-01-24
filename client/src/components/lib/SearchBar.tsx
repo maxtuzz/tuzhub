@@ -13,6 +13,7 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
+  outline: none;
   border: none; 
   width: 95%;
   height: 40px;

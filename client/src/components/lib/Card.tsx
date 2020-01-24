@@ -30,12 +30,12 @@ export const Card = styled.div<{ clickable?: boolean, fadeInFor?: number }>`
     props.clickable && css`
         &:hover {
           cursor: pointer;
-          background: #37373b
+          background: #37373b;
         }
   `}
   
   ${props =>
-     props.fadeInFor && css<{fadeInFor?: number}>`
+    props.fadeInFor && css<{ fadeInFor?: number }>`
         animation: fadein ${props => props.fadeInFor}s;
         -moz-animation: fadein ${props => props.fadeInFor}s; /* Firefox */
         -webkit-animation: fadein ${props => props.fadeInFor}s; /* Safari and Chrome */

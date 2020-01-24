@@ -1,18 +1,23 @@
 import React from "react";
+import {useParams} from "react-router-dom";
 import ScreenArea from "./ScreenArea";
 import PageTitle from "../lib/PageTitle";
-import ApiListContainer from "../../containers/ApiListContainer";
-import styled from "styled-components";
+import Words from "../lib/Words";
 
-const ApiScreenArea = styled(ScreenArea)`
-  padding-right: 50px;
-`;
+const ApiScreen: React.FC = () => {
+    let {name} = useParams();
 
-const ApiScreen: React.FC = () => (
-    <ApiScreenArea>
-        <PageTitle>Discover APIs</PageTitle>
-        <ApiListContainer/>
-    </ApiScreenArea>
-);
+    return (
+        <ScreenArea>
+            <PageTitle>
+                {name}
+            </PageTitle>
+
+            <Words>
+                this area will be replaced with a container that renders api spec
+            </Words>
+        </ScreenArea>
+    );
+};
 
 export default ApiScreen;

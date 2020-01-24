@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import * as Icons from "@fortawesome/free-solid-svg-icons"
 import {Link} from "react-router-dom";
+import {delayedWiggle} from "../styling/anims";
 
 const SidebarContainer = styled.div`
     display: flex;
@@ -29,13 +30,14 @@ const SidebarHeader = styled(Link)`
     align-items: center;
     justify-content: flex-start;
     text-decoration: none;
-    gap: 16px;
     font-size: 16px;
     color: #FFF;
     margin: 10px 30px 30px 0;
     padding-left: 30px;
     padding-bottom: 20px;
     border-bottom: 1px solid #2e2e33;
+    
+    ${delayedWiggle}
 `;
 
 const SidebarHeaderLabel = styled.div`
@@ -46,6 +48,10 @@ const SidebarHeaderLabel = styled.div`
   @media (max-width: 1126px) {
       display: none;
   }
+`;
+
+const SidebarHeaderIcon = styled(FontAwesomeIcon)`
+    padding-right: 16px;
 `;
 
 const SidebarMenuItem = styled.li`
@@ -60,7 +66,7 @@ const SidebarMenuItem = styled.li`
       color: #ffffff;
       cursor: pointer;
       background: rgba(255, 255, 255, 0.05);
-      box-shadow: inset 3px 0 0 0 #ffffff;
+      box-shadow: inset 3px 0 0 0 #51aec0;
     }
 `;
 
@@ -71,6 +77,7 @@ const MenuDivider = styled.hr`
   border-style: solid;
   margin-top: 20px;
   margin-bottom: 20px;
+  color: #848689;
 `;
 
 const SidebarMenuItemLabel = styled.p`
@@ -101,7 +108,7 @@ const Sidebar: React.FC = () => {
 
     for (let i = 0; i < 30; i++) {
         elements.push(
-            <SidebarMenuItem>
+            <SidebarMenuItem key={i}>
                 <FontAwesomeIcon icon={Icons.faCogs} color={"white"}/>
                 <SidebarMenuItemLabel>Test item #{i}</SidebarMenuItemLabel>
             </SidebarMenuItem>
@@ -112,8 +119,7 @@ const Sidebar: React.FC = () => {
         <SidebarContainer>
             <SidebarMenu>
                 <SidebarHeader to="/">
-                    {" "}
-                    <FontAwesomeIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
+                    <SidebarHeaderIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
                     <SidebarHeaderLabel>
                         Tuzzy Dev Portal
                     </SidebarHeaderLabel>
@@ -137,7 +143,6 @@ const Sidebar: React.FC = () => {
                         <SidebarMenuItemLabel>Configure</SidebarMenuItemLabel>
                     </SidebarMenuItem>
                 </StyledLink>
-
                 <MenuDivider/>
             </SidebarMenu>
             <SidebarMenu>
