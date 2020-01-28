@@ -1,5 +1,6 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import apiEntriesReducer from "./api-entries/reducers";
+import apiSpecReducer from "./api-entries/api-specs/reducers";
 import {all, fork} from "redux-saga/effects";
 import apiEntrySaga from "./api-entries/sagas"
 import apiSpecSaga from "./api-entries/api-specs/sagas"
@@ -13,7 +14,7 @@ function* rootSaga() {
     yield all([fork(apiEntrySaga), fork(apiSpecSaga)])
 }
 
-const rootReducer = combineReducers({apiEntriesReducer});
+const rootReducer = combineReducers({apiEntriesReducer, apiSpecReducer});
 
 export type AppState = ReturnType<typeof rootReducer>;
 

@@ -5,6 +5,7 @@ import io.dinject.SystemContext
 import io.dinject.controller.WebRoutes
 import io.javalin.Javalin
 import io.javalin.core.util.Header
+import io.javalin.http.staticfiles.Location
 import io.javalin.plugin.json.JavalinJackson
 import io.javalin.plugin.openapi.jackson.JacksonToJsonMapper.objectMapper
 
@@ -24,10 +25,11 @@ fun create(routes: List<WebRoutes>): Javalin {
     val app = Javalin.create() { config ->
         config.showJavalinBanner = false
         config.logIfServerNotStarted = true
+        config.addStaticFiles("public", Location.CLASSPATH)
     }
 
     app.before { ctx ->
-            ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+        ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
     }
 
     JavalinJackson.configure(
