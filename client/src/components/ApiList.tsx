@@ -39,7 +39,7 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis}) => {
         setFilteredApis(apiEntries);
     }, [apiEntries]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value;
 
         setFilteredApis(
@@ -53,7 +53,7 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis}) => {
 
     return (
         <Container>
-            <SearchBar onChange={handleChange}/>
+            <SearchBar onChange={searchInputChanged}/>
             {
                 isLoading
                     ?

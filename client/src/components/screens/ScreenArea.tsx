@@ -10,7 +10,6 @@ const ScreenArea = styled.div`
   color: white;
   padding: 20px 90px 20px 50px;
   font-family: "Roboto", sans-serif;
-  //height: 100vh;
 `;
 
 export default ScreenArea;

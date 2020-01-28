@@ -6,12 +6,13 @@ import ApiList from "../components/ApiList";
 
 const mapStateToProps = (state: AppState) => ({
     apiEntries: state.apiEntriesReducer.apiEntries,
-    isLoading: state.apiEntriesReducer.isLoading
+    isLoading: state.apiEntriesReducer.isLoading,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     getApis: () => dispatch(fetchApis())
 });
+
 
 const ApiListContainer = connect(mapStateToProps, mapDispatchToProps)(ApiList);
 

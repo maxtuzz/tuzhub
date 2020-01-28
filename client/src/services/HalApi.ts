@@ -1,13 +1,15 @@
 /**
  * The hateoas client service simply follows a supplied link for generic CRUD operations
  */
+
 export const HalApi = {
     // First point of call, can act as base url
     getApiEntries(): Promise<Response> {
         return fetch("http://localhost:8090/api-entries", {
             method: 'GET',
         })
-            .then(resp => resp.json());
+            .then(resp => resp.json())
+            .catch(error => error);
     },
     get(url: string): Promise<Response> {
         return fetch(url, {
@@ -26,6 +28,7 @@ export const HalApi = {
             },
         })
             .then(resp => resp.json())
+            .catch(error => error);
     },
     put(url: string): Promise<Response> {
         return fetch(url, {
@@ -33,11 +36,15 @@ export const HalApi = {
             headers: {
                 'Content-Type': 'application/json',
             },
-        }).then(resp => resp.json())
+        })
+            .then(resp => resp.json())
+            .catch(error => error);
     },
     delete(url: string): Promise<Response> {
         return fetch(url, {
             method: 'DELETE',
-        }).then(resp => resp.json())
+        })
+            .then(resp => resp.json())
+            .catch(error => error);
     },
 };

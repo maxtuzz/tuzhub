@@ -1,11 +1,19 @@
 import {Action, ActionCreator} from "redux";
 import ApiEntry from "../../model/ApiEntry";
+import Alert from "../../model/Alert";
 
 export enum ApiEntryActions {
+    SET_ALERT = "@@api-entries/SET_ALERT",
     FETCH_APIS = "@@api-entries/FETCH_APIS",
     SET_LOADING = "@@api-entries/SET_LOADING",
     SET_API_ENTRIES = "@@api-entries/SET_API_ENTRIES",
-    SET_SELECTED_API = "@@api-entries/SET_SELECTED_API"
+    SET_SELECTED_API = "@@api-entries/SET_SELECTED_API",
+    LOAD_API = "@@api-entries/LOAD_API"
+}
+
+export interface AlertAction extends Action {
+    type: ApiEntryActions.SET_ALERT,
+    alert: Alert
 }
 
 interface FetchApisAction extends Action {
@@ -14,18 +22,28 @@ interface FetchApisAction extends Action {
 
 interface SetLoadingAction extends Action {
     type: ApiEntryActions.SET_LOADING,
-    isLoading: boolean;
+    isLoading: boolean
 }
 
 interface SetApiEntriesAction extends Action {
     type: ApiEntryActions.SET_API_ENTRIES,
-    apiEntries: ApiEntry[];
+    apiEntries: ApiEntry[]
 }
 
-interface SetSelectedApiAction extends Action {
+export interface SetSelectedApiAction extends Action {
     type: ApiEntryActions.SET_SELECTED_API,
-    apiEntry: ApiEntry | undefined;
+    apiEntry: ApiEntry | undefined
 }
+
+export interface LoadApiAction extends Action {
+    type: ApiEntryActions.LOAD_API;
+    apiName: string
+}
+
+export const alertEntries: ActionCreator<AlertAction> = (alert: Alert) => ({
+    type: ApiEntryActions.SET_ALERT,
+    alert: alert
+});
 
 export const fetchApis: ActionCreator<FetchApisAction> = () => ({
     type: ApiEntryActions.FETCH_APIS
@@ -46,6 +64,13 @@ export const setSelectedApi: ActionCreator<SetSelectedApiAction> = (apiEntry: Ap
     apiEntry: apiEntry
 });
 
+export const loadApi: ActionCreator<LoadApiAction> = (apiName: string) => ({
+    type: ApiEntryActions.LOAD_API,
+    apiName: apiName
+});
+
 export type TApiEntryActions = SetLoadingAction
     | SetApiEntriesAction
-    | SetSelectedApiAction;
+    | SetSelectedApiAction
+    | LoadApiAction
+    | AlertAction;
