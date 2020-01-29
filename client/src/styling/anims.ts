@@ -5,8 +5,7 @@ import {css} from "styled-components";
  */
 const delayedWiggle = css`
     &:hover {
-      animation: wiggle 2.5s;
-      animation-iteration-count: infinite;
+      animation: wiggle 2.5s infinite;
     }
     
     @keyframes wiggle {
