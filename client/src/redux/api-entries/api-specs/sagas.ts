@@ -6,11 +6,11 @@ import ApiSpec from "../../../model/ApiSpec";
 import {HalApi} from "../../../services/HalApi";
 import Alert from "../../../model/Alert";
 import AlertType from "../../../model/AlertType";
+import {OpenAPI} from "../../../services/OpenAPI";
 
 function* fetchActive() {
     yield put(setSpecLoading(true));
 
-    // todo: Hmm this gets called before selected api is set so it fails
     const api: ApiEntry = yield select((state: AppState) => state.apiEntriesReducer.selectedApi);
 
     if (!api) {
@@ -24,9 +24,14 @@ function* fetchActive() {
         return;
     }
 
-    const spec: ApiSpec = yield call(HalApi.get, api._links.activeSpec.href);
+    const apiSpec: ApiSpec = yield call(HalApi.get, api._links.activeSpec.href);
 
-    yield put(loadSpec(spec));
+    const validation = yield call(OpenAPI.validate, apiSpec.spec);
+    console.log(validation);
+
+    apiSpec.document = yield call(OpenAPI.dereference, apiSpec.spec);
+
+    yield put(loadSpec(apiSpec));
 
     yield put(setSpecLoading(false));
 }

@@ -61,7 +61,7 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis}) => {
                     :
                     <ListContainer>
                         {
-                            filteredApis.map((apiEntry, index) =>
+                            filteredApis?.map((apiEntry, index) =>
                                 <ApiCard
                                     key={index}
                                     apiEntry={apiEntry}

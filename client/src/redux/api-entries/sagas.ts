@@ -13,6 +13,10 @@ function* getApiList() {
 }
 
 function* fetchApis() {
+    // Remove selected api
+    yield put(setSelectedApi(undefined));
+
+    // Start loading
     yield put(setLoadingApis(true));
 
     try {
