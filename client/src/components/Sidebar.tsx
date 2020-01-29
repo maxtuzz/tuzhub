@@ -7,9 +7,9 @@ import {delayedWiggle} from "../styling/anims";
 
 const SidebarContainer = styled.div`
     display: flex;
-    position: fixed;
     flex-direction: column;
     align-items: flex-start;
+    position: fixed;
     list-style: none;
     height: 100vh;
     background-color: #2c2c30;
