@@ -1,0 +1,459 @@
+openapi: 3.0.0
+info:
+  version: 2.1.0
+  title: Identity API V2
+  description: Access to identity information from University LDAP AD and EPR
+tags:
+  - name: Identity
+    description: Identity API endpoints
+paths:
+  /identity/:
+    get:
+      tags:
+        - Identity
+      summary: Find users by first or last name or both
+      description: >
+        Returns a collection of basic identity objects, only mandatory fields of
+        Identity object. Depending on user's privilege, some additional fields
+        may be included to the reponse (email, phone, etc.)
+      parameters:
+        - name: firstname
+          in: query
+          description: first name
+          required: false
+          schema:
+            type: string
+        - name: lastname
+          in: query
+          description: last name
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          description: results per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: from
+          in: query
+          description: results start from
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+      responses:
+        "200":
+          description: identity response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdentityResources"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "500":
+          description: Unexpected error
+  "/identity/{upiOrId}":
+    get:
+      tags:
+        - Identity
+      summary: Returns an identity object
+      description: >
+        'Returns an identity object for given upi or id. If user is querying
+        their own record,
+
+        or they have privilege to see other identities, the record returned will be complete
+
+        including subresources such as phones or addresses.'
+      parameters:
+        - name: upiOrId
+          in: path
+          description: UPI or University ID of identity
+          required: true
+          schema:
+            type: string
+        - name: includeGroups
+          in: query
+          description: Include groups in response or not
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: identity response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Identity"
+        "400":
+          description: Bad request (unsupported id)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Identity not found
+        "500":
+          description: Unexpected error
+        "501":
+          description: Unsupported operation (not implemented)
+  /identity/self:
+    get:
+      tags:
+        - Identity
+      summary: Returns an identity object
+      description: >
+        'Returns a complete identity object for currently logged in user,
+        including subresources such as phones or addresses.'
+      parameters:
+        - name: includeGroups
+          in: query
+          description: Include groups in response or not
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: identity response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Identity"
+        "400":
+          description: Bad request (unsupported id)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Identity not found
+        "500":
+          description: Unexpected error
+        "501":
+          description: Unsupported operation (not implemented)
+  /identity/me:
+    get:
+      tags:
+        - Identity
+      summary: Information about logged-in user
+      description: Returns current user information (very basic) as User object
+      responses:
+        "200":
+          description: User information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+        "500":
+          description: Unexpected error
+servers:
+  - url: http://localhost/service/identity/v2
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        timestamp:
+          type: number
+        status:
+          type: number
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+    EmergencyContact:
+      type: object
+      required:
+        - emailAddress
+        - lastUpdated
+        - name
+        - order
+        - phones
+        - relationship
+      properties:
+        emailAddress:
+          type: string
+        lastUpdated:
+          type: string
+          format: date-time
+        name:
+          type: string
+        order:
+          type: integer
+          format: int32
+        phones:
+          type: array
+          items:
+            $ref: "#/components/schemas/Phone"
+        relationship:
+          type: string
+    Email:
+      type: object
+      required:
+        - email
+        - order
+        - type
+        - verified
+      properties:
+        email:
+          type: string
+        lastUpdated:
+          type: string
+          format: date-time
+        order:
+          type: integer
+          format: int64
+        type:
+          type: string
+        verified:
+          type: boolean
+          example: false
+    User:
+      type: object
+      required:
+        - id
+        - username
+      properties:
+        email:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        personid:
+          type: string
+        username:
+          type: string
+    Address:
+      type: object
+      properties:
+        careOf:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        dpid:
+          type: string
+        lastUpdated:
+          type: string
+          format: date-time
+        line1:
+          type: string
+        line2:
+          type: string
+        line3:
+          type: string
+        postcode:
+          type: string
+        suburb:
+          type: string
+        type:
+          type: string
+    Deceased:
+      type: object
+      properties:
+        comments:
+          type: string
+        date:
+          type: string
+          format: date-time
+        dead:
+          type: boolean
+        deathCertificate:
+          type: string
+        place:
+          type: string
+    ExternalId:
+      type: object
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+    Disability:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+    Phone:
+      type: object
+      properties:
+        areaCode:
+          type: string
+        countryCode:
+          type: string
+        extension:
+          type: string
+        index:
+          type: integer
+          format: int32
+        lastUpdated:
+          type: string
+          format: date-time
+        number:
+          type: string
+        type:
+          type: string
+        typeId:
+          type: string
+        verified:
+          type: boolean
+    Country:
+      type: object
+      required:
+        - country
+        - countryId
+      properties:
+        country:
+          type: string
+        countryId:
+          type: string
+    Identity:
+      type: object
+      properties:
+        addresses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Address"
+        citizenships:
+          type: array
+          items:
+            $ref: "#/components/schemas/Country"
+        countryOfBirth:
+          $ref: "#/components/schemas/Country"
+        deceased:
+          $ref: "#/components/schemas/Deceased"
+        department:
+          type: string
+        disabilityInfo:
+          $ref: "#/components/schemas/DisabilityInfo"
+        displayName:
+          type: string
+        dob:
+          type: string
+        emailAddress:
+          type: string
+        emails:
+          type: array
+          items:
+            $ref: "#/components/schemas/Email"
+        emergencyContacts:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmergencyContact"
+        ethnicities:
+          type: array
+          items:
+            type: string
+        extIds:
+          type: array
+          items:
+            $ref: "#/components/schemas/ExternalId"
+        firstName:
+          type: string
+        gender:
+          type: string
+        groups:
+          type: array
+          items:
+            type: string
+        id:
+          type: integer
+          format: int64
+        idPhotoExists:
+          type: boolean
+        iwiAffiliations:
+          type: array
+          items:
+            type: string
+        jobTitle:
+          type: string
+        lastName:
+          type: string
+        mobile:
+          type: string
+        names:
+          type: array
+          items:
+            $ref: "#/components/schemas/IdentityName"
+        phones:
+          type: array
+          items:
+            $ref: "#/components/schemas/Phone"
+        primaryIdentity:
+          type: boolean
+        residency:
+          type: string
+        upi:
+          type: string
+        whenUpdated:
+          type: string
+          format: date-time
+    DisabilityInfo:
+      type: object
+      properties:
+        disabilities:
+          type: array
+          items:
+            $ref: "#/components/schemas/Disability"
+        disabilityPermanent:
+          type: boolean
+        disabilitySupport:
+          type: boolean
+        isDisabled:
+          type: boolean
+    IdentityResources:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Identity"
+    IdentityName:
+      type: object
+      properties:
+        first:
+          type: string
+        last:
+          type: string
+        lastUpdated:
+          type: string
+          format: date-time
+        middle:
+          type: string
+        suffix:
+          type: string
+        title:
+          type: string
+        type:
+          type: string

@@ -14,7 +14,8 @@ const PathTextContainer = styled.div`
 `;
 
 const VerbText = styled.code<{ put?: boolean, post?: boolean, delete?: boolean }>`
-  color: #4cff43;
+  color: #349d00;
+  font-weight: 800;
   
   ${props => props.post && css`
     color: coral;
