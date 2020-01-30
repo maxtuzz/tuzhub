@@ -10,6 +10,9 @@ import io.tuzzy.portal.api.Links
 @Controller
 @Path("/")
 class RootController {
+    /**
+     * Get meta.
+     */
     @Get
     fun getMeta(): HalResource {
         val halLinks = Links(self = HalLink("http//localhost:8090"))

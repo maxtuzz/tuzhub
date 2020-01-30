@@ -6,6 +6,7 @@ import {HalApi} from "../../services/HalApi";
 import ListResp from "../../model/ListResp";
 import Alert from "../../model/Alert";
 import AlertType from "../../model/AlertType";
+import {resetSpecPage} from "./api-specs/actions";
 
 function* getApiList() {
     const apis: ApiEntry[] = yield select((state: AppState) => state.apiEntriesReducer.apiEntries);
@@ -13,6 +14,9 @@ function* getApiList() {
 }
 
 function* fetchApis() {
+    // Reset any specs that are currently being stored in state
+    yield put(resetSpecPage());
+
     // Remove selected api
     yield put(setSelectedApi(undefined));
 

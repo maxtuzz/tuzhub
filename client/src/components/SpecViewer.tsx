@@ -28,19 +28,9 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
         return <Words>Loading specification ...</Words>
     }
 
-    // let objects: Array<JSX.Element> = [];
-
     const components = apiSpec.document.components;
 
     const docPaths = apiSpec.document.paths;
-    // for (let key in schemas) {
-    //     objects.push(
-    //         <div>
-    //             <Words>{key}</Words>
-    //             <code>{JSON.stringify(schemas[key])}</code>
-    //         </div>
-    //     )
-    // }
 
     return (
         <div>
@@ -51,7 +41,6 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
             <PathList docPaths={docPaths}/>
 
             <HeaderText>Objects</HeaderText>
-            {/*{objects}*/}
 
             <HeaderText>BaseUrl</HeaderText>
             {apiSpec?.document?.servers?.map((server, index) => <Words key={index}>{server.url}</Words>)}

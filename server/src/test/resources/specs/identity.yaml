@@ -64,7 +64,7 @@ paths:
           description: Not Found
         "500":
           description: Unexpected error
-  "/identity/{upiOrId}":
+  "/identity/{id}":
     get:
       tags:
         - Identity

@@ -11,6 +11,10 @@ import io.tuzzy.portal.service.ApiSpecService
 @Controller
 @Path("/api-entries/:apiName/specs")
 class ApiSpecController(private val specService: ApiSpecService) {
+    /**
+     * Get spec metadata.
+     * Returns collection of hateoas links resolving to all available specs for an api entry
+     */
     @Get
     fun getMeta(apiName: String, ctx: Context): HalResource {
         val links = Links()
@@ -31,6 +35,11 @@ class ApiSpecController(private val specService: ApiSpecService) {
         return HalResource(links)
     }
 
+
+    /**
+     * Get API spec.
+     * Version in this context is the version of the maintained spec in tuzzy portal
+     */
     @Get("/:specVersion")
     fun get(apiName: String, specVersion: String, ctx: Context): ApiSpec {
         val specByVersion = specService.getSpecByVersion(apiName, specVersion)
@@ -39,16 +48,25 @@ class ApiSpecController(private val specService: ApiSpecService) {
             .withHal(ctx)
     }
 
+    /**
+     * Create a new API spec.
+     */
     @Post
     fun create(apiName: String, apiSpec: ApiSpec) {
         specService.createSpecVersion(apiName, apiSpec)
     }
 
+    /**
+     * Update an API spec.
+     */
     @Put("/:specVersion")
     fun update(apiName: String, specVersion: String, apiSpec: ApiSpec) {
         specService.updateSpec(apiName, specVersion, apiSpec)
     }
 
+    /**
+     * Delete an API spec.
+     */
     @Delete("/:specVersion")
     fun delete(apiName: String, specVersion: String) {
         specService.deleteSpec(apiName, specVersion)

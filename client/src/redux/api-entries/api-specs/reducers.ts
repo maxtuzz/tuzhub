@@ -22,6 +22,8 @@ export default function (state: IApiSpecState = initialState, action: TApiSpecAc
             return {...state, isLoading: action.isLoading};
         case SpecActions.ALERT_SPEC:
             return {...state, alert: action.alert};
+        case SpecActions.RESET:
+            return initialState;
         default:
             return state;
     }

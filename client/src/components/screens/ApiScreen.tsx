@@ -4,6 +4,7 @@ import Words from "../lib/Words";
 import ApiInfoContainer from "../../containers/ApiInfoContainer";
 import {useParams} from "react-router-dom";
 import SpecContainer from "../../containers/SpecContainer";
+import FadeInDiv from "../lib/FadeInDiv";
 
 const ApiScreen: React.FC = () => {
     let {name} = useParams();
@@ -14,8 +15,10 @@ const ApiScreen: React.FC = () => {
 
     return (
         <ScreenArea>
-            <ApiInfoContainer apiName={name}/>
-            <SpecContainer/>
+            <FadeInDiv>
+                <ApiInfoContainer apiName={name}/>
+                <SpecContainer/>
+            </FadeInDiv>
         </ScreenArea>
     );
 };
