@@ -3,10 +3,10 @@ import {ApiEntryActions, TApiEntryActions} from "./actions";
 import Alert from "../../model/Alert";
 
 interface IApiEntryState {
-    readonly selectedApi: ApiEntry | undefined;
+    readonly selectedApi?: ApiEntry;
     readonly apiEntries: ApiEntry[];
     readonly isLoading: boolean;
-    readonly alert: Alert | undefined;
+    readonly alert?: Alert;
 }
 
 const initialState: IApiEntryState = {

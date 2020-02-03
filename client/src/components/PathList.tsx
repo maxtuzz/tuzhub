@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {OpenAPIV3} from "openapi-types";
 import HeaderText from "./lib/HeaderText";
 import ResourcePath from "./lib/ResourcePath";
+import SearchBar from "./lib/SearchBar";
 
 
 interface Props {
@@ -9,7 +10,30 @@ interface Props {
 }
 
 const PathList: React.FC<Props> = ({docPaths}) => {
-    const paths = Object.entries(docPaths).map(([key, resource]) => (
+    const [filteredPaths, setFilteredPaths] = useState(docPaths);
+
+    useEffect(() => {
+        setFilteredPaths(docPaths);
+    }, [docPaths]);
+
+    const searchInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const searchTerm = e.target.value;
+
+        setFilteredPaths(
+            Object.fromEntries(
+                Object.entries(docPaths).filter(([key, resource]) => {
+                    return resource.get?.summary?.includes(searchTerm)
+                        || resource.put?.summary?.includes(searchTerm)
+                        || resource.post?.summary?.includes(searchTerm)
+                        || resource.delete?.summary?.includes(searchTerm)
+                        || resource.patch?.summary?.includes(searchTerm)
+                        || key.includes(searchTerm)
+                })
+            )
+        );
+    };
+
+    const paths = Object.entries(filteredPaths).map(([key, resource]) => (
             <div>
                 {
                     resource.get &&
@@ -29,7 +53,6 @@ const PathList: React.FC<Props> = ({docPaths}) => {
                     resource.delete &&
                     <ResourcePath endpoint={key} verb="DELETE" pathItem={resource}/>
                 }
-
             </div>
         )
     );
@@ -37,6 +60,7 @@ const PathList: React.FC<Props> = ({docPaths}) => {
     return (
         <div>
             <HeaderText>Resources</HeaderText>
+            <SearchBar onChange={searchInputChanged} placeholder={"Search resources"}/>
             {paths}
         </div>
     );

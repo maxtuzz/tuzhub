@@ -53,7 +53,7 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis}) => {
 
     return (
         <Container>
-            <SearchBar onChange={searchInputChanged}/>
+            <SearchBar onChange={searchInputChanged} autofocus/>
             {
                 isLoading
                     ?

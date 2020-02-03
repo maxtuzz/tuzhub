@@ -1,0 +1,439 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "",
+    "version" : ""
+  },
+  "paths" : {
+    "/" : {
+      "get" : {
+        "summary" : "Get meta",
+        "description" : "",
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HalResource"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api-entries" : {
+      "get" : {
+        "summary" : "Get all API entries",
+        "description" : "",
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiEntry>"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create a new API entry",
+        "description" : "All API entries have a spec attached to them. This operation creates an initial spec based on supplied spec url\"",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ApiEntry"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "No content"
+          }
+        }
+      }
+    },
+    "/api-entries/:apiName/specs" : {
+      "get" : {
+        "summary" : "Get spec metadata",
+        "description" : "Returns collection of hateoas links resolving to all available specs for an api entry",
+        "parameters" : [ {
+          "name" : "apiName",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HalResource"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create a new API spec",
+        "description" : "",
+        "parameters" : [ {
+          "name" : "apiName",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ApiSpec"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "No content"
+          }
+        }
+      }
+    },
+    "/api-entries/:apiName/specs/:specVersion" : {
+      "get" : {
+        "summary" : "Get API spec",
+        "description" : "Version in this context is the version of the maintained spec in tuzzy portal",
+        "parameters" : [ {
+          "name" : "apiName",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "specVersion",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiSpec"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update an API spec",
+        "description" : "",
+        "parameters" : [ {
+          "name" : "apiName",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "specVersion",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ApiSpec"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No content"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete an API spec",
+        "description" : "",
+        "parameters" : [ {
+          "name" : "apiName",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "specVersion",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No content"
+          }
+        }
+      }
+    },
+    "/api-entries/:name" : {
+      "get" : {
+        "summary" : "Get API entry by name",
+        "description" : "",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update an API entry",
+        "description" : "",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ApiEntry"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No content"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete an API entry",
+        "description" : "",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No content"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "ApiEntry" : {
+        "type" : "object",
+        "properties" : {
+          "links" : {
+            "$ref" : "#/components/schemas/Links",
+            "nullable" : false
+          },
+          "embedded" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Object"
+            }
+          },
+          "specUrl" : {
+            "type" : "string"
+          },
+          "authEnabled" : {
+            "type" : "boolean",
+            "nullable" : false
+          },
+          "name" : {
+            "type" : "string",
+            "nullable" : false
+          },
+          "fullSpec" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Object"
+            }
+          },
+          "displayName" : {
+            "type" : "string",
+            "nullable" : false
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "dynamicConf" : {
+            "type" : "boolean",
+            "nullable" : false
+          }
+        }
+      },
+      "ApiEntry>" : {
+        "type" : "object",
+        "properties" : {
+          "links" : {
+            "$ref" : "#/components/schemas/Links",
+            "nullable" : false
+          },
+          "embedded" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Object"
+            }
+          },
+          "content" : {
+            "type" : "array",
+            "nullable" : false,
+            "items" : {
+              "$ref" : "#/components/schemas/T"
+            }
+          }
+        }
+      },
+      "ApiSpec" : {
+        "type" : "object",
+        "properties" : {
+          "links" : {
+            "$ref" : "#/components/schemas/Links",
+            "nullable" : false
+          },
+          "embedded" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Object"
+            }
+          },
+          "apiName" : {
+            "type" : "string"
+          },
+          "specVersion" : {
+            "type" : "string",
+            "nullable" : false
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/SpecStatus",
+            "nullable" : false
+          },
+          "specUrl" : {
+            "type" : "string"
+          },
+          "spec" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Object"
+            }
+          }
+        }
+      },
+      "HalLink" : {
+        "type" : "object",
+        "properties" : {
+          "href" : {
+            "type" : "string",
+            "nullable" : false
+          }
+        }
+      },
+      "HalResource" : {
+        "type" : "object",
+        "properties" : {
+          "links" : {
+            "$ref" : "#/components/schemas/Links",
+            "nullable" : false
+          },
+          "embedded" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Object"
+            }
+          }
+        }
+      },
+      "Links" : {
+        "type" : "object",
+        "properties" : {
+          "links" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/HalLink"
+            }
+          },
+          "self" : {
+            "$ref" : "#/components/schemas/HalLink"
+          }
+        }
+      },
+      "Object" : {
+        "type" : "object"
+      },
+      "SpecStatus" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "ordinal" : {
+            "type" : "integer",
+            "format" : "int32",
+            "nullable" : false
+          }
+        }
+      },
+      "T" : {
+        "type" : "object"
+      }
+    }
+  }
+}

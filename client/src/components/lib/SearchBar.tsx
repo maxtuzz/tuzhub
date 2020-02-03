@@ -28,10 +28,19 @@ const InputIcon = styled(FontAwesomeIcon)`
   padding-right: 10px;
 `;
 
-const SearchBar = ({onChange}: { onChange: (e: React.ChangeEvent<HTMLInputElement>) => any }) => (
+interface Props {
+    placeholder?: string
+    autofocus?: boolean
+}
+
+interface Functions {
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => any
+}
+
+const SearchBar: React.FC<Props & Functions> = ({onChange, placeholder, autofocus }) => (
     <Form>
         <InputIcon icon={Icons.faSearch} color={"grey"}/>
-        <Input onChange={onChange} type="text" placeholder="Search" autoFocus/>
+        <Input onChange={onChange} type="text" placeholder={placeholder ? placeholder : "Search"} autoFocus={autofocus}/>
     </Form>
 );
 

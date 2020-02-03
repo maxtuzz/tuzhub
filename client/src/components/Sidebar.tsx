@@ -121,6 +121,7 @@ const Sidebar: React.FC = () => {
             <SidebarMenu>
                 <SidebarHeader to="/">
                     <SidebarHeaderIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
+
                     <SidebarHeaderLabel>
                         Tuzzy Dev Portal
                     </SidebarHeaderLabel>

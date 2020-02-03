@@ -11,7 +11,7 @@ const PathContainer = styled.div`
       color: #ffffff;
       cursor: pointer;
       background: rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
+      border-radius: 5px;
   }
 `;
 
@@ -50,7 +50,7 @@ interface Props {
 }
 
 const ResourcePath: React.FC<Props> = ({endpoint, verb, pathItem}) => {
-    const getOperation: () => (OpenAPIV3.OperationObject | undefined)  = () => {
+    const getOperation: () => (OpenAPIV3.OperationObject | undefined) = () => {
         switch (verb) {
             case "GET":
                 return pathItem.get;

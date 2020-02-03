@@ -2,7 +2,6 @@ package io.tuzzy.portal.web
 
 import io.dinject.controller.*
 import io.javalin.http.Context
-import io.swagger.v3.oas.annotations.Operation
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.api.HalLink
 import io.tuzzy.portal.api.Links
@@ -28,7 +27,6 @@ class ApiEntryController(private val apiEntryService: ApiEntryService) {
     /**
      * Get all API entries.
      */
-    @Operation(summary = "Get all API entries")
     @Get
     fun getAll(ctx: Context): ListResponse<ApiEntry> {
         val apiEntries = apiEntryService.getApiEntries(ctx)
