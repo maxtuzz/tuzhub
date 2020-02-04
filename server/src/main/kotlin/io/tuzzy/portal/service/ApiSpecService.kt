@@ -1,5 +1,6 @@
 package io.tuzzy.portal.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.javalin.http.ForbiddenResponse
 import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.api.ApiSpec
@@ -8,11 +9,14 @@ import io.tuzzy.portal.domain.DApiSpec
 import io.tuzzy.portal.domain.SpecStatus
 import io.tuzzy.portal.domain.query.QDApiEntry
 import io.tuzzy.portal.domain.query.QDApiSpec
+import org.slf4j.LoggerFactory
 import javax.inject.Singleton
 
 
 @Singleton
 class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     /**
      * Returns the active api spec for an api entry
      */
@@ -141,8 +145,27 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
 
         val jsonSpec = remoteOpenAPIService.getJson(apiSpec.specUrl!!)
 
+        if (compareSpecs(apiSpec.spec, jsonSpec)) return
+
+        logger.info("New version detected for ${apiSpec.apiEntry.name}/${apiSpec.specVersion}")
+
         apiSpec.spec = jsonSpec
         apiSpec.save()
+    }
+
+    private fun compareSpecs(
+        spec1: Map<String, Any>?,
+        spec2: Map<String, Any>
+    ): Boolean {
+        val mapper = ObjectMapper()
+        val currentSpec = mapper.writeValueAsString(spec1)
+        val newSpec = mapper.writeValueAsString(spec2)
+
+        if (currentSpec == newSpec) {
+            return true
+        }
+
+        return false
     }
 
     /**

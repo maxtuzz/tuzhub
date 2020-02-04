@@ -6,6 +6,7 @@ import {OpenAPIV3} from "openapi-types";
 const PathContainer = styled.div`
   margin-bottom: 10px;
   padding: 10px 10px 30px 20px;
+  transition: 0.3s;
   
   &:hover {
       color: #ffffff;

@@ -4,7 +4,6 @@ import HeaderText from "./lib/HeaderText";
 import ResourcePath from "./lib/ResourcePath";
 import SearchBar from "./lib/SearchBar";
 
-
 interface Props {
     docPaths: OpenAPIV3.PathsObject
 }
@@ -22,6 +21,7 @@ const PathList: React.FC<Props> = ({docPaths}) => {
         setFilteredPaths(
             Object.fromEntries(
                 Object.entries(docPaths).filter(([key, resource]) => {
+                    // Todo: add filter by verb
                     return resource.get?.summary?.includes(searchTerm)
                         || resource.put?.summary?.includes(searchTerm)
                         || resource.post?.summary?.includes(searchTerm)
