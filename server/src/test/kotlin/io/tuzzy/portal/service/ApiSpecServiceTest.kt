@@ -13,15 +13,13 @@ import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
-import java.util.*
 import kotlin.test.assertFailsWith
 
 internal class ApiSpecServiceTest {
     private lateinit var specService: ApiSpecService
 
     private val apiName = "empire-api"
-    private val updateSpecUrl =
-        "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/uspto.yaml"
+    private val updateSpecUrl = "specs/uspto.yaml"
 
     @BeforeEach
     fun setup() {
@@ -34,7 +32,7 @@ internal class ApiSpecServiceTest {
         val spec = DApiSpec(
             apiEntry = entry,
             status = SpecStatus.ACTIVE,
-            specUrl = "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore-expanded.yaml"
+            specUrl = "specs/petstore.yaml"
         )
 
         spec.save()
@@ -55,13 +53,13 @@ internal class ApiSpecServiceTest {
         DApiSpec(
             apiEntry = entry,
             status = SpecStatus.PRE_RELEASE,
-            specUrl = "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore-expanded.yaml"
+            specUrl = "spec/petstore.yaml"
         ).save()
 
         DApiSpec(
             apiEntry = entry,
             status = SpecStatus.HISTORIC,
-            specUrl = "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore-expanded.yaml"
+            specUrl = "specs/petstore.yaml"
         ).save()
 
         val specs: List<DApiSpec> = specService.getPollableSpecs()
@@ -105,7 +103,7 @@ internal class ApiSpecServiceTest {
     @Test
     fun `Update spec`() {
         val updateSpecVersion = "v2"
-        val specUrl = "https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
+        val specUrl = "specs/identity.yaml"
 
         val updateReq = ApiSpec(
             specVersion = updateSpecVersion,

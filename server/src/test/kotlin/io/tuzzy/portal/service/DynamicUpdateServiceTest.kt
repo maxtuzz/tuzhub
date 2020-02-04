@@ -16,7 +16,7 @@ class DynamicUpdateServiceTest {
         // Wire up dependencies
         dynamicUpdateService = DynamicUpdateService(
             ApiSpecService(
-                RemoteOpenAPIService() // <-- could be mocked honestly - probably don't need to test these integrations
+                RemoteOpenAPIService()
             )
         )
     }

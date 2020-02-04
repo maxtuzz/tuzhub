@@ -19,7 +19,7 @@ class ApiEntryServiceTest {
         apiEntryService = ApiEntryService(RemoteOpenAPIService())
         dummyEntry = ApiEntry(
             displayName = "Jedi Order",
-            specUrl = "https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
+            specUrl = "specs/petstore.yaml"
         )
     }
 

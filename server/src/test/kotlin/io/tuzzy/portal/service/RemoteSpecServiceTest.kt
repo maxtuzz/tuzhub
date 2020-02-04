@@ -21,7 +21,6 @@ internal class RemoteSpecServiceTest {
     fun `Get remote spec`() {
         val openAPI =
             remoteOpenAPIService.get(specUrl)
-
         assertThat(openAPI.info?.title?.toLowerCase()).contains("petstore")
     }
 

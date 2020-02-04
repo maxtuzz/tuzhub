@@ -1,6 +1,6 @@
 {
   "displayName": "Identity API",
   "description": "The identity API acts as the organisations main entry point for interacting with user data",
-  "specUrl": "https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml",
+  "specUrl": "specs/identity.yaml",
   "authEnabled": false
 }

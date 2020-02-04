@@ -1,5 +1,5 @@
 {
   "specVersion": "v2-dev",
-  "specUrl": "https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml",
+  "specUrl": "specs/petstore.yaml",
   "status": "ACTIVE"
 }

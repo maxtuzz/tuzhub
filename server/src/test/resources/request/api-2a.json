@@ -1,6 +1,6 @@
 {
   "displayName": "Order Service API",
   "description": "The Order Service API manages all orders in our system, including distribution and shipping allocations",
-  "specUrl": "https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml",
+  "specUrl": "specs/petstore.yaml",
   "authEnabled": true
 }
