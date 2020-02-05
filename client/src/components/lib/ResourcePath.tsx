@@ -1,17 +1,23 @@
 import SubHeaderText from "./SubHeaderText";
-import React from "react";
+import React, {useState} from "react";
 import styled, {css} from "styled-components";
 import {OpenAPIV3} from "openapi-types";
+import Words from "./Words";
 
-const PathContainer = styled.div`
+const AccordionContainer = styled.div`
   margin-bottom: 10px;
+`;
+
+const PathAccordionHeader = styled.div<{ open: boolean }>`
   padding: 10px 10px 30px 20px;
   transition: 0.3s;
+  
+  background-color: ${props => props.open && `rgba(255, 255, 255, 0.05)`};
   
   &:hover {
       color: #ffffff;
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.05);
+      background-color: rgba(255, 255, 255, 0.05);
       border-radius: 5px;
   }
 `;
@@ -42,6 +48,16 @@ const PathLabel = styled.code`
   padding-left: 10px;
 `;
 
+const Content = styled.div<{ open: boolean }>`
+  border-radius: 0 0 5px 5px;
+  background-color: rgba(255, 255, 255, 0.05);
+  opacity: ${props => (props.open ? "1" : "0")};
+  max-height: ${props => (props.open ? `auto` : "0")};
+  overflow: hidden;
+  padding: ${props => (props.open ? "15px 15px" : "0 15px")};
+  transition: all 0.3s;
+`;
+
 type Verb = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 interface Props {
@@ -51,6 +67,8 @@ interface Props {
 }
 
 const ResourcePath: React.FC<Props> = ({endpoint, verb, pathItem}) => {
+    const [opened, setOpened] = useState(false);
+
     const getOperation: () => (OpenAPIV3.OperationObject | undefined) = () => {
         switch (verb) {
             case "GET":
@@ -67,13 +85,22 @@ const ResourcePath: React.FC<Props> = ({endpoint, verb, pathItem}) => {
     };
 
     return (
-        <PathContainer>
-            <SubHeaderText>{getOperation()?.summary}</SubHeaderText>
-            <PathTextContainer>
-                <VerbLabel verb={verb}>{verb}</VerbLabel>
-                <PathLabel>{endpoint}</PathLabel>
-            </PathTextContainer>
-        </PathContainer>
+        <AccordionContainer>
+            <PathAccordionHeader open={opened} onClick={() => setOpened(!opened)}>
+                <SubHeaderText>{getOperation()?.summary}</SubHeaderText>
+                <PathTextContainer>
+                    <VerbLabel verb={verb}>{verb}</VerbLabel>
+                    <PathLabel>{endpoint}</PathLabel>
+                </PathTextContainer>
+            </PathAccordionHeader>
+
+            <Content open={opened}>
+                {
+                    getOperation()?.description &&
+                    <Words>{getOperation()?.description}</Words>
+                }
+            </Content>
+        </AccordionContainer>
     );
 };
 
