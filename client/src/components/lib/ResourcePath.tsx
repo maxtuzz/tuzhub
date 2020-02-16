@@ -13,12 +13,13 @@ const PathAccordionHeader = styled.div<{ open: boolean }>`
   transition: 0.3s;
   
   background-color: ${props => props.open && `rgba(255, 255, 255, 0.05)`};
+  border-radius: 5px 5px 0 0;
   
   &:hover {
       color: #ffffff;
       cursor: pointer;
       background-color: rgba(255, 255, 255, 0.05);
-      border-radius: 5px;
+      border-radius: ${props => props.open ? `5px 5px 0 0` : `5px`};
   }
 `;
 
@@ -97,8 +98,20 @@ const ResourcePath: React.FC<Props> = ({endpoint, verb, pathItem}) => {
             <Content open={opened}>
                 {
                     getOperation()?.description &&
+                        <div>
+                            <Words>Description</Words>
                     <Words>{getOperation()?.description}</Words>
+                        </div>
                 }
+                <Words>Responses</Words>
+                 <code>
+                     <pre>
+                        {
+                            JSON.stringify(getOperation()?.responses, null, 2)
+                        }
+                     </pre>
+                 </code>
+
             </Content>
         </AccordionContainer>
     );

@@ -16,17 +16,17 @@ const PathList: React.FC<Props> = ({docPaths}) => {
     }, [docPaths]);
 
     const searchInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const searchTerm = e.target.value;
+        const searchTerm = e.target.value.toLowerCase();
 
         setFilteredPaths(
             Object.fromEntries(
                 Object.entries(docPaths).filter(([key, resource]) => {
                     // Todo: add filter by verb
-                    return resource.get?.summary?.includes(searchTerm)
-                        || resource.put?.summary?.includes(searchTerm)
-                        || resource.post?.summary?.includes(searchTerm)
-                        || resource.delete?.summary?.includes(searchTerm)
-                        || resource.patch?.summary?.includes(searchTerm)
+                    return resource.get?.summary?.toLowerCase().includes(searchTerm)
+                        || resource.put?.summary?.toLowerCase().includes(searchTerm)
+                        || resource.post?.summary?.toLowerCase().includes(searchTerm)
+                        || resource.delete?.summary?.toLowerCase().includes(searchTerm)
+                        || resource.patch?.summary?.toLowerCase().includes(searchTerm)
                         || key.includes(searchTerm)
                 })
             )
