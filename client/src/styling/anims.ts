@@ -17,6 +17,28 @@ const delayedWiggle = css`
   }
 `;
 
+/**
+ * Can be added to any styled component to add a fade in and down effect upon rendering
+ */
+const fadeIn = css`
+    animation: fadein 0.3s;
+    -moz-animation: fadein 0.3s; /* Firefox */
+    -webkit-animation: fadein 0.3s; /* Safari and Chrome */
+    -o-animation: fadein 0.3s; /* Opera */
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+`;
+
 export {
-    delayedWiggle
+    delayedWiggle,
+    fadeIn
 };

@@ -3,6 +3,9 @@ import React, {useState} from "react";
 import styled, {css} from "styled-components";
 import {OpenAPIV3} from "openapi-types";
 import Words from "./Words";
+import ExpandableContent from "./ExpandableContent";
+import RequestBodyView from "../RequestBodyView";
+import ResponseBodyView from "../ResponseBodyView";
 
 const AccordionContainer = styled.div`
   margin-bottom: 10px;
@@ -21,6 +24,12 @@ const PathAccordionHeader = styled.div<{ open: boolean }>`
       background-color: rgba(255, 255, 255, 0.05);
       border-radius: ${props => props.open ? `5px 5px 0 0` : `5px`};
   }
+`;
+
+const ExpandableResourceContent = styled(ExpandableContent)<{ open: boolean }>`
+  border-radius: 0 0 5px 5px;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: ${props => (props.open ? "15px 15px" : "0 15px")};
 `;
 
 const PathTextContainer = styled.div`
@@ -49,15 +58,10 @@ const PathLabel = styled.code`
   padding-left: 10px;
 `;
 
-const Content = styled.div<{ open: boolean }>`
-  border-radius: 0 0 5px 5px;
-  background-color: rgba(255, 255, 255, 0.05);
-  opacity: ${props => (props.open ? "1" : "0")};
-  max-height: ${props => (props.open ? `auto` : "0")};
-  overflow: hidden;
-  padding: ${props => (props.open ? "15px 15px" : "0 15px")};
-  transition: all 0.3s;
+const DescriptionHeader = styled.h4`
+  margin-top: 0;
 `;
+
 
 type Verb = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -85,6 +89,10 @@ const ResourcePath: React.FC<Props> = ({endpoint, verb, pathItem}) => {
         }
     };
 
+    const requestBody = getOperation()?.requestBody as OpenAPIV3.RequestBodyObject | undefined;
+
+    const description = getOperation()?.description;
+
     return (
         <AccordionContainer>
             <PathAccordionHeader open={opened} onClick={() => setOpened(!opened)}>
@@ -95,24 +103,24 @@ const ResourcePath: React.FC<Props> = ({endpoint, verb, pathItem}) => {
                 </PathTextContainer>
             </PathAccordionHeader>
 
-            <Content open={opened}>
+            <ExpandableResourceContent open={opened}>
                 {
-                    getOperation()?.description &&
-                        <div>
-                            <Words>Description</Words>
-                    <Words>{getOperation()?.description}</Words>
-                        </div>
+                    description &&
+                    <div>
+                        <DescriptionHeader>Description</DescriptionHeader>
+                        <Words>{getOperation()?.description}</Words>
+                    </div>
                 }
-                <Words>Responses</Words>
-                 <code>
-                     <pre>
-                        {
-                            JSON.stringify(getOperation()?.responses, null, 2)
-                        }
-                     </pre>
-                 </code>
 
-            </Content>
+                {
+                    requestBody && <RequestBodyView requestBody={requestBody} noTopMargin={!description}/>
+                }
+
+                {
+                    getOperation()?.responses && <ResponseBodyView responseBody={getOperation()?.responses}
+                                                                   noTopMargin={!description}/>
+                }
+            </ExpandableResourceContent>
         </AccordionContainer>
     );
 };

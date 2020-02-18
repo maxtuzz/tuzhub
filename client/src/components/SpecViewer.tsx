@@ -3,7 +3,6 @@ import Alert from "../model/Alert";
 import React, {useEffect} from "react";
 import Words from "./lib/Words";
 import ApiEntry from "../model/ApiEntry";
-import HeaderText from "./lib/HeaderText";
 import PathList from "./PathList";
 
 interface Props {
@@ -28,8 +27,6 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
         return <Words>Loading specification ...</Words>
     }
 
-    const components = apiSpec.document.components;
-
     const docPaths = apiSpec.document.paths;
 
     return (
@@ -39,12 +36,6 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
             </Words>
 
             <PathList docPaths={docPaths}/>
-
-            <HeaderText>Objects</HeaderText>
-
-            <HeaderText>BaseUrl</HeaderText>
-            {apiSpec?.document?.servers?.map((server, index) => <Words key={index}>{server.url}</Words>)}
-            <code>{JSON.stringify(components?.schemas, null, 4)}</code>
         </div>
     );
 };
