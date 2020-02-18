@@ -15,6 +15,11 @@ const AccordionHeaderContainer = styled.div`
   }
 `;
 
+const ChevronIcon = styled(FontAwesomeIcon)<{open: boolean}>`
+  transition: all 0.3s ease-out;
+  transform: ${props => (props.open ? `rotate(90deg)` : "rotate(0deg)")};
+`;
+
 const AccordionHeaderStyled = styled.h4<{ noTopMargin?: boolean }>`
   margin-top: ${props => props.noTopMargin && 0};
   margin-bottom: 0;
@@ -33,7 +38,7 @@ const AccordionHeader: React.FC<Props> = ({open, noTopMargin, children, onClick}
         <AccordionHeaderStyled noTopMargin={noTopMargin}>
             {children}
         </AccordionHeaderStyled>
-        <FontAwesomeIcon icon={open ? Icons.faChevronRight : Icons.faChevronUp} size={"sm"}/>
+        <ChevronIcon open={open} icon={Icons.faChevronRight} size={"sm"}/>
     </AccordionHeaderContainer>
 );
 
