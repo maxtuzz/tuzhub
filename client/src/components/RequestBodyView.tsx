@@ -3,19 +3,8 @@ import {OpenAPIV3} from "openapi-types";
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import {monokai} from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import Words from "./lib/Words";
-import styled from "styled-components";
 import ExpandableContent from "./lib/ExpandableContent";
-
-const AccordionHeader = styled.h4<{ noTopMargin?: boolean }>`
-  margin-top: ${props => props.noTopMargin && 0};
-  margin-bottom: 0;
- 
-  &:hover {
-     width: 100%;
-     cursor: pointer;
-  }
-`;
-
+import AccordionHeader from "./lib/AccordionHeader";
 
 interface Props {
     requestBody?: OpenAPIV3.RequestBodyObject,
@@ -41,7 +30,11 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
 
     return (
         <div>
-            <AccordionHeader noTopMargin={noTopMargin} onClick={() => setOpen(!open)}>Requests</AccordionHeader>
+            <AccordionHeader open={open}
+                             noTopMargin={noTopMargin}
+                             onClick={() => setOpen(!open)}>
+                Requests
+            </AccordionHeader>
             <ExpandableContent open={open}>
                 <SyntaxHighlighter language="json" style={monokai}>
                     {jsonRequest}

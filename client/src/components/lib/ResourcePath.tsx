@@ -90,6 +90,7 @@ const ResourcePath: React.FC<Props> = ({endpoint, verb, pathItem}) => {
     };
 
     const requestBody = getOperation()?.requestBody as OpenAPIV3.RequestBodyObject | undefined;
+    const responseBody = getOperation()?.responses;
 
     const description = getOperation()?.description;
 
@@ -113,12 +114,13 @@ const ResourcePath: React.FC<Props> = ({endpoint, verb, pathItem}) => {
                 }
 
                 {
-                    requestBody && <RequestBodyView requestBody={requestBody} noTopMargin={!description}/>
+                    requestBody &&
+                    <RequestBodyView requestBody={requestBody} noTopMargin={!description}/>
                 }
 
                 {
-                    getOperation()?.responses && <ResponseBodyView responseBody={getOperation()?.responses}
-                                                                   noTopMargin={!description}/>
+                    responseBody &&
+                    <ResponseBodyView responseBody={responseBody} noTopMargin={!description && !requestBody}/>
                 }
             </ExpandableResourceContent>
         </AccordionContainer>
