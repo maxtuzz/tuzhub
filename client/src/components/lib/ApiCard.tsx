@@ -4,11 +4,18 @@ import Words from "./Words";
 import {Card, CardTitle} from "./Card";
 import Linkable from "./Linkable";
 import {useRouteMatch} from "react-router-dom";
+import styled from "styled-components";
 
 type CardProps = {
     apiEntry: ApiEntry;
     fadeInSeconds?: number;
 }
+
+const CardContent = styled(Words)`
+    @media (max-width: 1126px) {
+      display: none;
+    }
+`;
 
 const ApiCard: React.FC<CardProps> = ({apiEntry, fadeInSeconds = 0}) => {
     let {url} = useRouteMatch();
@@ -21,11 +28,11 @@ const ApiCard: React.FC<CardProps> = ({apiEntry, fadeInSeconds = 0}) => {
                         apiEntry.displayName
                     }
                 </CardTitle>
-                <Words>
+                <CardContent>
                     {
                         apiEntry.description
                     }
-                </Words>
+                </CardContent>
             </Card>
         </Linkable>
     );

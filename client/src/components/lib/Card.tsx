@@ -36,10 +36,10 @@ export const Card = styled.div<{ clickable?: boolean, fadeInFor?: number }>`
   
   ${props =>
     props.fadeInFor && css<{ fadeInFor?: number }>`
-        animation: cardFadeIn ${props => props.fadeInFor}s;
-        -moz-animation: cardFadeIn ${props => props.fadeInFor}s; /* Firefox */
-        -webkit-animation: cardFadeIn ${props => props.fadeInFor}s; /* Safari and Chrome */
-        -o-animation: cardFadeIn ${props => props.fadeInFor}s; /* Opera */
+        animation: cardFadeIn ${props.fadeInFor}s;
+        -moz-animation: cardFadeIn ${props.fadeInFor}s; /* Firefox */
+        -webkit-animation: cardFadeIn ${props.fadeInFor}s; /* Safari and Chrome */
+        -o-animation: cardFadeIn ${props.fadeInFor}s; /* Opera */
   `}
   
   @keyframes cardFadeIn {
