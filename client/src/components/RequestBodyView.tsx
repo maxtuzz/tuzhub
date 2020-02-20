@@ -28,12 +28,14 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
         }
     });
 
+    const headerTitle = `Requests ${requestBody.required ? "(required)" : ""}`;
+
     return (
         <div>
             <AccordionHeader open={open}
                              noTopMargin={noTopMargin}
                              onClick={() => setOpen(!open)}>
-                Requests
+                {headerTitle}
             </AccordionHeader>
             <ExpandableContent open={open}>
                 <SyntaxHighlighter language="json" style={monokai}>

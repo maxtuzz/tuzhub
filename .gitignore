@@ -6,3 +6,4 @@ target/
 /server/.classpath
 /server/.project
 /flutter_client/
+/client/node_modules

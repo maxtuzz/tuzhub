@@ -24,5 +24,11 @@ enum class SpecStatus {
     /**
      * Historic specs are persisted but aren't maintained through dynamic config
      */
-    HISTORIC
+    HISTORIC,
+
+    /**
+     * Deprecated specs are older specs that are still polled for updates but are marked as deprecated so that users
+     * are aware it is ending it's end-of-life
+     */
+    DEPRECATED
 }

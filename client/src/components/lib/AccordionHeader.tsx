@@ -3,7 +3,9 @@ import React from "react";
 import * as Icons from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-const AccordionHeaderContainer = styled.div`
+const AccordionHeaderContainer = styled.div<{ noTopMargin?: boolean }>`
+  margin-top: ${props => props.noTopMargin ? 0 : 24}px;
+  
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -15,15 +17,25 @@ const AccordionHeaderContainer = styled.div`
   }
 `;
 
-const ChevronIcon = styled(FontAwesomeIcon)<{open: boolean}>`
-  transition: all 0.3s ease-out;
-  transform: ${props => (props.open ? `rotate(90deg)` : "rotate(0deg)")};
+const ChevronContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
-const AccordionHeaderStyled = styled.h4<{ noTopMargin?: boolean }>`
-  margin-top: ${props => props.noTopMargin && 0};
+const ChevronLabel = styled.div`
+  margin-right: 10px;
+  font-weight: 400;
+`;
+
+const ChevronIcon = styled(FontAwesomeIcon)<{ open: boolean }>`
+  transition: all 0.3s ease-out;
+  transform: ${props => (props.open ? "rotate(90deg)" : "rotate(0deg)")};
+`;
+
+const AccordionHeaderStyled = styled.h4`
+  margin-top: 0;
   margin-bottom: 0;
-  line-height: 30px;
 `;
 
 interface Props {
@@ -34,11 +46,14 @@ interface Props {
 }
 
 const AccordionHeader: React.FC<Props> = ({open, noTopMargin, children, onClick}) => (
-    <AccordionHeaderContainer onClick={onClick}>
-        <AccordionHeaderStyled noTopMargin={noTopMargin}>
+    <AccordionHeaderContainer onClick={onClick} noTopMargin={noTopMargin}>
+        <AccordionHeaderStyled >
             {children}
         </AccordionHeaderStyled>
-        <ChevronIcon open={open} icon={Icons.faChevronRight} size={"sm"}/>
+        <ChevronContainer>
+            <ChevronLabel>{open ? "Hide" : "Show"}</ChevronLabel>
+            <ChevronIcon open={open} icon={Icons.faChevronRight} size={"sm"}/>
+        </ChevronContainer>
     </AccordionHeaderContainer>
 );
 
