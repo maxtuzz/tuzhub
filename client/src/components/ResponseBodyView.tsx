@@ -6,6 +6,7 @@ import ExpandableContent from "./lib/ExpandableContent";
 import AccordionHeader from "./lib/AccordionHeader";
 import styled, {css} from "styled-components";
 import Words from "./lib/Words";
+import BodyView from "./lib/BodyView";
 
 const TabsContainer = styled.div`
   display: flex;
@@ -86,15 +87,14 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
         });
     };
 
-    const tabs = Object.entries(responses).map(([key, value], index) => {
-            return <TabButton active={activeIndex === index} onClick={() => setTabContentByIndex(index)}>
-                {key}
-            </TabButton>;
-        }
+    const tabs = Object.entries(responses).map(([key, value], index) =>
+        <TabButton active={activeIndex === index} onClick={() => setTabContentByIndex(index)}>
+            {key}
+        </TabButton>
     );
 
     return (
-        <div>
+        <BodyView>
             <AccordionHeader open={open}
                              noTopMargin={noTopMargin}
                              onClick={() => setOpen(!open)}>
@@ -107,7 +107,7 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
                     }
                 </TabsContainer>
                 {
-                    tabData?.description && <Words>{tabData.description}</Words>
+                    tabData?.description && <Words>Test {tabData.description}</Words>
                 }
                 {
                     tabData?.json &&
@@ -118,7 +118,7 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
                     </SyntaxHighlighter>
                 }
             </ExpandableContent>
-        </div>
+        </BodyView>
     );
 };
 

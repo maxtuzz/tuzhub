@@ -5,6 +5,7 @@ import {monokai} from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import Words from "./lib/Words";
 import ExpandableContent from "./lib/ExpandableContent";
 import AccordionHeader from "./lib/AccordionHeader";
+import BodyView from "./lib/BodyView";
 
 interface Props {
     requestBody?: OpenAPIV3.RequestBodyObject,
@@ -31,7 +32,7 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
     const headerTitle = `Requests ${requestBody.required ? "(required)" : ""}`;
 
     return (
-        <div>
+        <BodyView>
             <AccordionHeader open={open}
                              noTopMargin={noTopMargin}
                              onClick={() => setOpen(!open)}>
@@ -42,7 +43,7 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
                     {jsonRequest}
                 </SyntaxHighlighter>
             </ExpandableContent>
-        </div>
+        </BodyView>
     );
 };
 
