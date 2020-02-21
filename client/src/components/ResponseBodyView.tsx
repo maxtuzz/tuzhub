@@ -72,11 +72,12 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
                 Object.entries(statusContent).forEach(([responseType, value]) => {
                     console.log("response type:" + responseType);
 
+
                     if (responseType.toLowerCase().includes("json")) {
                         const schema = value.schema as OpenAPIV3.BaseSchemaObject;
 
                         setTabData({
-                            description: schema.description,
+                            description: statusValue.description,
                             json: JSON.stringify(schema, null, 2)
                         })
                     }
@@ -107,7 +108,7 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
                     }
                 </TabsContainer>
                 {
-                    tabData?.description && <Words>Test {tabData.description}</Words>
+                    tabData?.description && <Words>{tabData.description}</Words>
                 }
                 {
                     tabData?.json &&
