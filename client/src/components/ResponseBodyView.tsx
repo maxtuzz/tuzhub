@@ -7,6 +7,7 @@ import AccordionHeader from "./lib/AccordionHeader";
 import styled, {css} from "styled-components";
 import Words from "./lib/Words";
 import BodyView from "./lib/BodyView";
+import StatusHelper from "../util/StatusHelper";
 
 const TabsContainer = styled.div`
   display: flex;
@@ -39,6 +40,7 @@ interface Props {
 }
 
 interface TabData {
+    status: string
     description?: string
     json: string
 }
@@ -64,7 +66,10 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
                 const statusContent = statusValue.content;
 
                 if (!statusContent) {
-                    setTabData(undefined);
+                    setTabData({
+                        status: responseKey,
+                        json: ""
+                    });
 
                     return;
                 }
@@ -72,11 +77,11 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
                 Object.entries(statusContent).forEach(([responseType, value]) => {
                     console.log("response type:" + responseType);
 
-
                     if (responseType.toLowerCase().includes("json")) {
                         const schema = value.schema as OpenAPIV3.BaseSchemaObject;
 
                         setTabData({
+                            status: responseKey,
                             description: statusValue.description,
                             json: JSON.stringify(schema, null, 2)
                         })
@@ -108,7 +113,9 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
                     }
                 </TabsContainer>
                 {
-                    tabData?.description && <Words>{tabData.description}</Words>
+                    tabData?.description
+                        ? <Words>{tabData.description}</Words>
+                        : <Words>{StatusHelper.getDescription(tabData?.status)}</Words>
                 }
                 {
                     tabData?.json &&
