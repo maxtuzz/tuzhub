@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import {fadeInTop} from "../../styling/anims";
+import {fadeInTopCss} from "../../styling/anims";
 
 const FadeInContent = styled.div`
-  ${fadeInTop};
+  ${fadeInTopCss};
   width: 100%;
 `;
 

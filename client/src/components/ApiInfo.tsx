@@ -3,7 +3,7 @@ import ApiEntry from "../model/ApiEntry";
 import PageTitle from "./lib/PageTitle";
 import Words from "./lib/Words";
 import styled from "styled-components";
-import {fadeInBottom} from "../styling/anims";
+import {fadeInBottomCss} from "../styling/anims";
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const VersionTagContainer = styled.div`
   background-color: green;
   font-weight: 600;
   
-  ${fadeInBottom}
+  ${fadeInBottomCss}
 `;
 
 interface Props {

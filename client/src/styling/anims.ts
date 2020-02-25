@@ -1,4 +1,4 @@
-import {css} from "styled-components";
+import {css, keyframes} from "styled-components";
 
 /**
  * Will play a small wiggle animation on hover when attached to a component
@@ -17,10 +17,32 @@ const delayedWiggle = css`
   }
 `;
 
+const fadeInTop = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const fadeOutTop = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+`;
+
 /**
  * Can be added to any styled component to add a fade in and down effect upon rendering
  */
-const fadeInTop = css`
+const fadeInTopCss = css`
     animation: fadeinTop 0.3s;
     -moz-animation: fadeinTop 0.3s; /* Firefox */
     -webkit-animation: fadeinTop 0.3s; /* Safari and Chrome */
@@ -38,7 +60,7 @@ const fadeInTop = css`
     }
 `;
 
-const fadeInBottom = css`
+const fadeInBottomCss = css`
     animation: fadeinBottom 0.3s;
     -moz-animation: fadeinBottom 0.3s; /* Firefox */
     -webkit-animation: fadeinBottom 0.3s; /* Safari and Chrome */
@@ -59,5 +81,7 @@ const fadeInBottom = css`
 export {
     delayedWiggle,
     fadeInTop,
-    fadeInBottom
+    fadeOutTop,
+    fadeInTopCss,
+    fadeInBottomCss
 };

@@ -4,17 +4,19 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import * as Icons from "@fortawesome/free-solid-svg-icons"
 import {Link} from "react-router-dom";
 import {delayedWiggle} from "../styling/anims";
+import Words from "./lib/Words";
+import SidebarMenuItem, {SidebarMenuItemLabel} from "./lib/SidebarMenuItem";
+import SpecNavContainer from "../containers/SpecNavContainer";
 
 const SidebarContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: space-between;
     position: fixed;
     list-style: none;
     height: 100vh;
     background-color: #2c2c30;
-    overflow-y: scroll;
-    overflow-x: hidden;
  `;
 
 const SidebarMenu = styled.ul`
@@ -24,6 +26,8 @@ const SidebarMenu = styled.ul`
     width: 100%;
     list-style: none;
     padding-inline-start: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
 `;
 
 const SidebarHeader = styled(Link)`
@@ -55,22 +59,6 @@ const SidebarHeaderIcon = styled(FontAwesomeIcon)`
     padding-right: 16px;
 `;
 
-const SidebarMenuItem = styled.li`
-    display: flex;
-    align-items: center;
-    height: 40px;
-    width: 100%;
-    color: #b9bbbe;
-    padding-left: 30px;
-    
-    &:hover {
-      color: #ffffff;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.05);
-      box-shadow: inset 3px 0 0 0 #51aec0;
-    }
-`;
-
 const MenuDivider = styled.hr`
   width: 90%;
   height: 2px;
@@ -79,19 +67,6 @@ const MenuDivider = styled.hr`
   margin-top: 20px;
   margin-bottom: 20px;
   color: #848689;
-`;
-
-const SidebarMenuItemLabel = styled.p`
-    font-family: "Roboto", sans-serif;
-    font-size: 14px;
-    line-height: 1.3;
-    font-weight: 600; 
-    text-align: left;
-    margin-left: 20px;
-    
-    @media (max-width: 1126px) {
-      display: none;
-    }
 `;
 
 const StyledLink = styled(Link)<{ width?: string, height?: string }>`
@@ -104,56 +79,43 @@ const StyledLink = styled(Link)<{ width?: string, height?: string }>`
  * Renders the side bar for navigation
  * @constructor
  */
-const Sidebar: React.FC = () => {
-    const elements: Array<JSX.Element> = [];
+const Sidebar: React.FC = () => (
+    <SidebarContainer>
+        <SidebarMenu>
+            <SidebarHeader to="/">
+                <SidebarHeaderIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
 
-    for (let i = 0; i < 30; i++) {
-        elements.push(
-            <SidebarMenuItem key={i}>
-                <FontAwesomeIcon icon={Icons.faCogs} color={"white"}/>
-                <SidebarMenuItemLabel>Test item #{i}</SidebarMenuItemLabel>
-            </SidebarMenuItem>
-        )
-    }
+                <SidebarHeaderLabel>
+                    Tuzzy Dev Portal
+                </SidebarHeaderLabel>
+            </SidebarHeader>
+            <StyledLink to="/apis">
+                <SidebarMenuItem>
+                    {/*<ApiIcon/>*/}
+                    <FontAwesomeIcon icon={Icons.faProjectDiagram} color={"white"}/>
+                    <SidebarMenuItemLabel>APIs</SidebarMenuItemLabel>
+                </SidebarMenuItem>
+            </StyledLink>
+            <StyledLink to="/metrics">
+                <SidebarMenuItem>
+                    <FontAwesomeIcon icon={Icons.faChartLine} color={"white"} size={"lg"}/>
+                    <SidebarMenuItemLabel>Metrics</SidebarMenuItemLabel>
+                </SidebarMenuItem>
+            </StyledLink>
+            <StyledLink to="/config">
+                <SidebarMenuItem>
+                    <FontAwesomeIcon icon={Icons.faCogs} color={"white"}/>
+                    <SidebarMenuItemLabel>Configure</SidebarMenuItemLabel>
+                </SidebarMenuItem>
+            </StyledLink>
+            <MenuDivider/>
 
-    return (
-        <SidebarContainer>
-            <SidebarMenu>
-                <SidebarHeader to="/">
-                    <SidebarHeaderIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
-
-                    <SidebarHeaderLabel>
-                        Tuzzy Dev Portal
-                    </SidebarHeaderLabel>
-                </SidebarHeader>
-                <StyledLink to="/apis">
-                    <SidebarMenuItem>
-                        {/*<ApiIcon/>*/}
-                        <FontAwesomeIcon icon={Icons.faProjectDiagram} color={"white"}/>
-                        <SidebarMenuItemLabel>APIs</SidebarMenuItemLabel>
-                    </SidebarMenuItem>
-                </StyledLink>
-                <StyledLink to="/metrics">
-                    <SidebarMenuItem>
-                        <FontAwesomeIcon icon={Icons.faChartLine} color={"white"} size={"lg"}/>
-                        <SidebarMenuItemLabel>Metrics</SidebarMenuItemLabel>
-                    </SidebarMenuItem>
-                </StyledLink>
-                <StyledLink to="/config">
-                    <SidebarMenuItem>
-                        <FontAwesomeIcon icon={Icons.faCogs} color={"white"}/>
-                        <SidebarMenuItemLabel>Configure</SidebarMenuItemLabel>
-                    </SidebarMenuItem>
-                </StyledLink>
-                <MenuDivider/>
-            </SidebarMenu>
-            <SidebarMenu>
-                {
-                    elements
-                }
-            </SidebarMenu>
-        </SidebarContainer>
-    );
-};
+            <SpecNavContainer/>
+        </SidebarMenu>
+        <div>
+            <Words>About</Words>
+        </div>
+    </SidebarContainer>
+);
 
 export default Sidebar;

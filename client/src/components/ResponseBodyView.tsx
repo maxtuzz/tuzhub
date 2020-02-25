@@ -17,20 +17,32 @@ const TabsContainer = styled.div`
   font-weight: 400;
 `;
 
-const TabButton = styled.div<{ active: boolean }>`
+const TabButton = styled.div`
   display: flex;
   align-items: center;
   padding: 1.2em 2em;
   border-radius: 2px;
   
-   ${props => props.active && css`
-    border-bottom: 3px solid #51aec0;
-  `};
-  
   &:hover {
     color: #ffffff;
     cursor: pointer;  
     background: rgba(255, 255, 255, 0.05);
+  }
+`;
+
+const TabUnderline = styled.div<{ active: boolean }>`
+  width: 0;
+  
+  ${props => props.active && css`
+    width: 100%;
+  `};
+  
+  height: 2px;
+  background-color: #51aec0;
+  transition: width .3s ;
+  
+  ${TabButton}:hover & {
+    width: 100%;
   }
 `;
 
@@ -94,9 +106,12 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
     };
 
     const tabs = Object.entries(responses).map(([key, value], index) =>
-        <TabButton active={activeIndex === index} onClick={() => setTabContentByIndex(index)}>
-            {key}
-        </TabButton>
+        <div>
+            <TabButton onClick={() => setTabContentByIndex(index)}>
+                {key}
+            </TabButton>
+            <TabUnderline active={activeIndex === index}/>
+        </div>
     );
 
     return (
