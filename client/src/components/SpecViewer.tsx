@@ -14,14 +14,22 @@ interface Props {
 
 interface Functions {
     fetchSpec: () => any
+    resetSpec: () => any
 }
 
-const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoading, fetchSpec}) => {
+const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoading, fetchSpec, resetSpec}) => {
     useEffect(() => {
         if (selectedApi) {
             fetchSpec()
         }
     }, [selectedApi, fetchSpec]);
+
+    // Component un-mounts
+    useEffect(() => {
+        return () => {
+            resetSpec();
+        }
+    }, []);
 
     if (isLoading || !apiSpec || !apiSpec.document) {
         return <Words>Loading specification ...</Words>
