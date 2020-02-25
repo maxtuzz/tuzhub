@@ -4,7 +4,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import * as Icons from "@fortawesome/free-solid-svg-icons"
 import {Link} from "react-router-dom";
 import {delayedWiggle} from "../styling/anims";
-import Words from "./lib/Words";
 import SidebarMenuItem, {SidebarMenuItemLabel} from "./lib/SidebarMenuItem";
 import SpecNavContainer from "../containers/SpecNavContainer";
 
@@ -112,9 +111,10 @@ const Sidebar: React.FC = () => (
 
             <SpecNavContainer/>
         </SidebarMenu>
-        <div>
-            <Words>About</Words>
-        </div>
+        <SidebarMenuItem>
+            <FontAwesomeIcon icon={Icons.faQuestionCircle} color={"white"}/>
+            <SidebarMenuItemLabel>About</SidebarMenuItemLabel>
+        </SidebarMenuItem>
     </SidebarContainer>
 );
 
