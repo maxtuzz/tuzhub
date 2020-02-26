@@ -38,12 +38,12 @@
         <dependency>
             <groupId>io.dinject</groupId>
             <artifactId>dinject</artifactId>
-            <version>1.14</version>
+            <version>${dinject.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dinject</groupId>
             <artifactId>dinject-controller</artifactId>
-            <version>1.14</version>
+            <version>${dinject.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

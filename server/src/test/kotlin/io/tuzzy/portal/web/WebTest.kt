@@ -14,12 +14,14 @@ import kong.unirest.Unirest
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
+import org.slf4j.LoggerFactory
 
 /**
  * Web test will start a test javalin server before each test class and stop it afterwards
  */
 open class WebTest {
     private val baseUrl = "http://localhost:$servicePort"
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @AfterEach
     fun tearDown() {
@@ -126,7 +128,9 @@ open class WebTest {
             throw NotFoundResponse("Not found")
         }
 
+
         if (!httpResponse.isSuccess) {
+            logger.info("YO WTF")
             throw IllegalStateException("Failed request ${httpResponse.status}")
         }
     }

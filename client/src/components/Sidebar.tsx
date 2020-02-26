@@ -16,6 +16,7 @@ const SidebarContainer = styled.div`
     list-style: none;
     height: 100vh;
     background-color: #2c2c30;
+    max-width: 260px;
  `;
 
 const SidebarMenu = styled.ul`

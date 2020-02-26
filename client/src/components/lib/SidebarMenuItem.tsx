@@ -16,10 +16,10 @@ export const SidebarMenuItemLabel = styled.p`
 const SidebarMenuItem = styled.li`
     display: flex;
     align-items: center;
-    height: 40px;
-    width: 100%;
-    color: #b9bbbe;
     padding-left: 30px;
+    height: 40px;
+    max-width: 16em;
+    color: #b9bbbe;
     
     &:hover {
       color: #ffffff;

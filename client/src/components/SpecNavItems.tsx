@@ -10,8 +10,12 @@ import ResourceFormatter from "../util/ResourceFormatter";
 const NavItemsContainer = styled.div<{ out: boolean }>`
   width: 100%;
   visibility: ${props => props.out ? 'hidden' : 'visible'};
-  animation: ${props => props.out ? fadeOutTop : fadeInTop} 0.1s linear;
-  transition: visibility 0.1s linear;
+  animation: ${props => props.out ? fadeOutTop : fadeInTop} 250ms linear;
+  transition: visibility 200ms linear;
+  
+  @media (max-width: 1126px) {
+      display: none;
+  }
 `;
 
 interface Props {
