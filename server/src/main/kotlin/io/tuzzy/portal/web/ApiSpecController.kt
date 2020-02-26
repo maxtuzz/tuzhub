@@ -23,7 +23,11 @@ class ApiSpecController(private val specService: ApiSpecService) {
         // Create hal link builder with self path and active spec defined
         val linkBuilder = HalBuilder(ctx)
             .toContextPath("self")
-            .toSpec(specVersion, apiName, specVersion)
+            .toSpec(
+                propertyName = specVersion,
+                apiName = apiName,
+                specVersion = specVersion
+            )
 
         // Find tuzzy specs and create a reference link to them
         specService.getAll(apiName).forEach {

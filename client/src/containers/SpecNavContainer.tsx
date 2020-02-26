@@ -3,7 +3,7 @@ import {AppState} from "../redux/AppStore";
 import SpecNavItems from "../components/SpecNavItems";
 
 const mapStateToProps = (state: AppState) => ({
-    apiSpec: state.apiSpecReducer.apiSpec,
+    apiDoc: state.apiSpecReducer.apiSpec?.document,
 });
 
 const SpecNavContainer = connect(mapStateToProps)(SpecNavItems);

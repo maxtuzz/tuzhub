@@ -1,10 +1,11 @@
-import React from "react";
-import ApiSpec from "../model/ApiSpec";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import * as Icons from "@fortawesome/free-solid-svg-icons";
+import React, {useState} from "react";
 import SidebarMenuItem, {SidebarMenuItemLabel} from "./lib/SidebarMenuItem";
 import styled from "styled-components";
 import {fadeInTop, fadeOutTop} from "../styling/anims";
+import ExpandableContent from "./lib/ExpandableContent";
+import Chevron from "./lib/Chevron";
+import {OpenAPIV3} from "openapi-types";
+import ResourceFormatter from "../util/ResourceFormatter";
 
 const NavItemsContainer = styled.div<{ out: boolean }>`
   width: 100%;
@@ -14,20 +15,48 @@ const NavItemsContainer = styled.div<{ out: boolean }>`
 `;
 
 interface Props {
-    apiSpec?: ApiSpec;
+    apiDoc?: OpenAPIV3.Document;
 }
 
-const SpecNavItems: React.FC<Props> = ({apiSpec}) => {
+const SpecNavItems: React.FC<Props> = ({apiDoc}) => {
+    const [resourcesOpen, setResourcesOpen] = useState(apiDoc?.tags != undefined);
+    const [objectsOpen, setObjectsOpen] = useState(true);
+
+    const resources = apiDoc?.paths && ResourceFormatter.getPaths(apiDoc?.paths).map(path =>
+        <SidebarMenuItem>
+            <span>&#8226;</span>
+            <SidebarMenuItemLabel>{path}</SidebarMenuItemLabel>
+        </SidebarMenuItem>
+    );
+
     return (
-        <NavItemsContainer out={!apiSpec}>
-            <SidebarMenuItem>
-                <FontAwesomeIcon icon={Icons.faChevronRight} color={"white"}/>
+        <NavItemsContainer out={!apiDoc}>
+            <SidebarMenuItem onClick={() => setResourcesOpen(!resourcesOpen)}>
+                <Chevron open={resourcesOpen}/>
                 <SidebarMenuItemLabel>Resources</SidebarMenuItemLabel>
             </SidebarMenuItem>
-            <SidebarMenuItem>
-                <FontAwesomeIcon icon={Icons.faChevronRight} color={"white"}/>
+            <ExpandableContent open={resourcesOpen}>
+                {
+                    resources
+                }
+            </ExpandableContent>
+
+            <SidebarMenuItem onClick={() => setObjectsOpen(!objectsOpen)}>
+                <Chevron open={objectsOpen}/>
                 <SidebarMenuItemLabel>Objects</SidebarMenuItemLabel>
             </SidebarMenuItem>
+            <ExpandableContent open={objectsOpen}>
+
+                {
+                    apiDoc?.components?.schemas
+                    && Object.entries(apiDoc?.components?.schemas).map(([key, value]) => (
+                        <SidebarMenuItem>
+                            <span>&#8226;</span>
+                            <SidebarMenuItemLabel>{key}</SidebarMenuItemLabel>
+                        </SidebarMenuItem>
+                    ))
+                }
+            </ExpandableContent>
         </NavItemsContainer>
     );
 };
