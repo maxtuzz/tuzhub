@@ -23,7 +23,7 @@ interface Props {
 }
 
 const SpecNavItems: React.FC<Props> = ({apiDoc}) => {
-    const [resourcesOpen, setResourcesOpen] = useState(apiDoc?.tags != undefined);
+    const [resourcesOpen, setResourcesOpen] = useState(apiDoc?.tags !== undefined);
     const [objectsOpen, setObjectsOpen] = useState(true);
 
     const resources = apiDoc?.paths && ResourceFormatter.getPaths(apiDoc?.paths).map(path =>

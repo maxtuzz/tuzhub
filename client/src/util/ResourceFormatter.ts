@@ -9,7 +9,7 @@ class ResourceFormatter {
 
             resources.forEach(resource => {
                 if (!resource.includes("{") && !resource.includes(":")) {
-                    if (resource == "") {
+                    if (resource === "") {
                         resource = "/";
                     }
 

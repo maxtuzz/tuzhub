@@ -8,6 +8,10 @@ interface Props {
     docPaths: OpenAPIV3.PathsObject
 }
 
+interface SectionRefs {
+    [pattern: string]: any
+}
+
 const PathList: React.FC<Props> = ({docPaths}) => {
     const [filteredPaths, setFilteredPaths] = useState(docPaths);
 
@@ -33,8 +37,23 @@ const PathList: React.FC<Props> = ({docPaths}) => {
         );
     };
 
+    const refs = Object.entries(filteredPaths).reduce((prevRefs: SectionRefs, [key, val]) => {
+        prevRefs[key] = React.createRef();
+
+        return prevRefs;
+    }, {});
+
+    const handleClick = (key: string) => {
+        const current = refs[key].current;
+
+        current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        });
+    };
+
     const paths = Object.entries(filteredPaths).map(([key, resource]) => (
-            <div>
+            <div onClick={() => handleClick(key)} ref={refs[key]}>
                 {
                     resource.get &&
                     <ResourcePath endpoint={key} verb="GET" pathItem={resource}/>
