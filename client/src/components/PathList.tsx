@@ -6,13 +6,14 @@ import SearchBar from "./lib/SearchBar";
 
 interface Props {
     docPaths: OpenAPIV3.PathsObject
+    navPath?: string
 }
 
 interface SectionRefs {
     [pattern: string]: any
 }
 
-const PathList: React.FC<Props> = ({docPaths}) => {
+const PathList: React.FC<Props> = ({docPaths, navPath}) => {
     const [filteredPaths, setFilteredPaths] = useState(docPaths);
 
     useEffect(() => {
@@ -43,7 +44,25 @@ const PathList: React.FC<Props> = ({docPaths}) => {
         return prevRefs;
     }, {});
 
-    const handleClick = (key: string) => {
+    // Whenever nav path changes
+    useEffect(() => {
+        console.log("pathChanged")
+
+        if (navPath) {
+            Object.entries(refs).forEach(([key]) => {
+                if (key.includes(navPath)) {
+                    refs[key].current.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                    });
+
+                    return;
+                }
+            });
+        }
+    }, [navPath]);
+
+    const resourceClicked = (key: string) => {
         const current = refs[key].current;
 
         current.scrollIntoView({
@@ -53,7 +72,7 @@ const PathList: React.FC<Props> = ({docPaths}) => {
     };
 
     const paths = Object.entries(filteredPaths).map(([key, resource]) => (
-            <div onClick={() => handleClick(key)} ref={refs[key]}>
+            <div onClick={() => resourceClicked(key)} ref={refs[key]}>
                 {
                     resource.get &&
                     <ResourcePath endpoint={key} verb="GET" pathItem={resource}/>

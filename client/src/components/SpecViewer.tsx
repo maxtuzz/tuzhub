@@ -10,6 +10,7 @@ interface Props {
     apiSpec?: ApiSpec
     alert?: Alert
     isLoading: boolean
+    navPath?: string
 }
 
 interface Functions {
@@ -17,7 +18,7 @@ interface Functions {
     resetSpec: () => any
 }
 
-const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoading, fetchSpec, resetSpec}) => {
+const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoading, fetchSpec, resetSpec, navPath}) => {
     useEffect(() => {
         if (selectedApi) {
             fetchSpec()
@@ -43,7 +44,7 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
                 OpenAPI version: {apiSpec?.document?.openapi}
             </Words>
 
-            <PathList docPaths={docPaths}/>
+            <PathList docPaths={docPaths} navPath={navPath}/>
         </div>
     );
 };

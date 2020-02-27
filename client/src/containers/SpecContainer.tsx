@@ -8,7 +8,8 @@ const mapStateToProps = (state: AppState) => ({
     selectedApi: state.apiEntriesReducer.selectedApi,
     apiSpec: state.apiSpecReducer.apiSpec,
     alert: state.apiSpecReducer.alert,
-    isLoading: state.apiSpecReducer.isLoading
+    isLoading: state.apiSpecReducer.isLoading,
+    navPath: state.apiSpecReducer.navPath
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -22,12 +22,16 @@ interface Props {
     apiDoc?: OpenAPIV3.Document;
 }
 
-const SpecNavItems: React.FC<Props> = ({apiDoc}) => {
+interface Functions {
+    navToResource: (resourcePath: string) => void
+}
+
+const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, navToResource}) => {
     const [resourcesOpen, setResourcesOpen] = useState(apiDoc?.tags !== undefined);
     const [objectsOpen, setObjectsOpen] = useState(true);
 
     const resources = apiDoc?.paths && ResourceFormatter.getPaths(apiDoc?.paths).map(path =>
-        <SidebarMenuItem>
+        <SidebarMenuItem onClick={() => navToResource(path)}>
             <span>&#8226;</span>
             <SidebarMenuItemLabel>{path}</SidebarMenuItemLabel>
         </SidebarMenuItem>

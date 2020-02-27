@@ -6,12 +6,14 @@ interface IApiSpecState {
     readonly apiSpec?: ApiSpec;
     readonly alert?: Alert;
     readonly isLoading: boolean
+    readonly navPath?: string
 }
 
 const initialState: IApiSpecState = {
     apiSpec: undefined,
     isLoading: false,
-    alert: undefined
+    alert: undefined,
+    navPath: undefined
 };
 
 export default function (state: IApiSpecState = initialState, action: TApiSpecActions) {
@@ -22,6 +24,8 @@ export default function (state: IApiSpecState = initialState, action: TApiSpecAc
             return {...state, isLoading: action.isLoading};
         case SpecActions.ALERT_SPEC:
             return {...state, alert: action.alert};
+        case SpecActions.NAV_TO_RESOURCE:
+            return {...state, navPath: action.resourcePath};
         case SpecActions.RESET:
             return initialState;
         default:
