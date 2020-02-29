@@ -4,6 +4,7 @@ import React, {useEffect} from "react";
 import Words from "./lib/Words";
 import ApiEntry from "../model/ApiEntry";
 import PathList from "./PathList";
+import ObjectList from "../ObjectList";
 
 interface Props {
     selectedApi?: ApiEntry
@@ -45,6 +46,8 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
             </Words>
 
             <PathList docPaths={docPaths} navPath={navPath}/>
+
+            <ObjectList components={apiSpec?.document?.components}/>
         </div>
     );
 };

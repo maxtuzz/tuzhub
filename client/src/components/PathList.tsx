@@ -46,9 +46,9 @@ const PathList: React.FC<Props> = ({docPaths, navPath}) => {
 
     // Whenever nav path changes
     useEffect(() => {
-        console.log("pathChanged")
-
         if (navPath) {
+            setFilteredPaths(docPaths);
+
             Object.entries(refs).forEach(([key]) => {
                 if (key.includes(navPath)) {
                     refs[key].current.scrollIntoView({

@@ -10,7 +10,7 @@ class ResourceFormatter {
             resources.forEach(resource => {
                 if (!resource.includes("{") && !resource.includes(":")) {
                     if (resource === "") {
-                        resource = "/";
+                        return
                     }
 
                     paths.add(resource);
