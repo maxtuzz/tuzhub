@@ -62,8 +62,8 @@ const PathList: React.FC<Props> = ({docPaths, navPath}) => {
         }
     }, [navPath]);
 
-    const resourceClicked = (key: string) => {
-        const current = refs[key].current;
+    const scrollToResource = (resourcePath: string) => {
+        const current = refs[resourcePath].current;
 
         current.scrollIntoView({
             behavior: 'smooth',
@@ -72,24 +72,40 @@ const PathList: React.FC<Props> = ({docPaths, navPath}) => {
     };
 
     const paths = Object.entries(filteredPaths).map(([key, resource]) => (
-            <div onClick={() => resourceClicked(key)} ref={refs[key]}>
+            <div ref={refs[key]}>
                 {
                     resource.get &&
-                    <ResourcePath endpoint={key} verb="GET" pathItem={resource}/>
+                    <ResourcePath
+                        endpoint={key}
+                        verb="GET"
+                        pathItem={resource}
+                        navTo={(resourcePath => scrollToResource(resourcePath))}/>
                 }
                 {
                     resource.post &&
-                    <ResourcePath endpoint={key} verb="POST" pathItem={resource}/>
+                    <ResourcePath
+                        endpoint={key}
+                        verb="POST"
+                        pathItem={resource}
+                        navTo={(resourcePath => scrollToResource(resourcePath))}/>
                 }
 
                 {
                     resource.put &&
-                    <ResourcePath endpoint={key} verb="PUT" pathItem={resource}/>
+                    <ResourcePath
+                        endpoint={key}
+                        verb="PUT"
+                        pathItem={resource}
+                        navTo={(resourcePath => scrollToResource(resourcePath))}/>
                 }
 
                 {
                     resource.delete &&
-                    <ResourcePath endpoint={key} verb="DELETE" pathItem={resource}/>
+                    <ResourcePath
+                        endpoint={key}
+                        verb="DELETE"
+                        pathItem={resource}
+                        navTo={(resourcePath => scrollToResource(resourcePath))}/>
                 }
             </div>
         )

@@ -71,7 +71,12 @@ interface Props {
     pathItem: OpenAPIV3.PathItemObject
 }
 
-const ResourcePath: React.FC<Props> = ({endpoint, verb, pathItem}) => {
+interface Functions {
+    navTo: (resourcePath: string) => any
+}
+
+
+const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, navTo}) => {
     const [opened, setOpened] = useState(false);
 
     const getOperation: () => (OpenAPIV3.OperationObject | undefined) = () => {
@@ -94,9 +99,14 @@ const ResourcePath: React.FC<Props> = ({endpoint, verb, pathItem}) => {
 
     const description = getOperation()?.description;
 
+    const onClick = () => {
+        navTo(endpoint);
+        setOpened(!opened);
+    };
+
     return (
         <AccordionContainer>
-            <PathAccordionHeader open={opened} onClick={() => setOpened(!opened)}>
+            <PathAccordionHeader open={opened} onClick={onClick}>
                 <SubHeaderText>{getOperation()?.summary}</SubHeaderText>
                 <PathTextContainer>
                     <VerbLabel verb={verb}>{verb}</VerbLabel>
@@ -104,7 +114,7 @@ const ResourcePath: React.FC<Props> = ({endpoint, verb, pathItem}) => {
                 </PathTextContainer>
             </PathAccordionHeader>
 
-            <ExpandableResourceContent open={opened}>
+            <ExpandableResourceContent open={opened} onClick={() => navTo(endpoint)}>
                 {
                     description &&
                     <div>
