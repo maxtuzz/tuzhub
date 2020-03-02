@@ -24,16 +24,20 @@ const AccordionHeaderStyled = styled.h4`
 interface Props {
     open: boolean
     noTopMargin?: boolean
+    labeled?: boolean
     children: string
+}
+
+interface Functions {
     onClick: () => any
 }
 
-const AccordionHeader: React.FC<Props> = ({open, noTopMargin, children, onClick}) => (
+const AccordionHeader: React.FC<Props & Functions> = ({open, noTopMargin, children, labeled = false, onClick}) => (
     <AccordionHeaderContainer onClick={onClick} noTopMargin={noTopMargin}>
         <AccordionHeaderStyled>
             {children}
         </AccordionHeaderStyled>
-        <Chevron open={open} labeled/>
+        <Chevron open={open} labeled={labeled}/>
     </AccordionHeaderContainer>
 );
 

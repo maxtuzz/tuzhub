@@ -114,7 +114,7 @@ const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, na
                 </PathTextContainer>
             </PathAccordionHeader>
 
-            <ExpandableResourceContent open={opened} onClick={() => navTo(endpoint)}>
+            <ExpandableResourceContent open={opened}>
                 {
                     description &&
                     <div>
