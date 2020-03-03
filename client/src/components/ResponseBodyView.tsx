@@ -118,7 +118,8 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
         <BodyView>
             <AccordionHeader open={open}
                              noTopMargin={noTopMargin}
-                             onClick={() => setOpen(!open)}>
+                             onClick={() => setOpen(!open)}
+                             labeledChevron>
                 Responses
             </AccordionHeader>
             <ExpandableContent open={open}>

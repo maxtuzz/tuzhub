@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {RefObject, useEffect, useState} from "react";
 import {OpenAPIV3} from "openapi-types";
 import HeaderText from "./lib/HeaderText";
 import ResourcePath from "./lib/ResourcePath";
@@ -19,6 +19,13 @@ const PathList: React.FC<Props> = ({docPaths, navPath}) => {
     useEffect(() => {
         setFilteredPaths(docPaths);
     }, [docPaths]);
+
+    const scrollTo = (ref: RefObject<any>) => {
+        ref.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        });
+    };
 
     const searchInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value.toLowerCase();
@@ -51,24 +58,18 @@ const PathList: React.FC<Props> = ({docPaths, navPath}) => {
 
             Object.entries(refs).forEach(([key]) => {
                 if (key.includes(navPath)) {
-                    refs[key].current.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start',
-                    });
+                    scrollTo(refs[key]);
 
                     return;
                 }
             });
         }
-    }, [navPath]);
+    }, [navPath, refs, docPaths]);
 
     const scrollToResource = (resourcePath: string) => {
-        const current = refs[resourcePath].current;
+        const ref = refs[resourcePath];
 
-        current.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-        });
+        scrollTo(ref);
     };
 
     const paths = Object.entries(filteredPaths).map(([key, resource]) => (

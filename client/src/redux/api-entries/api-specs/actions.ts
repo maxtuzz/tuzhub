@@ -7,7 +7,7 @@ export enum SpecActions {
     LOAD_SPEC = "@@specs/LOAD_ACTIVE_SPEC",
     SET_LOADING = "@@specs/SET_LOADING",
     ALERT_SPEC = "@@specs/ALERT_SPEC",
-    NAV_TO_RESOURCE = "@@specs/NAV_TO_RESOURCE",
+    SCROLL_TO_SECTION = "@@specs/NAV_TO_RESOURCE",
     RESET = "@@specs/RESET",
 }
 
@@ -31,9 +31,9 @@ interface AlertSpecAction extends Action {
     alert: Alert
 }
 
-interface NavToResourceAction extends Action {
-    type: SpecActions.NAV_TO_RESOURCE,
-    resourcePath: string
+interface ScrollToSpecSectionAction extends Action {
+    type: SpecActions.SCROLL_TO_SECTION,
+    navPath: string
 }
 
 interface ResetSpecStateAction extends Action {
@@ -63,9 +63,9 @@ export const alertSpec: ActionCreator<AlertSpecAction> = (alert: Alert) => ({
     alert: alert
 });
 
-export const navToResource: ActionCreator<NavToResourceAction> = (resourcePath: string) => ({
-    type: SpecActions.NAV_TO_RESOURCE,
-    resourcePath: resourcePath
+export const scrollToSpecSection: ActionCreator<ScrollToSpecSectionAction> = (navPath: string) => ({
+    type: SpecActions.SCROLL_TO_SECTION,
+    navPath: navPath
 });
 
 export const resetSpecPage: ActionCreator<ResetSpecStateAction> = () => ({
@@ -76,5 +76,5 @@ export type TApiSpecActions = FetchActiveSpecAction
     | LoadSpecAction
     | SetLoadingAction
     | AlertSpecAction
-    | NavToResourceAction
+    | ScrollToSpecSectionAction
     | ResetSpecStateAction;

@@ -24,8 +24,8 @@ export default function (state: IApiSpecState = initialState, action: TApiSpecAc
             return {...state, isLoading: action.isLoading};
         case SpecActions.ALERT_SPEC:
             return {...state, alert: action.alert};
-        case SpecActions.NAV_TO_RESOURCE:
-            return {...state, navPath: action.resourcePath};
+        case SpecActions.SCROLL_TO_SECTION:
+            return {...state, navPath: action.navPath};
         case SpecActions.RESET:
             return initialState;
         default:

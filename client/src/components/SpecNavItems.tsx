@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import SidebarMenuItem, {SidebarMenuItemLabel} from "./lib/SidebarMenuItem";
 import styled from "styled-components";
 import {fadeInTop, fadeOutTop} from "../styling/anims";
@@ -23,23 +23,47 @@ interface Props {
 }
 
 interface Functions {
-    navToResource: (resourcePath: string) => void
+    scrollTo: (path: string) => void
 }
 
-const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, navToResource}) => {
+const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, scrollTo}) => {
     const [resourcesOpen, setResourcesOpen] = useState(true);
-    const [objectsOpen, setObjectsOpen] = useState(true);
+    const [objectsOpen, setObjectsOpen] = useState(false);
+
+    // When api doc changes, reset nav state
+    useEffect(() => {
+        setResourcesOpen(true);
+        setObjectsOpen(false);
+    }, [apiDoc]);
 
     const resources = apiDoc?.paths && ResourceFormatter.getPaths(apiDoc?.paths).map(path =>
-        <SidebarMenuItem onClick={() => navToResource(path)}>
+        <SidebarMenuItem onClick={() => scrollTo(path)}>
             <span>&#8226;</span>
             <SidebarMenuItemLabel>{path}</SidebarMenuItemLabel>
         </SidebarMenuItem>
     );
 
+    const resourcesSectionClicked = () => {
+        if (!resourcesOpen) {
+            scrollTo("resources");
+            setObjectsOpen(false);
+        }
+
+        setResourcesOpen(!resourcesOpen);
+    };
+
+    const objectSectionClicked = () => {
+        if (!objectsOpen) {
+            scrollTo("objects");
+            setResourcesOpen(false);
+        }
+
+        setObjectsOpen(!objectsOpen);
+    };
+
     return (
         <NavItemsContainer out={!apiDoc}>
-            <SidebarMenuItem onClick={() => setResourcesOpen(!resourcesOpen)}>
+            <SidebarMenuItem onClick={resourcesSectionClicked}>
                 <Chevron open={resourcesOpen}/>
                 <SidebarMenuItemLabel>Resources</SidebarMenuItemLabel>
             </SidebarMenuItem>
@@ -49,7 +73,7 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, navToResource}) => {
                 }
             </ExpandableContent>
 
-            <SidebarMenuItem onClick={() => setObjectsOpen(!objectsOpen)}>
+            <SidebarMenuItem onClick={objectSectionClicked}>
                 <Chevron open={objectsOpen}/>
                 <SidebarMenuItemLabel>Objects</SidebarMenuItemLabel>
             </SidebarMenuItem>

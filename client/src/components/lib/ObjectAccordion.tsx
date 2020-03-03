@@ -19,6 +19,12 @@ interface Props {
 const ObjectAccordion: React.FC<Props> = ({schemaName, schema}) => {
     const [open, setOpened] = useState(false);
 
+    const value = schema.properties;
+
+    if (!value) {
+        return <></>
+    }
+
     return (
         <div>
             <AccordionHeader open={open} onClick={() => setOpened(!open)}>
@@ -27,7 +33,7 @@ const ObjectAccordion: React.FC<Props> = ({schemaName, schema}) => {
             <ExpandableContent open={open}>
                 <SyntaxHighlighter language="json" style={monokai}>
                     {
-                        JSON.stringify(schema.properties, null, 2)
+                        JSON.stringify(value, null, 2)
                     }
                 </SyntaxHighlighter>
             </ExpandableContent>

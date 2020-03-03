@@ -35,7 +35,8 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
         <BodyView>
             <AccordionHeader open={open}
                              noTopMargin={noTopMargin}
-                             onClick={() => setOpen(!open)}>
+                             onClick={() => setOpen(!open)}
+                             labeledChevron>
                 {headerTitle}
             </AccordionHeader>
             <ExpandableContent open={open}>
