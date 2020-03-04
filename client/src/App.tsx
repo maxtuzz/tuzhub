@@ -6,6 +6,7 @@ import {Route, Switch} from "react-router-dom";
 import ConfigureScreen from "./components/screens/ConfigureScreen";
 import DiscoverScreen from "./components/screens/DiscoverScreen";
 import ApiScreen from "./components/screens/ApiScreen";
+import MetricsScreen from "./components/screens/MetricsScreen";
 
 const Parent = styled.div`
   display: grid;
@@ -53,6 +54,9 @@ const App: React.FC = () => (
                 </Route>
                 <Route path="/apis">
                     <DiscoverScreen/>
+                </Route>
+                <Route path="/metrics">
+                    <MetricsScreen/>
                 </Route>
                 <Route path="/">
                     <HomeScreen/>

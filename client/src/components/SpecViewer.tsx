@@ -70,7 +70,7 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
             </div>
 
             <div ref={objectSectionRef}>
-                <ObjectList components={apiSpec?.document?.components}/>
+                <ObjectList components={apiSpec?.document?.components} navPath={navPath}/>
             </div>
         </div>
     );

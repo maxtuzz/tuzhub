@@ -10,7 +10,7 @@ interface Props {
 }
 
 interface SectionRefs {
-    [pattern: string]: any
+    [pattern: string]: RefObject<any>
 }
 
 const PathList: React.FC<Props> = ({docPaths, navPath}) => {

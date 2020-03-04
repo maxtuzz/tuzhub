@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {OpenAPIV3} from "openapi-types";
 import AccordionHeader from "./AccordionHeader";
 import ExpandableContent from "./ExpandableContent";
@@ -8,6 +8,9 @@ import {monokai} from "react-syntax-highlighter/dist/cjs/styles/hljs";
 interface Props {
     schemaName: string,
     schema: OpenAPIV3.ArraySchemaObject | OpenAPIV3.NonArraySchemaObject
+
+    // Used to open accordion when nav button for object is pushed
+    openWhen: boolean
 }
 
 /**
@@ -16,8 +19,12 @@ interface Props {
  * @param schema
  * @constructor
  */
-const ObjectAccordion: React.FC<Props> = ({schemaName, schema}) => {
+const ObjectAccordion: React.FC<Props> = ({schemaName, schema, openWhen}) => {
     const [open, setOpened] = useState(false);
+
+    useEffect(() => {
+        setOpened(openWhen);
+    }, [openWhen]);
 
     const value = schema.properties;
 

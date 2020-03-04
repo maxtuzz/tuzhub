@@ -1,4 +1,4 @@
-import React from "react";
+import React, {RefObject, useEffect} from "react";
 import {OpenAPIV3} from "openapi-types";
 import HeaderText from "./components/lib/HeaderText";
 import styled from "styled-components";
@@ -13,23 +13,52 @@ const ObjectListContainer = styled.div`
   padding-right: 20px;
 `;
 
-interface Props {
-    components?: OpenAPIV3.ComponentsObject
+interface SectionRefs {
+    [pattern: string]: RefObject<any>
 }
 
-const ObjectList: React.FC<Props> = ({components}) => {
-    if (!components) return <></>;
+interface Props {
+    components?: OpenAPIV3.ComponentsObject
+    navPath?: string
+}
+
+const ObjectList: React.FC<Props> = ({components, navPath}) => {
+    const entries = components?.schemas && Object.entries(components?.schemas);
+
+    const refs = entries && entries.reduce((prevRefs: SectionRefs, [key]) => {
+        prevRefs[key] = React.createRef();
+
+        return prevRefs;
+    }, {});
+
+    // Whenever nav path changes
+    useEffect(() => {
+        if (navPath) {
+            const ref = refs && refs[navPath];
+
+            if (ref) {
+                ref.current.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+            }
+        }
+    }, [navPath, refs]);
 
     return (
         <ObjectsContainer>
             <HeaderText>Objects</HeaderText>
             <ObjectListContainer>
                 {
-                    components.schemas
-                    && Object.entries(components?.schemas).map(([key, resource]) => {
+                    entries && entries.map(([schemaName, resource]) => {
                         const schema = resource as OpenAPIV3.SchemaObject;
 
-                        return <ObjectAccordion schemaName={key} schema={schema}/>
+                        return <div ref={refs && refs[schemaName]}>
+                            <ObjectAccordion
+                                schemaName={schemaName}
+                                schema={schema}
+                                openWhen={schemaName === navPath}/>
+                        </div>
                     })
                 }
             </ObjectListContainer>

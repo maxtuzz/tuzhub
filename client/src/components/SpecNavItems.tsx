@@ -43,12 +43,19 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, scrollTo}) => {
         </SidebarMenuItem>
     );
 
+    const objectSchemas = apiDoc?.components?.schemas
+        && Object.entries(apiDoc?.components?.schemas).map(([key]) => (
+            <SidebarMenuItem onClick={() => scrollTo(key)}>
+                <span>&#8226;</span>
+                <SidebarMenuItemLabel>{key}</SidebarMenuItemLabel>
+            </SidebarMenuItem>
+        ));
+
     const resourcesSectionClicked = () => {
         if (!resourcesOpen) {
             scrollTo("resources");
             setObjectsOpen(false);
         }
-
         setResourcesOpen(!resourcesOpen);
     };
 
@@ -57,7 +64,6 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, scrollTo}) => {
             scrollTo("objects");
             setResourcesOpen(false);
         }
-
         setObjectsOpen(!objectsOpen);
     };
 
@@ -78,15 +84,8 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, scrollTo}) => {
                 <SidebarMenuItemLabel>Objects</SidebarMenuItemLabel>
             </SidebarMenuItem>
             <ExpandableContent open={objectsOpen}>
-
                 {
-                    apiDoc?.components?.schemas
-                    && Object.entries(apiDoc?.components?.schemas).map(([key, value]) => (
-                        <SidebarMenuItem>
-                            <span>&#8226;</span>
-                            <SidebarMenuItemLabel>{key}</SidebarMenuItemLabel>
-                        </SidebarMenuItem>
-                    ))
+                    objectSchemas
                 }
             </ExpandableContent>
         </NavItemsContainer>
