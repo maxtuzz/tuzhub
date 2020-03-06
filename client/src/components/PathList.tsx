@@ -101,6 +101,15 @@ const PathList: React.FC<Props> = ({docPaths, navPath}) => {
                 }
 
                 {
+                    resource.patch &&
+                    <ResourcePath
+                        endpoint={key}
+                        verb="PATCH"
+                        pathItem={resource}
+                        navTo={(resourcePath => scrollToResource(resourcePath))}/>
+                }
+
+                {
                     resource.delete &&
                     <ResourcePath
                         endpoint={key}

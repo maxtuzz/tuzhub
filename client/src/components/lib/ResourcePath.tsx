@@ -49,6 +49,10 @@ const VerbLabel = styled.code<{ verb?: Verb }>`
     color: #2f70ff;
   `}
   
+  ${props => props.verb === "PATCH" && css`
+    color: #ad78ff;
+  `}
+  
   ${props => props.verb === "DELETE" && css`
     color: darkred;
   `}
@@ -88,7 +92,7 @@ const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, na
             case "POST":
                 return pathItem.post;
             case "PATCH":
-                return pathItem.put;
+                return pathItem.patch;
             case "DELETE":
                 return pathItem.delete;
         }

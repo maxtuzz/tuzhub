@@ -8,7 +8,8 @@ export enum ApiEntryActions {
     SET_LOADING = "@@api-entries/SET_LOADING",
     SET_API_ENTRIES = "@@api-entries/SET_API_ENTRIES",
     SET_SELECTED_API = "@@api-entries/SET_SELECTED_API",
-    LOAD_API = "@@api-entries/LOAD_API"
+    LOAD_API = "@@api-entries/LOAD_API",
+    LINK_API = "@@api-entries/LINK_API",
 }
 
 export interface AlertAction extends Action {
@@ -40,6 +41,11 @@ export interface LoadApiAction extends Action {
     apiName: string
 }
 
+export interface LinkApiAction extends Action {
+    type: ApiEntryActions.LINK_API,
+    apiEntry: ApiEntry
+}
+
 export const alertEntries: ActionCreator<AlertAction> = (alert: Alert) => ({
     type: ApiEntryActions.SET_ALERT,
     alert: alert
@@ -69,8 +75,14 @@ export const loadApi: ActionCreator<LoadApiAction> = (apiName: string) => ({
     apiName: apiName
 });
 
+export const linkApi: ActionCreator<LinkApiAction> = (apiEntryPayload: ApiEntry) => ({
+    type: ApiEntryActions.LINK_API,
+    apiEntry: apiEntryPayload
+});
+
 export type TApiEntryActions = SetLoadingAction
     | SetApiEntriesAction
     | SetSelectedApiAction
     | LoadApiAction
+    | LinkApiAction
     | AlertAction;

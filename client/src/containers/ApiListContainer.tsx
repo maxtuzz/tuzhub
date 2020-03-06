@@ -13,7 +13,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     getApis: () => dispatch(fetchApis())
 });
 
-
 const ApiListContainer = connect(mapStateToProps, mapDispatchToProps)(ApiList);
 
 export default ApiListContainer;

@@ -7,6 +7,7 @@ export const SidebarMenuItemLabel = styled.p`
     font-weight: 600; 
     text-align: left;
     margin-left: 20px;
+    margin-right: 20px;
     
     @media (max-width: 1126px) {
       display: none;
@@ -16,7 +17,7 @@ export const SidebarMenuItemLabel = styled.p`
 const SidebarMenuItem = styled.li`
     display: flex;
     align-items: center;
-    padding-left: 30px;
+    padding-left: 2em;
     height: 40px;
     max-width: 16em;
     color: #b9bbbe;

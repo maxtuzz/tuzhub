@@ -1,12 +1,5 @@
 import styled, {css} from "styled-components";
 
-export const CardTitle = styled.div`
-  color: #b9bbbe;
-  font-size: 16px;
-  line-height: 1.3;
-  font-weight: 600;
-`;
-
 export const Card = styled.div<{ clickable?: boolean, fadeInFor?: number }>`
   display: flex;
   flex-direction: column;
@@ -21,11 +14,13 @@ export const Card = styled.div<{ clickable?: boolean, fadeInFor?: number }>`
   border-radius: 10px;
   background-color: #2c2c30;
   
+  
   @media (max-width: 1126px) {
       width: 140px;
       height: 100px;
   }
   
+  transition: background-color 0.2s ease-out;
   ${props =>
     props.clickable && css`
         &:hover {
@@ -51,5 +46,17 @@ export const Card = styled.div<{ clickable?: boolean, fadeInFor?: number }>`
         transform: scale(1);
         opacity: 1;
     }
+  }
+`;
+
+export const CardTitle = styled.div`
+  color: #b9bbbe;
+  font-size: 16px;
+  line-height: 1.3;
+  font-weight: 600;
+  
+  transition: color 0.2s ease-out;
+  ${Card}:hover & {
+    color: #FFF;
   }
 `;

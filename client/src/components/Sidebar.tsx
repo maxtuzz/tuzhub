@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import * as Icons from "@fortawesome/free-solid-svg-icons"
-import {Link} from "react-router-dom";
-import {delayedWiggle} from "../styling/anims";
+import {Link, useLocation} from "react-router-dom";
+import {delayedWiggle, fadeInTopCss} from "../styling/anims";
 import SidebarMenuItem, {SidebarMenuItemLabel} from "./lib/SidebarMenuItem";
 import SpecNavContainer from "../containers/SpecNavContainer";
 
@@ -75,48 +75,72 @@ const StyledLink = styled(Link)<{ width?: string, height?: string }>`
     width: ${props => props.width ? props.width : "100%"};
 `;
 
+const LinkApiMenuItem = styled(SidebarMenuItem)`
+  padding-left: 1rem;
+  
+  ${fadeInTopCss}
+  
+  &:hover {
+    cursor: pointer;
+    color: #FFFF;
+    background: 0;
+    box-shadow: none;
+  }
+`;
+
 /**
  * Renders the side bar for navigation
  * @constructor
  */
-const Sidebar: React.FC = () => (
-    <SidebarContainer>
-        <SidebarMenu>
-            <SidebarHeader to="/">
-                <SidebarHeaderIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
+const Sidebar: React.FC = () => {
+    let {pathname} = useLocation();
+    console.log("URL: " + pathname);
 
-                <SidebarHeaderLabel>
-                    Tuzzy Dev Portal
-                </SidebarHeaderLabel>
-            </SidebarHeader>
-            <StyledLink to="/apis">
-                <SidebarMenuItem>
-                    {/*<ApiIcon/>*/}
-                    <FontAwesomeIcon icon={Icons.faProjectDiagram} color={"white"}/>
-                    <SidebarMenuItemLabel>APIs</SidebarMenuItemLabel>
-                </SidebarMenuItem>
-            </StyledLink>
-            <StyledLink to="/metrics">
-                <SidebarMenuItem>
-                    <FontAwesomeIcon icon={Icons.faChartLine} color={"white"} size={"lg"}/>
-                    <SidebarMenuItemLabel>Metrics</SidebarMenuItemLabel>
-                </SidebarMenuItem>
-            </StyledLink>
-            <StyledLink to="/config">
-                <SidebarMenuItem>
-                    <FontAwesomeIcon icon={Icons.faCogs} color={"white"}/>
-                    <SidebarMenuItemLabel>Configure</SidebarMenuItemLabel>
-                </SidebarMenuItem>
-            </StyledLink>
-            <MenuDivider/>
-
-            <SpecNavContainer/>
-        </SidebarMenu>
-        <SidebarMenuItem>
-            <FontAwesomeIcon icon={Icons.faQuestionCircle} color={"white"}/>
-            <SidebarMenuItemLabel>About</SidebarMenuItemLabel>
-        </SidebarMenuItem>
-    </SidebarContainer>
-);
+    return (
+        <SidebarContainer>
+            <SidebarMenu>
+                <SidebarHeader to="/">
+                    <SidebarHeaderIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
+                    <SidebarHeaderLabel>
+                        Tuzzy Dev Portal
+                    </SidebarHeaderLabel>
+                </SidebarHeader>
+                <StyledLink to="/apis">
+                    <SidebarMenuItem>
+                        <FontAwesomeIcon icon={Icons.faProjectDiagram} color={"white"}/>
+                        <SidebarMenuItemLabel>APIs</SidebarMenuItemLabel>
+                    </SidebarMenuItem>
+                </StyledLink>
+                <StyledLink to="/metrics">
+                    <SidebarMenuItem>
+                        <FontAwesomeIcon icon={Icons.faChartLine} color={"white"} size={"lg"}/>
+                        <SidebarMenuItemLabel>Metrics</SidebarMenuItemLabel>
+                    </SidebarMenuItem>
+                </StyledLink>
+                <StyledLink to="/config">
+                    <SidebarMenuItem>
+                        <FontAwesomeIcon icon={Icons.faCogs} color={"white"}/>
+                        <SidebarMenuItemLabel>Configure</SidebarMenuItemLabel>
+                    </SidebarMenuItem>
+                </StyledLink>
+                <MenuDivider/>
+                {
+                    pathname.endsWith("apis") &&
+                    <StyledLink to="/apis/new-entry">
+                        <LinkApiMenuItem>
+                            <SidebarMenuItemLabel>Link API</SidebarMenuItemLabel>
+                            <FontAwesomeIcon icon={Icons.faPlus} color={"gray"}/>
+                        </LinkApiMenuItem>
+                    </StyledLink>
+                }
+                <SpecNavContainer/>
+            </SidebarMenu>
+            <SidebarMenuItem>
+                <FontAwesomeIcon icon={Icons.faQuestionCircle} color={"white"}/>
+                <SidebarMenuItemLabel>About</SidebarMenuItemLabel>
+            </SidebarMenuItem>
+        </SidebarContainer>
+    );
+};
 
 export default Sidebar;

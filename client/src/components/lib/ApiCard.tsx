@@ -12,6 +12,12 @@ type CardProps = {
 }
 
 const CardContent = styled(Words)`
+    transition: color 0.2s ease-out;
+   
+    ${Card}:hover & {
+      color: #FFF;
+    }
+    
     @media (max-width: 1126px) {
       display: none;
     }
