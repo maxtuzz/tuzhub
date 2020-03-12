@@ -26,6 +26,10 @@ const VersionTagContainer = styled.div`
   background-color: green;
   font-weight: 600;
   
+  &:hover {
+    cursor: pointer;
+  }
+  
   ${fadeInBottomCss}
 `;
 

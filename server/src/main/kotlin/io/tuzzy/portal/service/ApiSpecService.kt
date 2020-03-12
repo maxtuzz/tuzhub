@@ -24,7 +24,7 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
         return QDApiSpec().apiEntry
             .name.eq(apiName)
             .status.eq(SpecStatus.ACTIVE)
-            .findOne() ?: throw NotFoundResponse("No active spec found for this API. Please set an active spec.")
+            .findOne()?: throw NotFoundResponse("No active spec found for this API. Please set an active spec.")
     }
 
     /**

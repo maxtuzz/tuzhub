@@ -38,7 +38,7 @@ const PathTextContainer = styled.div`
 `;
 
 const VerbLabel = styled.code<{ verb?: Verb }>`
-  color: #349d00;
+  color: #3bb700;
   font-weight: 800;
   
   ${props => props.verb === "POST" && css`
@@ -54,7 +54,7 @@ const VerbLabel = styled.code<{ verb?: Verb }>`
   `}
   
   ${props => props.verb === "DELETE" && css`
-    color: darkred;
+    color: #b20000;
   `}
 `;
 
