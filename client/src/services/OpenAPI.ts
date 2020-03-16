@@ -1,4 +1,4 @@
-import SwaggerParser from "swagger-parser";
+import SwaggerParser from "@apidevtools/swagger-parser";
 
 /**
  * OpenAPI wraps common swagger parser functionality to be used within saga yields

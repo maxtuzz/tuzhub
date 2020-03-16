@@ -126,7 +126,7 @@ const Sidebar: React.FC = () => {
                 <MenuDivider/>
                 {
                     pathname.endsWith("apis") &&
-                    <StyledLink to="/apis/new-entry">
+                    <StyledLink to="/apis/new">
                         <LinkApiMenuItem>
                             <SidebarMenuItemLabel>Link API</SidebarMenuItemLabel>
                             <FontAwesomeIcon icon={Icons.faPlus} color={"gray"}/>

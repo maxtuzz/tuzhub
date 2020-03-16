@@ -15,8 +15,8 @@ interface Props {
 }
 
 interface Functions {
-    fetchSpec: () => any
-    resetSpec: () => any
+    fetchSpec: () => void
+    resetSpec: () => void
 }
 
 const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoading, fetchSpec, resetSpec, navPath}) => {

@@ -7,6 +7,7 @@ import ConfigureScreen from "./components/screens/ConfigureScreen";
 import DiscoverScreen from "./components/screens/DiscoverScreen";
 import ApiScreen from "./components/screens/ApiScreen";
 import MetricsScreen from "./components/screens/MetricsScreen";
+import LinkApiScreen from "./components/screens/LinkApiScreen";
 
 const Parent = styled.div`
   display: grid;
@@ -48,6 +49,9 @@ const App: React.FC = () => (
             <Switch>
                 <Route path="/config">
                     <ConfigureScreen/>
+                </Route>
+                <Route path="/apis/new">
+                    <LinkApiScreen/>
                 </Route>
                 <Route path="/apis/:name">
                     <ApiScreen/>
