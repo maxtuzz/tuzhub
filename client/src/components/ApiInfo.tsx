@@ -4,8 +4,7 @@ import PageTitle from "./lib/PageTitle";
 import Words from "./lib/Words";
 import styled from "styled-components";
 import {fadeInBottomCss} from "../styling/anims";
-import * as animationData from '../assets/animations/api-loading.json';
-import Lottie from 'react-lottie';
+import LoadingSpinner from "./LoaderSpinner";
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -52,16 +51,8 @@ const ApiInfo: React.FC<ApiInfoProps> = ({apiEntry, loadApi, specVersion, specDe
         loadApi();
     }, [loadApi]);
 
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-    };
-
     if (!apiEntry) {
-        return  <Lottie options={defaultOptions}
-                        height={400}
-                        width={400}/>;
+        return <LoadingSpinner/>;
     }
 
     return (

@@ -1,9 +1,9 @@
 import ApiEntry from "../model/ApiEntry";
 import React, {useEffect, useState} from "react";
 import ApiCard from "./lib/ApiCard";
-import Words from "./lib/Words";
 import styled from "styled-components";
 import SearchBar from "./lib/SearchBar";
+import LoadingSpinner from "./LoaderSpinner";
 
 interface Props {
     apiEntries: ApiEntry[],
@@ -57,7 +57,7 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis}) => {
             {
                 isLoading
                     ?
-                    <Words>Loading...</Words>
+                    <LoadingSpinner/>
                     :
                     <ListContainer>
                         {
