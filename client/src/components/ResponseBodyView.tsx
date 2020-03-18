@@ -4,47 +4,11 @@ import {monokai} from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import ExpandableContent from "./lib/ExpandableContent";
 import AccordionHeader from "./lib/AccordionHeader";
-import styled, {css} from "styled-components";
 import Words from "./lib/Words";
 import BodyView from "./lib/BodyView";
 import StatusHelper from "../util/StatusHelper";
-
-const TabsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid grey;
-  border-radius: 2px;
-  font-weight: 400;
-`;
-
-const TabButton = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 1.2em 2em;
-  border-radius: 2px;
-  
-  &:hover {
-    color: #ffffff;
-    cursor: pointer;  
-    background: rgba(255, 255, 255, 0.05);
-  }
-`;
-
-const TabUnderline = styled.div<{ active: boolean }>`
-  width: 0;
-  
-  ${props => props.active && css`
-    width: 100%;
-  `};
-  
-  height: 2px;
-  background-color: #51aec0;
-  transition: width .3s ;
-  
-  ${TabButton}:hover & {
-    width: 100%;
-  }
-`;
+import Tab from "./lib/tabs/Tab";
+import Tabs from "./lib/tabs/Tabs";
 
 interface Props {
     responseBody?: OpenAPIV3.ResponsesObject,
@@ -106,12 +70,9 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
     };
 
     const tabs = Object.entries(responses).map(([key, value], index) =>
-        <div>
-            <TabButton onClick={() => setTabContentByIndex(index)}>
-                {key}
-            </TabButton>
-            <TabUnderline active={activeIndex === index}/>
-        </div>
+        <Tab isActive={activeIndex === index} onClick={() => setTabContentByIndex(index)}>
+            {key}
+        </Tab>
     );
 
     return (
@@ -123,11 +84,11 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
                 Responses
             </AccordionHeader>
             <ExpandableContent open={open}>
-                <TabsContainer>
+                <Tabs>
                     {
                         tabs
                     }
-                </TabsContainer>
+                </Tabs>
                 {
                     tabData?.description
                         ? <Words>{tabData.description}</Words>
