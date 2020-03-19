@@ -12,8 +12,9 @@ const SwitchLabel = styled.label`
   width: 42px;
   height: 26px;
   border-radius: 15px;
-  background: #bebebe;
+  background: #e52d43;
   cursor: pointer;
+  transition: background 0.2s;
   
   &::after {
     content: "";
@@ -53,9 +54,13 @@ const CheckBox = styled.input`
 interface Props {
 }
 
-const SwitchToggle: React.FC<Props> = ({}) => (
+interface Functions {
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => any
+}
+
+const SwitchToggle: React.FC<Props & Functions> = ({onChange}) => (
     <SwitchWrapper>
-        <CheckBox id="checkbox" type="checkbox"/>
+        <CheckBox id="checkbox" type="checkbox" defaultChecked={true} onChange={onChange}/>
         <SwitchLabel htmlFor="checkbox"/>
     </SwitchWrapper>
 );

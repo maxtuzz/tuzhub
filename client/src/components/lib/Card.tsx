@@ -13,8 +13,7 @@ export const Card = styled.div<{ clickable?: boolean, fadeInFor?: number }>`
   padding: 20px; 
   border-radius: 10px;
   background-color: #2c2c30;
-  
-  
+ 
   @media (max-width: 1126px) {
       width: 140px;
       height: 100px;

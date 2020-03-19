@@ -1,35 +1,42 @@
-import styled from "styled-components";
 import React from "react";
-import ApiEntry from "../../model/ApiEntry";
+import styled from "styled-components";
+import TinyLoadingSpinner from "../Spinner";
 
 /**
  * Standard configurable button
  */
-const ButtonStyled = styled.button<{ primary?: boolean }>`
-  /* Adapt the colors based on primary prop */
-  background: ${({primary}) => primary ? "palevioletred" : "white"};
-  color: ${({primary}) => primary ? "white" : "palevioletred"};
-
+const ButtonStyled = styled.button`
+  background-color: #51aec0;
+  height: 3em;
+  color: #FFF;
   font-size: 1em;
+  font-weight: 800;
   margin: 1em;
   padding: 0.25em 1em;
-  border: 2px solid palevioletred;
+  border: none;
   border-radius: 3px;
+  
+  transition: 0.3s all;
+  
+  &:hover {
+    background-color: #4590a2;
+    cursor: pointer;
+  }
 `;
 
 interface Props {
-    apiEntries: ApiEntry[],
-    isLoading: boolean
+    children: string
+    isLoading?: boolean
 }
 
-interface Functions {
-    getApis: () => void
-}
-
-type ApiListProps = Props & Functions
-
-const Button = ({apiEntries, isLoading, getApis}: ApiListProps) => (
-    <ButtonStyled onClick={getApis}/>
+const Button: React.FC<Props> = ({isLoading, children}) => (
+  <ButtonStyled>
+      {
+          isLoading
+              ? <TinyLoadingSpinner/>
+              : children
+      }
+  </ButtonStyled>
 );
 
 export default Button;
