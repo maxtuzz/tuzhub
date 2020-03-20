@@ -1,10 +1,10 @@
 import React from "react";
 import ScreenArea from "./ScreenArea";
-import NewApiForm from "../NewApiForm";
+import ApiForm from "../ApiForm";
 
 const LinkApiScreen: React.FC = () => (
     <ScreenArea>
-        <NewApiForm/>
+        <ApiForm/>
     </ScreenArea>
 );
 

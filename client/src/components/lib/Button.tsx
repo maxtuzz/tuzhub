@@ -29,8 +29,12 @@ interface Props {
     isLoading?: boolean
 }
 
-const Button: React.FC<Props> = ({isLoading, children}) => (
-  <ButtonStyled>
+interface Functions {
+    onClick: () => void
+}
+
+const Button: React.FC<Props & Functions> = ({onClick, isLoading, children}) => (
+  <ButtonStyled onClick={onClick}>
       {
           isLoading
               ? <TinyLoadingSpinner/>

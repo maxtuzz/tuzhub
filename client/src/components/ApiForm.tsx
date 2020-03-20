@@ -16,6 +16,10 @@ const FormContainer = styled(FadeInContent)`
   display: flex;
   flex-direction: column;
   width: 70%; 
+  
+  @media (max-width: 1126px) {
+      width: 100%;
+  }
 `;
 
 const Form = styled.form`
@@ -30,19 +34,36 @@ const FormInput = styled(Input)<{ invalid?: boolean }>`
   border-bottom: ${props => props.invalid && "1px solid red"};
 `;
 
-interface Props {
-
+interface FormContent {
+    displayName: string
+    description: string
+    specUrl: string
+    dynamicConf: boolean
 }
 
-const NewApiForm: React.FC<Props> = ({}) => {
+const ApiForm: React.FC = ({}) => {
     const [expandAdvancedSettings, setExpandAdvancedSettings] = useState(false);
+
+    const [formContent, setFormContent] = useState<FormContent>({
+        displayName: "",
+        description: "",
+        specUrl: "",
+        dynamicConf: true
+    });
+
     return (
         <FormContainer>
             <Form>
                 <HeaderText>Add API</HeaderText>
                 <Words>Enter in some basic details about the API you want to link</Words>
-                <FormInput type="text" placeholder="Display name"/>
-                <FormInput type="text" placeholder="Summary"/>
+                <FormInput type="text" placeholder="Display name" onChange={event => setFormContent({
+                    ...formContent,
+                    displayName: event.target.value
+                })}/>
+                <FormInput type="text" placeholder="Summary" onChange={event => setFormContent({
+                    ...formContent,
+                    description: event.target.value
+                })}/>
 
                 <HeaderText>Spec</HeaderText>
                 <Words>You can either choose to link a spec directly and let Tuzzy take care of polling it for changes.
@@ -52,14 +73,21 @@ const NewApiForm: React.FC<Props> = ({}) => {
 
                 <Tabs>
                     <Tab onClick={() => console.log("spec")} isActive={true}>Remote</Tab>
-                    <Tab onClick={() => console.log("spec")} isActive={false}>Upload</Tab>
+                    <Tab onClick={() => console.log("upload")} isActive={false}>Upload</Tab>
                 </Tabs>
                 <Words>Provide an URL to remote spec</Words>
-                <FormInput type="text"
-                           placeholder="https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"/>
+                <FormInput onChange={event => setFormContent({
+                        ...formContent,
+                        specUrl: event.target.value
+                    })}
+                           type="text" placeholder="https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
+                />
 
                 <SectionHeader>Auto configure</SectionHeader>
-                <SwitchToggle onChange={(event) => console.log(event.target.checked)}/>
+                <SwitchToggle onChange={(event) => setFormContent({
+                    ...formContent,
+                    dynamicConf: event.target.checked
+                })}/>
 
                 <AccordionHeader open={expandAdvancedSettings}
                                  onClick={() => setExpandAdvancedSettings(!expandAdvancedSettings)}>
@@ -69,9 +97,9 @@ const NewApiForm: React.FC<Props> = ({}) => {
                     <Words>Coming soon. (Disable proxy, authentication, etc.)</Words>
                 </ExpandableContent>
             </Form>
-            <Button isLoading={true}>Create</Button>
+            <Button onClick={() => alert(JSON.stringify(formContent))}>Create</Button>
         </FormContainer>
     );
 };
 
-export default NewApiForm;
+export default ApiForm;
