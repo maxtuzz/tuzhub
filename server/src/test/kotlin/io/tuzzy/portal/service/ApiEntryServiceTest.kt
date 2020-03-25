@@ -1,6 +1,9 @@
 package io.tuzzy.portal.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import io.javalin.http.BadRequestResponse
+import io.tuzzy.portal.ResourceHelp.Companion.read
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.domain.query.QDApiEntry
 import io.tuzzy.portal.domain.query.QDApiSpec
@@ -34,6 +37,24 @@ class ApiEntryServiceTest {
         apiEntryService.createApiEntry(dummyEntry)
 
         assertThat(apiEntryService.getApiEntries().map { it.name }).contains("jedi-order")
+    }
+
+    @Test
+    fun `Create API entry from manual spec`() {
+        val specA = read("/specs/petstore.yaml")
+
+        val yamlReader = ObjectMapper(YAMLFactory())
+        val obj: Any = yamlReader.readValue(specA, Any::class.java)
+
+        val jsonString = ObjectMapper().writeValueAsString(obj)
+        val json = SpecMapper.toJson(jsonString)
+
+        dummyEntry.fullSpec = json
+        dummyEntry.dynamicConf = false
+
+        apiEntryService.createApiEntry(dummyEntry)
+
+        assertThat(apiEntryService.getApiEntries().map { it.dynamicConf }).isEqualTo(false)
     }
 
     @Test

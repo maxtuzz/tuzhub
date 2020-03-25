@@ -1,6 +1,9 @@
 package io.tuzzy.portal.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import io.javalin.http.NotFoundResponse
+import io.tuzzy.portal.ResourceHelp.Companion.read
 import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.domain.DApiEntry
 import io.tuzzy.portal.domain.DApiSpec
@@ -65,6 +68,32 @@ internal class ApiSpecServiceTest {
         val specs: List<DApiSpec> = specService.getPollableSpecs()
 
         assertThat(specs).hasSize(2)
+    }
+
+    @Test
+    fun `Create spec by parsing yaml`() {
+        val displayName = "YAML API"
+        val entry = DApiEntry(displayName, "This spec is manually maintained")
+        entry.save()
+
+        val specA = read("/specs/petstore.yaml")
+
+        // Convert to json
+        val yamlReader = ObjectMapper(YAMLFactory())
+        val obj: Any = yamlReader.readValue(specA, Any::class.java)
+
+        val jsonString = ObjectMapper().writeValueAsString(obj)
+        val json = SpecMapper.toJson(jsonString)
+
+        val specVersion = "v1"
+        specService.saveSpec(entry, SpecStatus.ACTIVE, specVersion, json)
+
+        val activeSpec = specService.getActiveSpec(displayName.toLowerCase().replace(" ", "-"))
+
+        assertAll(
+            Executable { assertThat(activeSpec.specUrl).isNull() },
+            Executable { assertThat(activeSpec.specVersion).isEqualTo(specVersion) }
+        )
     }
 
     @Test

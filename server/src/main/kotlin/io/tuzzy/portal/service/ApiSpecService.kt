@@ -24,7 +24,7 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
         return QDApiSpec().apiEntry
             .name.eq(apiName)
             .status.eq(SpecStatus.ACTIVE)
-            .findOne()?: throw NotFoundResponse("No active spec found for this API. Please set an active spec.")
+            .findOne() ?: throw NotFoundResponse("No active spec found for this API. Please set an active spec.")
     }
 
     /**
@@ -125,9 +125,9 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
         return QDApiSpec()
             .apiEntry.dynamicConf.eq(true)
             .or()
-                .status.eq(SpecStatus.ACTIVE)
-                .status.eq(SpecStatus.PRE_RELEASE)
-                .status.eq(SpecStatus.ADMIN_ONLY)
+            .status.eq(SpecStatus.ACTIVE)
+            .status.eq(SpecStatus.PRE_RELEASE)
+            .status.eq(SpecStatus.ADMIN_ONLY)
             .endOr()
             .findList()
     }
@@ -192,5 +192,18 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
             .asUpdate()
                 .set("status", SpecStatus.HISTORIC)
             .update()
+    }
+
+    /**
+     * Save spec
+     */
+    fun saveSpec(apiEntry: DApiEntry, status: SpecStatus, version: String, json: Map<String, Any>, specUrl: String? = null) {
+        DApiSpec(
+            apiEntry = apiEntry,
+            status = status,
+            specVersion = version,
+            spec = json,
+            specUrl = specUrl
+        ).save()
     }
 }

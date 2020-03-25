@@ -15,8 +15,16 @@ class SpecMapper {
             return mapper.convertValue(json, object : TypeReference<OpenAPI>() {})
         }
 
+        fun toJson(jsonString: String): Map<String, Any> {
+            return mapper.readValue(jsonString, object : TypeReference<Map<String, Any>>() {})
+        }
+
         fun toJson(apiSpec: OpenAPI): Map<String, Any> {
             return mapper.convertValue(apiSpec, object : TypeReference<Map<String, Any>>() {})
+        }
+
+        fun toString(json: Map<String, Any>): String {
+            return mapper.writeValueAsString(json)
         }
     }
 }
