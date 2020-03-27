@@ -1,9 +1,8 @@
 package io.tuzzy.portal.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import io.javalin.http.BadRequestResponse
 import io.tuzzy.portal.ResourceHelp.Companion.read
+import io.tuzzy.portal.ResourceHelp.Companion.readYamlToJsonMap
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.domain.query.QDApiEntry
 import io.tuzzy.portal.domain.query.QDApiSpec
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 
 class ApiEntryServiceTest {
     private lateinit var apiEntryService: ApiEntryService
@@ -43,18 +43,17 @@ class ApiEntryServiceTest {
     fun `Create API entry from manual spec`() {
         val specA = read("/specs/petstore.yaml")
 
-        val yamlReader = ObjectMapper(YAMLFactory())
-        val obj: Any = yamlReader.readValue(specA, Any::class.java)
-
-        val jsonString = ObjectMapper().writeValueAsString(obj)
-        val json = SpecMapper.toJson(jsonString)
+        val json= readYamlToJsonMap("/specs/petstore.yaml")
 
         dummyEntry.fullSpec = json
         dummyEntry.dynamicConf = false
 
+        println(dummyEntry.toString())
+
         apiEntryService.createApiEntry(dummyEntry)
 
-        assertThat(apiEntryService.getApiEntries().map { it.dynamicConf }).isEqualTo(false)
+        val entry = apiEntryService.getByName("jedi-order")
+        assertFalse(entry.dynamicConf)
     }
 
     @Test

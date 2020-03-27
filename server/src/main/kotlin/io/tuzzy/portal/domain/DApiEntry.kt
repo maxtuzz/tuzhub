@@ -19,4 +19,8 @@ class DApiEntry(displayName: String, description: String?, dynamicConf: Boolean 
     var dynamicConf = dynamicConf
 
     companion object Find : DApiEntryFinder()
+
+    override fun toString(): String {
+        return "DApiEntry(displayName='$displayName', name='$name', description=$description, dynamicConf=$dynamicConf)"
+    }
 }

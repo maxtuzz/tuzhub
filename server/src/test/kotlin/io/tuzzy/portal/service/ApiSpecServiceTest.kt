@@ -1,9 +1,7 @@
 package io.tuzzy.portal.service
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import io.javalin.http.NotFoundResponse
-import io.tuzzy.portal.ResourceHelp.Companion.read
+import io.tuzzy.portal.ResourceHelp.Companion.readYamlToJsonMap
 import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.domain.DApiEntry
 import io.tuzzy.portal.domain.DApiSpec
@@ -76,14 +74,7 @@ internal class ApiSpecServiceTest {
         val entry = DApiEntry(displayName, "This spec is manually maintained")
         entry.save()
 
-        val specA = read("/specs/petstore.yaml")
-
-        // Convert to json
-        val yamlReader = ObjectMapper(YAMLFactory())
-        val obj: Any = yamlReader.readValue(specA, Any::class.java)
-
-        val jsonString = ObjectMapper().writeValueAsString(obj)
-        val json = SpecMapper.toJson(jsonString)
+        val json = readYamlToJsonMap("/specs/petstore.yaml")
 
         val specVersion = "v1"
         specService.saveSpec(entry, SpecStatus.ACTIVE, specVersion, json)

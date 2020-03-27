@@ -1,10 +1,12 @@
 package io.tuzzy.portal.web
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.tuzzy.portal.ResourceHelp.Companion.read
+import io.tuzzy.portal.ResourceHelp.Companion.readYamlToJsonMap
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.api.ListResponse
 import io.tuzzy.portal.domain.DApiEntry
-import io.tuzzy.portal.startServer
+import io.tuzzy.portal.domain.query.QDApiSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Test
@@ -47,6 +49,30 @@ class ApiEntryControllerTest : WebTest() {
         assertAll(
             Executable { assertThat(apiEntries.content).hasSize(2) },
             Executable { assertThat(apiEntries.content.map { it.name }).contains("user-api") }
+        )
+    }
+
+    @Test
+    fun `POST with manually configured spec`() {
+        val fullSpec = readYamlToJsonMap("/specs/uspto.yaml")
+
+        val entry = ApiEntry(
+            displayName = "api name",
+            description = "Yes, this is manually maintained",
+            dynamicConf = false
+        )
+
+        entry.fullSpec = fullSpec
+
+        val bodyA = ObjectMapper().writeValueAsString(entry)
+
+        postApi(bodyA)
+
+        val findOne = QDApiSpec().apiEntry.name.eq("api-name").findOne()
+
+        assertAll(
+            Executable { assertThat(findOne).isNotNull },
+            Executable { assertThat(findOne?.spec?.getValue("info")).isNotNull }
         )
     }
 

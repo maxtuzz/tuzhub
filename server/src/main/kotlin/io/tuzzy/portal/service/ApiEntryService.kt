@@ -32,7 +32,7 @@ class ApiEntryService(private val remoteOpenAPIService: RemoteOpenAPIService) {
             ?: throw IllegalStateException("Unable to fetch json spec")
 
         // Create entry record
-        val apiEntry = DApiEntry(apiEntryReq.displayName, apiEntryReq.description)
+        val apiEntry = DApiEntry(apiEntryReq.displayName, apiEntryReq.description, apiEntryReq.dynamicConf)
         apiEntry.save()
 
         // Create initial spec record associated with it
