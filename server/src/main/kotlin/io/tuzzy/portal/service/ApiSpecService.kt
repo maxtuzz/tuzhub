@@ -1,8 +1,10 @@
 package io.tuzzy.portal.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.javalin.http.BadRequestResponse
 import io.javalin.http.ForbiddenResponse
 import io.javalin.http.NotFoundResponse
+import io.swagger.v3.parser.OpenAPIV3Parser
 import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.domain.DApiEntry
 import io.tuzzy.portal.domain.DApiSpec
@@ -59,19 +61,26 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
             .name.eq(apiName)
             .findOne() ?: throw NotFoundResponse("An API with that name cannot be found")
 
+        if (spec.spec != null && api.dynamicConf) {
+            throw BadRequestResponse("API is set to be dynamically configured, please supply a remote spec url or turn off dynamic configuration")
+        }
+
         // If created spec is set to active, then de
         if (spec.status == SpecStatus.ACTIVE) {
             markSpecHistoric(api)
         }
 
-        if (spec.specUrl == null) {
-            throw ForbiddenResponse("New specs only supported with remote call for now")
-        }
+        val jsonSpec: Map<String, Any> = getSpecJson(spec)
 
-        val jsonSpec = remoteOpenAPIService.getJson(spec.specUrl)
 
         // Save new entry
-        DApiSpec(api, spec.specVersion, spec.status, spec.specUrl, jsonSpec).save()
+        saveSpec(
+            apiEntry = api,
+            specUrl = spec.specUrl,
+            status = spec.status,
+            version = spec.specVersion,
+            json = jsonSpec
+        )
     }
 
     /**
@@ -190,14 +199,20 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
             .apiEntry.name.eq(api.name)
             .status.eq(SpecStatus.ACTIVE)
             .asUpdate()
-                .set("status", SpecStatus.HISTORIC)
+            .set("status", SpecStatus.HISTORIC)
             .update()
     }
 
     /**
      * Save spec
      */
-    fun saveSpec(apiEntry: DApiEntry, status: SpecStatus, version: String, json: Map<String, Any>, specUrl: String? = null) {
+    fun saveSpec(
+        apiEntry: DApiEntry,
+        status: SpecStatus,
+        version: String,
+        json: Map<String, Any>,
+        specUrl: String? = null
+    ) {
         DApiSpec(
             apiEntry = apiEntry,
             status = status,
@@ -205,5 +220,24 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
             spec = json,
             specUrl = specUrl
         ).save()
+    }
+
+    /**
+     * Returns json from either full spec or from remote spec url
+     */
+    private fun getSpecJson(spec: ApiSpec): Map<String, Any> {
+        return (
+                when {
+                    spec.specUrl != null -> {
+                        remoteOpenAPIService.getJson(spec.specUrl)
+                    }
+                    spec.spec != null -> {
+                        val validateContent = OpenAPIV3Parser().readContents(SpecMapper.toString(spec.spec!!))
+                        SpecMapper.toJson(validateContent.openAPI)
+                    }
+                    else -> {
+                        null
+                    }
+                }) ?: throw BadRequestResponse("No specUrl or full spec supplied in request body")
     }
 }

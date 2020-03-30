@@ -1,6 +1,5 @@
 package io.tuzzy.portal.service
 
-import io.javalin.http.BadRequestResponse
 import io.javalin.http.Context
 import io.javalin.http.NotFoundResponse
 import io.swagger.v3.parser.OpenAPIV3Parser
@@ -19,17 +18,18 @@ class ApiEntryService(private val remoteOpenAPIService: RemoteOpenAPIService) {
      */
     fun createApiEntry(apiEntryReq: ApiEntry) {
         val jsonSpec: Map<String, Any> = (
-                if (!apiEntryReq.dynamicConf && apiEntryReq.fullSpec != null) {
-                    val readContents = OpenAPIV3Parser().readContents(SpecMapper.toString(apiEntryReq.fullSpec!!))
-                    SpecMapper.toJson(readContents.openAPI)
-                } else {
-                    if (apiEntryReq.specUrl == null) {
-                        throw BadRequestResponse("Spec url not defined in request body, and manual configuration is set to off")
+                when {
+                    apiEntryReq.specUrl != null -> {
+                        remoteOpenAPIService.getJson(apiEntryReq.specUrl!!)
                     }
-
-                    remoteOpenAPIService.getJson(apiEntryReq.specUrl!!)
-                })
-            ?: throw IllegalStateException("Unable to fetch json spec")
+                    apiEntryReq.fullSpec != null -> {
+                        val validateContent = OpenAPIV3Parser().readContents(SpecMapper.toString(apiEntryReq.fullSpec!!))
+                        SpecMapper.toJson(validateContent.openAPI)
+                    }
+                    else -> {
+                        null
+                    }
+                }) ?: throw IllegalStateException("Failed to compute spec in json format")
 
         // Create entry record
         val apiEntry = DApiEntry(apiEntryReq.displayName, apiEntryReq.description, apiEntryReq.dynamicConf)

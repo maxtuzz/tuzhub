@@ -1,5 +1,6 @@
 package io.tuzzy.portal.service
 
+import io.javalin.http.BadRequestResponse
 import io.javalin.http.NotFoundResponse
 import io.tuzzy.portal.ResourceHelp.Companion.readYamlToJsonMap
 import io.tuzzy.portal.api.ApiSpec
@@ -170,6 +171,50 @@ internal class ApiSpecServiceTest {
             Executable { assertThat(statuses).contains(SpecStatus.ACTIVE) },
             Executable { assertThat(statuses).contains(SpecStatus.HISTORIC) }
         )
+    }
+
+    @Test
+    fun `Update with manual spec`() {
+        // Turn dynamic config off
+        QDApiEntry()
+            .name.eq(apiName)
+            .asUpdate()
+            .set("dynamicConf", false)
+            .update()
+
+        val jsonSpec = readYamlToJsonMap("/specs/identity.yaml")
+
+        specService.createSpecVersion(
+            apiName, ApiSpec(
+                specVersion = "v2",
+                status = SpecStatus.ACTIVE,
+                spec = jsonSpec
+            )
+        )
+
+        val specs: List<ApiSpec> = specService.getApiSpecs(apiName)
+
+        assertThat(specs).hasSize(2)
+
+        val statuses = specs.map { it.status }
+
+        assertAll(
+            Executable { assertThat(statuses).contains(SpecStatus.ACTIVE) },
+            Executable { assertThat(statuses).contains(SpecStatus.HISTORIC) }
+        )
+    }
+
+    @Test
+    fun `Fails on manual spec upload when dynamic config is turned on`() {
+        assertFailsWith<BadRequestResponse> {
+            specService.createSpecVersion(
+                apiName, ApiSpec(
+                    specVersion = "v2",
+                    spec = mutableMapOf(),
+                    status = SpecStatus.ACTIVE
+                )
+            )
+        }
     }
 
     @Test

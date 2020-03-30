@@ -117,7 +117,7 @@ open class WebTest {
     }
 
     fun getApiSpec(apiName: String, specVersion: String): ApiSpec {
-        return Unirest.get("http://localhost:${servicePort}/api-entries/${apiName}/specs/$specVersion")
+        return Unirest.get("http://localhost:${servicePort}/api-entries/$apiName/specs/$specVersion")
             .header("Content-Type", "application/json")
             .asObject(object : GenericType<ApiSpec>() {})
             .getBody()
@@ -130,7 +130,6 @@ open class WebTest {
 
 
         if (!httpResponse.isSuccess) {
-            logger.info("YO WTF")
             throw IllegalStateException("Failed request ${httpResponse.status}")
         }
     }
