@@ -50,6 +50,15 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
         dSpec.specUrl = updateReq.specUrl
         dSpec.status = updateReq.status
 
+        if (updateReq.spec != null) {
+            val validateContent = OpenAPIV3Parser().readContents(SpecMapper.toString(updateReq.spec!!))
+
+            dSpec.spec = SpecMapper.toJson(validateContent.openAPI)
+            dSpec.save()
+
+            return
+        }
+
         refreshDSpec(dSpec)
     }
 
@@ -71,7 +80,6 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
         }
 
         val jsonSpec: Map<String, Any> = getSpecJson(spec)
-
 
         // Save new entry
         saveSpec(
@@ -162,6 +170,9 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
         apiSpec.save()
     }
 
+    /**
+     * Checks to see if new spec is different from stored spec
+     */
     private fun compareSpecs(
         spec1: Map<String, Any>?,
         spec2: Map<String, Any>
@@ -226,18 +237,17 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
      * Returns json from either full spec or from remote spec url
      */
     private fun getSpecJson(spec: ApiSpec): Map<String, Any> {
-        return (
-                when {
-                    spec.specUrl != null -> {
-                        remoteOpenAPIService.getJson(spec.specUrl)
-                    }
-                    spec.spec != null -> {
-                        val validateContent = OpenAPIV3Parser().readContents(SpecMapper.toString(spec.spec!!))
-                        SpecMapper.toJson(validateContent.openAPI)
-                    }
-                    else -> {
-                        null
-                    }
-                }) ?: throw BadRequestResponse("No specUrl or full spec supplied in request body")
+        return when {
+            spec.specUrl != null -> {
+                remoteOpenAPIService.getJson(spec.specUrl)
+            }
+            spec.spec != null -> {
+                val validateContent = OpenAPIV3Parser().readContents(SpecMapper.toString(spec.spec!!))
+                SpecMapper.toJson(validateContent.openAPI)
+            }
+            else -> {
+                null
+            }
+        } ?: throw BadRequestResponse("No specUrl or full spec supplied in request body")
     }
 }

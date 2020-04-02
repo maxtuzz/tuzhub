@@ -143,6 +143,30 @@ internal class ApiSpecServiceTest {
     }
 
     @Test
+    fun `Update spec manually`() {
+        val updateSpecVersion = "v2"
+
+        toggleOffDynamicConf()
+
+        val jsonSpec = readYamlToJsonMap("/specs/identity.yaml")
+
+        val updateReq = ApiSpec(
+            specVersion = updateSpecVersion,
+            status = SpecStatus.ACTIVE,
+            spec = jsonSpec
+        )
+
+        specService.updateSpec(apiName, "v1", updateReq)
+
+        val spec: DApiSpec? = specService.getActiveSpec(apiName)
+
+        assertAll(
+            Executable { assertThat(spec?.specVersion).isEqualTo(updateSpecVersion) },
+            Executable { assertThat(spec?.specUrl).isEqualTo(null) }
+        )
+    }
+
+    @Test
     fun `Get all specs`() {
         val specs: List<ApiSpec> = specService.getApiSpecs(apiName)
 
@@ -174,13 +198,9 @@ internal class ApiSpecServiceTest {
     }
 
     @Test
-    fun `Update with manual spec`() {
+    fun `New version with manual spec`() {
         // Turn dynamic config off
-        QDApiEntry()
-            .name.eq(apiName)
-            .asUpdate()
-            .set("dynamicConf", false)
-            .update()
+        toggleOffDynamicConf()
 
         val jsonSpec = readYamlToJsonMap("/specs/identity.yaml")
 
@@ -231,5 +251,13 @@ internal class ApiSpecServiceTest {
         val specs = specService.getAll(apiName)
 
         assertThat(specs).hasSize(1)
+    }
+
+    private fun toggleOffDynamicConf() {
+        QDApiEntry()
+            .name.eq(apiName)
+            .asUpdate()
+            .set("dynamicConf", false)
+            .update()
     }
 }

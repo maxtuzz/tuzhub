@@ -1,6 +1,9 @@
 package io.tuzzy.portal.web
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import io.tuzzy.portal.ResourceHelp
 import io.tuzzy.portal.ResourceHelp.Companion.read
+import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.api.HalResource
 import io.tuzzy.portal.domain.SpecStatus
 import kong.unirest.GenericType
@@ -81,6 +84,31 @@ class ApiSpecControllerTest : WebTest() {
         val spec = getApiSpec(apiName, specVersion)
 
         assertThat(spec.specUrl).contains("uspto.yaml")
+    }
+
+    @Test
+    fun `PUT active spec GET updated version - MANUAL`() {
+        postApiSpec()
+
+        val specJson = ResourceHelp.readYamlToJsonMap("/specs/uspto.yaml")
+
+        val entry = ApiSpec(
+            specVersion = "v2-dev",
+            spec = specJson,
+            status= SpecStatus.ACTIVE
+        )
+
+        val mapper = ObjectMapper()
+        val specBody = mapper.writeValueAsString(entry)
+
+        putSpec(apiName, specVersion, specBody)
+
+        val spec = getApiSpec(apiName, specVersion)
+
+        assertAll(
+            Executable { assertThat(spec.specUrl).isNull() },
+            Executable { assertThat(mapper.writeValueAsString(spec)).contains("USPTO Data Set API") }
+        )
     }
 
 
