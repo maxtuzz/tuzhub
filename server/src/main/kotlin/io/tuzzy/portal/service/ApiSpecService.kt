@@ -142,9 +142,9 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
         return QDApiSpec()
             .apiEntry.dynamicConf.eq(true)
             .or()
-            .status.eq(SpecStatus.ACTIVE)
-            .status.eq(SpecStatus.PRE_RELEASE)
-            .status.eq(SpecStatus.ADMIN_ONLY)
+                .status.eq(SpecStatus.ACTIVE)
+                .status.eq(SpecStatus.PRE_RELEASE)
+                .status.eq(SpecStatus.ADMIN_ONLY)
             .endOr()
             .findList()
     }
@@ -210,7 +210,7 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
             .apiEntry.name.eq(api.name)
             .status.eq(SpecStatus.ACTIVE)
             .asUpdate()
-            .set("status", SpecStatus.HISTORIC)
+                .set("status", SpecStatus.HISTORIC)
             .update()
     }
 

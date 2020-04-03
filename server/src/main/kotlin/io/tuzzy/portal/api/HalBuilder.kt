@@ -11,7 +11,7 @@ import io.javalin.http.Context
 class HalBuilder(private val ctx: Context) {
     private val links: MutableMap<String, HalLink> = mutableMapOf()
 
-    private val proto = if (ctx.protocol().contains("s")) {
+    private val proto = if (ctx.protocol().endsWith("s")) {
         "https"
     } else {
         "http"

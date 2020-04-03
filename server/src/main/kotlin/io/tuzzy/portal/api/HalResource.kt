@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * Open class to supply all resources restful hateoas metadata
  */
-open class HalResource(
-    links: Links = Links(),
-    embedded: MutableMap<String, Any>? = mutableMapOf()
-) {
+open class HalResource(links: Links = Links(), embedded: MutableMap<String, Any>? = mutableMapOf()) {
     @JsonProperty("_links")
     var links = links
 
