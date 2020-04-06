@@ -1,7 +1,7 @@
 import styled, {css} from "styled-components";
 import React from "react";
 
-const TabButton = styled.div`
+const StyledButton = styled.div`
   display: flex;
   align-items: center;
   padding: 1.2em 2em;
@@ -25,27 +25,27 @@ const TabUnderline = styled.div<{ active: boolean }>`
   background-color: #51aec0;
   transition: width .3s ;
   
-  ${TabButton}:hover & {
+  ${StyledButton}:hover & {
     width: 100%;
   }
 `;
 
 interface Props {
+    label: string
     isActive: boolean
-    children: string
 }
 
 interface Functions {
     onClick: () => void
 }
 
-const Tab: React.FC<Props & Functions> = ({isActive, children, onClick}) => (
+const TabButton: React.FC<Props & Functions> = ({label, isActive, onClick}) => (
     <div>
-        <TabButton onClick={onClick}>
-            {children}
-        </TabButton>
+        <StyledButton onClick={onClick}>
+            {label}
+        </StyledButton>
         <TabUnderline active={isActive}/>
     </div>
 );
 
-export default Tab;
+export default TabButton;

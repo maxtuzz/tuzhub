@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import HeaderText from "./lib/HeaderText";
 import Words from "./lib/Words";
-import Tabs from "./lib/tabs/Tabs";
-import Tab from "./lib/tabs/Tab";
 import SwitchToggle from "./lib/SwitchToggle";
 import AccordionHeader from "./lib/AccordionHeader";
 import styled from "styled-components";
@@ -11,6 +9,7 @@ import ExpandableContent from "./lib/ExpandableContent";
 import Button from "./lib/Button";
 import SectionHeader from "./lib/SectionHeader";
 import FadeInContent from "./lib/FadeInContent";
+import Tabs, {Tab} from "./lib/tabs/Tabs";
 
 const FormContainer = styled(FadeInContent)`
   display: flex;
@@ -72,16 +71,20 @@ const ApiForm: React.FC = ({}) => {
                     etc.)</Words>
 
                 <Tabs>
-                    <Tab onClick={() => console.log("spec")} isActive={true}>Remote</Tab>
-                    <Tab onClick={() => console.log("upload")} isActive={false}>Upload</Tab>
+                    <Tab label="Remote">
+                        <Words>Provide an URL to remote spec</Words>
+                        <FormInput onChange={event => setFormContent({
+                            ...formContent,
+                            specUrl: event.target.value
+                        })}
+                                   type="text"
+                                   placeholder="https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
+                        />
+                    </Tab>
+                    <Tab label="Upload">
+                        <span>world</span>
+                    </Tab>
                 </Tabs>
-                <Words>Provide an URL to remote spec</Words>
-                <FormInput onChange={event => setFormContent({
-                        ...formContent,
-                        specUrl: event.target.value
-                    })}
-                           type="text" placeholder="https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
-                />
 
                 <SectionHeader>Auto configure</SectionHeader>
                 <SwitchToggle onChange={(event) => setFormContent({
