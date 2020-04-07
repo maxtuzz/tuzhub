@@ -10,6 +10,7 @@ import Button from "./lib/Button";
 import SectionHeader from "./lib/SectionHeader";
 import FadeInContent from "./lib/FadeInContent";
 import Tabs, {Tab} from "./lib/tabs/Tabs";
+import {sampleYaml} from "../assets/samples/spec";
 
 const FormContainer = styled(FadeInContent)`
   display: flex;
@@ -31,6 +32,20 @@ const FormInput = styled(Input)<{ invalid?: boolean }>`
   margin-bottom: 1em;
   
   border-bottom: ${props => props.invalid && "1px solid red"};
+`;
+
+const SpecTextArea = styled.textarea`
+  margin-top: 0.3em;
+  padding: 0.7em 0.7em 0.7em 0.7em;
+  outline: none;
+  border: none; 
+  width: 98%;
+  height: 30em;
+  background-color: #2c2c30;
+  color: white;
+  font-size: 16px;
+  font-weight: 400;
+  border-radius: 5px;
 `;
 
 interface FormContent {
@@ -80,17 +95,19 @@ const ApiForm: React.FC = ({}) => {
                                    type="text"
                                    placeholder="https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
                         />
+                        <SectionHeader>Auto configure</SectionHeader>
+                        <SwitchToggle onChange={(event) => setFormContent({
+                            ...formContent,
+                            dynamicConf: event.target.checked
+                        })}/>
                     </Tab>
                     <Tab label="Upload">
-                        <span>world</span>
+                        <FadeInContent>
+                            <Words>Paste a valid OpenAPI spec</Words>
+                            <SpecTextArea placeholder={sampleYaml}/>
+                        </FadeInContent>
                     </Tab>
                 </Tabs>
-
-                <SectionHeader>Auto configure</SectionHeader>
-                <SwitchToggle onChange={(event) => setFormContent({
-                    ...formContent,
-                    dynamicConf: event.target.checked
-                })}/>
 
                 <AccordionHeader open={expandAdvancedSettings}
                                  onClick={() => setExpandAdvancedSettings(!expandAdvancedSettings)}>
