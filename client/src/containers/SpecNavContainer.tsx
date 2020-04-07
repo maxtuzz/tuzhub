@@ -6,6 +6,7 @@ import {scrollToSpecSection} from "../redux/api-entries/api-specs/actions";
 
 const mapStateToProps = (state: AppState) => ({
     apiDoc: state.apiSpecReducer.apiSpec?.document,
+    specLoading: state.apiSpecReducer.isLoading
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

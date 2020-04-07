@@ -12,6 +12,7 @@ interface Props {
 
 interface Functions {
     getApis: () => void
+    resetSpec: () => void
 }
 
 type ApiListProps = Props & Functions
@@ -26,12 +27,13 @@ const ListContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis}) => {
+const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis, resetSpec}) => {
     const [filteredApis, setFilteredApis] = useState(apiEntries);
 
     // Component mounts
     useEffect(() => {
-        getApis()
+        resetSpec();
+        getApis();
     }, [getApis]);
 
     // Reset filtered list when we refreshed

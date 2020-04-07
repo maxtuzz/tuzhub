@@ -15,18 +15,19 @@ const StyledButton = styled.div`
 `;
 
 const TabUnderline = styled.div<{ active: boolean }>`
-  width: 0;
+  transform: scaleX(0);
+  width: 100%;
   
   ${props => props.active && css`
-    width: 100%;
+    transform: scaleX(1);
   `};
   
   height: 2px;
   background-color: #51aec0;
-  transition: width .3s ;
+  transition: transform .3s ease-in-out;
   
   ${StyledButton}:hover & {
-    width: 100%;
+    transform: scaleX(1);
   }
 `;
 

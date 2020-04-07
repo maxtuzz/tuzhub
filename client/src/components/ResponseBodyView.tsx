@@ -6,8 +6,8 @@ import ExpandableContent from "./lib/ExpandableContent";
 import AccordionHeader from "./lib/AccordionHeader";
 import Words from "./lib/Words";
 import BodyView from "./lib/BodyView";
-import StatusHelper from "../util/StatusHelper";
 import Tabs, {Tab} from "./lib/tabs/Tabs";
+import StatusHelper from "../util/StatusHelper";
 
 interface Props {
     responseBody?: OpenAPIV3.ResponsesObject,
@@ -23,37 +23,38 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
         const statusValue: OpenAPIV3.ResponseObject = value as OpenAPIV3.ResponseObject;
         const statusContent = statusValue.content;
 
+        const statusDescription = statusValue.description
+            ? <Words>{statusValue.description}</Words>
+            : <Words>{StatusHelper.getDescription(status)}</Words>;
+
         if (!statusContent) {
             return (
                 <ExpandableContent open={open}>
-                    <Words>{StatusHelper.getDescription(status)}</Words>
+                    {statusDescription}
 
                     <SyntaxHighlighter language="json" style={monokai}>
-                        {"{ }"}
+                        {"{}"}
                     </SyntaxHighlighter>
                 </ExpandableContent>
             );
+
         }
 
+        // Todo: Accept multiple format types (responseType)
         return Object.entries(statusContent).map(([responseType, value]) => {
-            if (responseType.toLowerCase().includes("json")) {
-                const schema = value.schema as OpenAPIV3.BaseSchemaObject;
+            const schema = value.schema as OpenAPIV3.BaseSchemaObject;
+            const codeSnippet = JSON.stringify(schema, null, 2);
 
-                return (
-                    <ExpandableContent open={open}>
+            return (
+                <ExpandableContent open={open}>
+                    {statusDescription}
+                    <SyntaxHighlighter language="json" style={monokai}>
                         {
-                            statusValue.description
-                                ? <Words>{statusValue.description}</Words>
-                                : <Words>{StatusHelper.getDescription(status)}</Words>
+                            codeSnippet
                         }
-                        <SyntaxHighlighter language="json" style={monokai}>
-                            {
-                                JSON.stringify(schema, null, 2)
-                            }
-                        </SyntaxHighlighter>
-                    </ExpandableContent>
-                );
-            }
+                    </SyntaxHighlighter>
+                </ExpandableContent>
+            );
         });
     };
 

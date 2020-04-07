@@ -1,17 +1,16 @@
 import React, {useEffect, useState} from "react";
 import SidebarMenuItem, {SidebarMenuItemLabel} from "./lib/SidebarMenuItem";
 import styled from "styled-components";
-import {fadeInTop, fadeOutTop} from "../styling/anims";
+import {fadeInTop} from "../styling/anims";
 import ExpandableContent from "./lib/ExpandableContent";
 import Chevron from "./lib/Chevron";
 import {OpenAPIV3} from "openapi-types";
 import ResourceFormatter from "../util/ResourceFormatter";
+import Spinner from "./Spinner";
 
-const NavItemsContainer = styled.div<{ out: boolean }>`
+const NavItemsContainer = styled.div<{ out?: boolean }>`
   width: 100%;
-  visibility: ${props => props.out ? 'hidden' : 'visible'};
-  animation: ${props => props.out ? fadeOutTop : fadeInTop} 250ms linear;
-  transition: visibility 200ms linear;
+  animation: ${fadeInTop} 250ms linear;
   
   @media (max-width: 1126px) {
       display: none;
@@ -19,14 +18,15 @@ const NavItemsContainer = styled.div<{ out: boolean }>`
 `;
 
 interface Props {
-    apiDoc?: OpenAPIV3.Document;
+    apiDoc?: OpenAPIV3.Document
+    specLoading: boolean
 }
 
 interface Functions {
     scrollTo: (path: string) => void
 }
 
-const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, scrollTo}) => {
+const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollTo}) => {
     const [resourcesOpen, setResourcesOpen] = useState(true);
     const [objectsOpen, setObjectsOpen] = useState(false);
 
@@ -67,8 +67,16 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, scrollTo}) => {
         setObjectsOpen(!objectsOpen);
     };
 
+    if (!apiDoc) {
+        return <></>;
+    }
+
+    if (specLoading) {
+        return <Spinner/>;
+    }
+
     return (
-        <NavItemsContainer out={!apiDoc}>
+        <NavItemsContainer>
             <SidebarMenuItem onClick={resourcesSectionClicked}>
                 <Chevron open={resourcesOpen}/>
                 <SidebarMenuItemLabel>Resources</SidebarMenuItemLabel>
