@@ -52,15 +52,19 @@ const CheckBox = styled.input`
 `;
 
 interface Props {
+    name: string
+    register: any
 }
 
 interface Functions {
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => any
+    // onChange: (e: React.ChangeEvent<HTMLInputElement>) => any
 }
 
-const SwitchToggle: React.FC<Props & Functions> = ({onChange}) => (
+const SwitchToggle: React.FC<Props & Functions> = ({name, register}) => (
     <SwitchWrapper>
-        <CheckBox id="checkbox" type="checkbox" defaultChecked={true} onChange={onChange}/>
+        <CheckBox id="checkbox" type="checkbox" defaultChecked={true}
+                  // onChange={onChange}
+                  name={name} ref={register}/>
         <SwitchLabel htmlFor="checkbox"/>
     </SwitchWrapper>
 );

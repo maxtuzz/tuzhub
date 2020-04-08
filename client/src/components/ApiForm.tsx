@@ -6,11 +6,12 @@ import AccordionHeader from "./lib/AccordionHeader";
 import styled from "styled-components";
 import Input from "./lib/Input";
 import ExpandableContent from "./lib/ExpandableContent";
-import Button from "./lib/Button";
+import {ButtonStyled} from "./lib/Button";
 import SectionHeader from "./lib/SectionHeader";
 import FadeInContent from "./lib/FadeInContent";
 import Tabs, {Tab} from "./lib/tabs/Tabs";
 import {sampleYaml} from "../assets/samples/spec";
+import {useForm} from "react-hook-form";
 
 const FormContainer = styled(FadeInContent)`
   display: flex;
@@ -30,7 +31,6 @@ const Form = styled.form`
 
 const FormInput = styled(Input)<{ invalid?: boolean }>`
   margin-bottom: 1em;
-  
   border-bottom: ${props => props.invalid && "1px solid red"};
 `;
 
@@ -48,36 +48,36 @@ const SpecTextArea = styled.textarea`
   border-radius: 5px;
 `;
 
-interface FormContent {
+const SubmitButton = styled(ButtonStyled)`
+  margin-top: 3em;
+  width: 95%;
+`;
+
+interface FormData {
     displayName: string
     description: string
     specUrl: string
+    fullSpec: string
     dynamicConf: boolean
 }
 
 const ApiForm: React.FC = ({}) => {
     const [expandAdvancedSettings, setExpandAdvancedSettings] = useState(false);
+    const {register, setValue, handleSubmit, errors} = useForm<FormData>();
 
-    const [formContent, setFormContent] = useState<FormContent>({
-        displayName: "",
-        description: "",
-        specUrl: "",
-        dynamicConf: true
+    const onSubmit = handleSubmit((data: FormData) => {
+        alert("Hello there" + JSON.stringify(data));
     });
 
     return (
         <FormContainer>
-            <Form>
+            <Form onSubmit={onSubmit}>
                 <HeaderText>Add API</HeaderText>
                 <Words>Enter in some basic details about the API you want to link</Words>
-                <FormInput type="text" placeholder="Display name" onChange={event => setFormContent({
-                    ...formContent,
-                    displayName: event.target.value
-                })}/>
-                <FormInput type="text" placeholder="Summary" onChange={event => setFormContent({
-                    ...formContent,
-                    description: event.target.value
-                })}/>
+                <FormInput type="text" placeholder="Display name" name={"displayName"}
+                           ref={register({required: true, maxLength: 3})}/>
+                {errors.displayName && <Words>Wrongg!!!</Words>}
+                <FormInput type="text" placeholder="Summary" name={"description"} ref={register}/>
 
                 <HeaderText>Spec</HeaderText>
                 <Words>You can either choose to link a spec directly and let Tuzzy take care of polling it for changes.
@@ -88,23 +88,18 @@ const ApiForm: React.FC = ({}) => {
                 <Tabs>
                     <Tab label="Remote">
                         <Words>Provide an URL to remote spec</Words>
-                        <FormInput onChange={event => setFormContent({
-                            ...formContent,
-                            specUrl: event.target.value
-                        })}
-                                   type="text"
+                        <FormInput type="text"
                                    placeholder="https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
+                                   name={"specUrl"}
+                                   ref={register}
                         />
                         <SectionHeader>Auto configure</SectionHeader>
-                        <SwitchToggle onChange={(event) => setFormContent({
-                            ...formContent,
-                            dynamicConf: event.target.checked
-                        })}/>
+                        <SwitchToggle name={"dynamicConf"} register={register}/>
                     </Tab>
                     <Tab label="Upload">
                         <FadeInContent>
                             <Words>Paste a valid OpenAPI spec</Words>
-                            <SpecTextArea placeholder={sampleYaml}/>
+                            <SpecTextArea placeholder={sampleYaml} name="fullSpec" ref={register}/>
                         </FadeInContent>
                     </Tab>
                 </Tabs>
@@ -116,8 +111,10 @@ const ApiForm: React.FC = ({}) => {
                 <ExpandableContent open={expandAdvancedSettings}>
                     <Words>Coming soon. (Disable proxy, authentication, etc.)</Words>
                 </ExpandableContent>
+                <SubmitButton type="submit">
+                    Create
+                </SubmitButton>
             </Form>
-            <Button onClick={() => alert(JSON.stringify(formContent))}>Create</Button>
         </FormContainer>
     );
 };

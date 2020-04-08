@@ -32,6 +32,7 @@ open class WebTest {
     companion object {
         lateinit var app: Javalin
         const val servicePort: Int = 9091
+        val contentType = "application/json"
 
         @BeforeAll
         @JvmStatic
@@ -50,7 +51,7 @@ open class WebTest {
     fun delApi(apiEntry: String) {
         val httpResponse = Unirest
             .delete("$baseUrl/api-entries/$apiEntry")
-            .header("Content-Type", "application/json")
+            .header("Content-Type", contentType)
             .asEmpty()
 
         handleErrors(httpResponse)
@@ -59,7 +60,7 @@ open class WebTest {
     fun putApi(apiEntry: String, body: String) {
         val httpResponse = Unirest
             .put("$baseUrl/api-entries/$apiEntry")
-            .header("Content-Type", "application/json")
+            .header("Content-Type", contentType)
             .body(body)
             .asEmpty()
 
@@ -68,7 +69,7 @@ open class WebTest {
 
     fun postApi(body: String) {
         val httpResponse = Unirest.post("$baseUrl/api-entries")
-            .header("Content-Type", "application/json")
+            .header("Content-Type", contentType)
             .body(body)
             .asEmpty()
 
@@ -77,21 +78,21 @@ open class WebTest {
 
     fun getApi(apiName: String): ApiEntry {
         return Unirest.get("$baseUrl/api-entries/$apiName")
-            .header("Content-Type", "application/json")
+            .header("Content-Type", contentType)
             .asObject(object : GenericType<ApiEntry>() {})
             .getBody()
     }
 
     fun getApiList(): ListResponse<ApiEntry> {
         return Unirest.get("$baseUrl/api-entries")
-            .header("Content-Type", "application/json")
+            .header("Content-Type", contentType)
             .asObject(object : GenericType<ListResponse<ApiEntry>>() {})
             .getBody()
     }
 
     fun postSpec(apiName: String, body: String) {
         val httpResponse = Unirest.post("$baseUrl/api-entries/$apiName/specs")
-            .header("Content-Type", "application/json")
+            .header("Content-Type", contentType)
             .body(body)
             .asEmpty()
 
@@ -100,7 +101,7 @@ open class WebTest {
 
     fun putSpec(apiName: String, specVersion: String, body: String) {
         val httpResponse = Unirest.put("$baseUrl/api-entries/$apiName/specs/$specVersion")
-            .header("Content-Type", "application/json")
+            .header("Content-Type", contentType)
             .body(body)
             .asEmpty()
 
@@ -110,7 +111,7 @@ open class WebTest {
     fun delSpec(apiName: String, specVersion: String) {
         val httpResponse = Unirest
             .delete("$baseUrl/api-entries/$apiName/specs/$specVersion")
-            .header("Content-Type", "application/json")
+            .header("Content-Type", contentType)
             .asEmpty()
 
         handleErrors(httpResponse)
@@ -118,7 +119,7 @@ open class WebTest {
 
     fun getApiSpec(apiName: String, specVersion: String): ApiSpec {
         return Unirest.get("http://localhost:${servicePort}/api-entries/$apiName/specs/$specVersion")
-            .header("Content-Type", "application/json")
+            .header("Content-Type", contentType)
             .asObject(object : GenericType<ApiSpec>() {})
             .getBody()
     }

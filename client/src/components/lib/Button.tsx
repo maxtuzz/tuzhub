@@ -5,7 +5,7 @@ import TinyLoadingSpinner from "../Spinner";
 /**
  * Standard configurable button
  */
-const ButtonStyled = styled.button`
+export const ButtonStyled = styled.button`
   background-color: #51aec0;
   height: 3em;
   color: #FFF;
@@ -26,21 +26,24 @@ const ButtonStyled = styled.button`
 
 interface Props {
     children: string
+    disabled?: boolean
     isLoading?: boolean
+    type?: "button" | "reset" | "submit"
+    ref?: any
 }
 
 interface Functions {
-    onClick: () => void
+    onClick?: () => void
 }
 
-const Button: React.FC<Props & Functions> = ({onClick, isLoading, children}) => (
-  <ButtonStyled onClick={onClick}>
-      {
-          isLoading
-              ? <TinyLoadingSpinner/>
-              : children
-      }
-  </ButtonStyled>
+const Button: React.FC<Props & Functions> = ({onClick, isLoading, children, disabled = false, type = "button", ref}) => (
+    <ButtonStyled disabled={disabled} onClick={onClick} type={type} ref={ref}>
+        {
+            isLoading
+                ? <TinyLoadingSpinner/>
+                : children
+        }
+    </ButtonStyled>
 );
 
 export default Button;

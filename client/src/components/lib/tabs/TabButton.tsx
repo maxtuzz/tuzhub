@@ -15,8 +15,8 @@ const StyledButton = styled.div`
 `;
 
 const TabUnderline = styled.div<{ active: boolean }>`
-  transform: scaleX(0);
   width: 100%;
+  transform: scaleX(0);
   
   ${props => props.active && css`
     transform: scaleX(1);
