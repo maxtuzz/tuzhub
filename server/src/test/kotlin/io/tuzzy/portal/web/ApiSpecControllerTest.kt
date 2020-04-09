@@ -33,7 +33,7 @@ class ApiSpecControllerTest : WebTest() {
     private fun getSpecMeta(apiName: String): HalResource {
         val reqUrl = "http://localhost:${servicePort}/api-entries/${apiName}/specs"
 
-        System.err.println("Doing GET to $reqUrl")
+        println("Doing GET to $reqUrl")
 
         return Unirest.get(reqUrl)
             .header("Content-Type", "application/json")

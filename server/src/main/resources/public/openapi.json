@@ -33,10 +33,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ApiEntry"
-                  }
+                  "$ref" : "#/components/schemas/ApiEntry>"
                 }
               }
             }
@@ -283,6 +280,16 @@
       "ApiEntry" : {
         "type" : "object",
         "properties" : {
+          "links" : {
+            "$ref" : "#/components/schemas/Links",
+            "nullable" : false
+          },
+          "embedded" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Object"
+            }
+          },
           "specUrl" : {
             "type" : "string"
           },
@@ -310,6 +317,28 @@
           "dynamicConf" : {
             "type" : "boolean",
             "nullable" : false
+          }
+        }
+      },
+      "ApiEntry>" : {
+        "type" : "object",
+        "properties" : {
+          "links" : {
+            "$ref" : "#/components/schemas/Links",
+            "nullable" : false
+          },
+          "embedded" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Object"
+            }
+          },
+          "content" : {
+            "type" : "array",
+            "nullable" : false,
+            "items" : {
+              "$ref" : "#/components/schemas/T"
+            }
           }
         }
       },
@@ -401,6 +430,9 @@
             "nullable" : false
           }
         }
+      },
+      "T" : {
+        "type" : "object"
       }
     }
   }

@@ -41,14 +41,10 @@ class ApiEntryServiceTest {
 
     @Test
     fun `Create API entry from manual spec`() {
-        val specA = read("/specs/petstore.yaml")
-
         val json= readYamlToJsonMap("/specs/petstore.yaml")
 
         dummyEntry.fullSpec = json
         dummyEntry.dynamicConf = false
-
-        println(dummyEntry.toString())
 
         apiEntryService.createApiEntry(dummyEntry)
 
@@ -71,7 +67,7 @@ class ApiEntryServiceTest {
     fun `Creation of API spec fails with no spec`() {
         val dummyEntry2 = ApiEntry("General", "Kenobi")
 
-        assertFailsWith<BadRequestResponse> {
+        assertFailsWith<IllegalStateException> {
             apiEntryService.createApiEntry(dummyEntry2)
         }
     }
