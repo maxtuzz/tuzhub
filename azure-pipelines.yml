@@ -28,6 +28,7 @@ variables:
 steps:
 - task: Maven@3
   inputs:
+    options: '$(MAVEN_OPTS)'
     mavenPomFile: 'server/pom.xml'
     mavenOptions: '-Xmx3072m'
     javaHomeOption: 'JDKVersion'
