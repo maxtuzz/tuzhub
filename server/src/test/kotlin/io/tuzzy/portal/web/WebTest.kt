@@ -39,6 +39,8 @@ open class WebTest {
         fun setup() {
             println("Starting server on port $servicePort")
             app = startServer(servicePort)
+
+            Thread.sleep(1000)
         }
 
         @AfterAll
