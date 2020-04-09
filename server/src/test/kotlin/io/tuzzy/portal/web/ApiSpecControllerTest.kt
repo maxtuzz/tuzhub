@@ -87,7 +87,7 @@ class ApiSpecControllerTest : WebTest() {
     }
 
     @Test
-    fun `PUT active spec GET updated version - MANUAL`() {
+    fun `Z PUT active spec GET updated version - MANUAL`() {
         postApiSpec()
 
         val specJson = ResourceHelp.readYamlToJsonMap("/specs/uspto.yaml")
