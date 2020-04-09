@@ -61,7 +61,7 @@ interface FormData {
     dynamicConf: boolean
 }
 
-const ApiForm: React.FC = ({}) => {
+const ApiForm: React.FC = () => {
     const [expandAdvancedSettings, setExpandAdvancedSettings] = useState(false);
     const {register, setValue, handleSubmit, errors} = useForm<FormData>();
 
@@ -75,7 +75,7 @@ const ApiForm: React.FC = ({}) => {
                 <HeaderText>Add API</HeaderText>
                 <Words>Enter in some basic details about the API you want to link</Words>
                 <FormInput type="text" placeholder="Display name" name={"displayName"}
-                           ref={register({required: true, maxLength: 3})}/>
+                           ref={register({required: true, maxLength: 20, })}/>
                 {errors.displayName && <Words>Wrongg!!!</Words>}
                 <FormInput type="text" placeholder="Summary" name={"description"} ref={register}/>
 
