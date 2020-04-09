@@ -12,7 +12,7 @@ fun main(args: Array<String>) {
     config.setUser("tuzzy_portal")
     config.password = "test"
     config.dbName = "tuzzy_portal"
-    config.port = "7432"
+    config.port = 7432
 
     val container = PostgresContainer(config)
     container.start()
