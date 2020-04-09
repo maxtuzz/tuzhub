@@ -9,11 +9,9 @@ import io.tuzzy.portal.domain.DApiEntry
 import io.tuzzy.portal.domain.query.QDApiSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
 
-@Disabled("Works via editor but issues currently via cli")
 class ApiEntryControllerTest : WebTest() {
     @Test
     fun `GET ApiEntry`() {

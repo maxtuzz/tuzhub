@@ -46,6 +46,7 @@ open class WebTest {
         @AfterAll
         @JvmStatic
         fun stopServer() {
+            Thread.sleep(1000)
             app.stop()
         }
     }
