@@ -13,10 +13,8 @@ resources:
       ports: 
       - 6432:5432
       env:
-        POSTGRES_USER: tuzzy_portal
-        POSTGRES_PASSWORD: test
-        POSTGRES_DB: tuzzy_portal
-        
+        POSTGRES_PASSWORD: admin
+
 pool:
   vmImage: 'ubuntu-latest'
 
