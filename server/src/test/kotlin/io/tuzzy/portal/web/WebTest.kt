@@ -12,8 +12,8 @@ import kong.unirest.GenericType
 import kong.unirest.HttpResponse
 import kong.unirest.Unirest
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.slf4j.LoggerFactory
 
 /**
@@ -23,12 +23,12 @@ open class WebTest {
     private val baseUrl = "http://localhost:$servicePort"
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    @AfterEach
+    @BeforeEach
     fun tearDown() {
         QDApiSpec().delete()
         QDApiEntry().delete()
 
-        Thread.sleep(500)
+        Thread.sleep(200)
     }
 
     companion object {
