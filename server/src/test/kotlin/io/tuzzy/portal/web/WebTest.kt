@@ -27,6 +27,8 @@ open class WebTest {
     fun tearDown() {
         QDApiSpec().delete()
         QDApiEntry().delete()
+
+        Thread.sleep(500)
     }
 
     companion object {
