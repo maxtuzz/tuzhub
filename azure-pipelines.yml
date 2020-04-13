@@ -1,7 +1,4 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Tuzzy pipeline
 
 trigger:
 - master
@@ -15,40 +12,57 @@ resources:
       env:
         POSTGRES_PASSWORD: admin
 
-pool:
-  vmImage: 'ubuntu-latest'
-
-services:
-  pg11: pg11
-
 variables:
   MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
   MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
 
-steps:
-- task: Maven@3
-  inputs:
-    options: '$(MAVEN_OPTS)'
-    mavenPomFile: 'server/pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
-    goals: 'package'
+pool:
+  vmImage: 'ubuntu-latest'
 
-- task: Cache@2
-  inputs:
-    key: 'maven | "$(Agent.OS)" | **/pom.xml'
-    restoreKeys: |
-      maven | "$(Agent.OS)"
-      maven
-    path: $(MAVEN_CACHE_FOLDER)
-  displayName: Cache Maven local repo
+stages:
+- stage: Build & Test
+  jobs:
+  - job: Backend
+    services:
+      pg11: pg11
+    steps:
+    - task: Maven@3
+      inputs:
+        options: '$(MAVEN_OPTS)'
+        mavenPomFile: 'server/pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.11'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: true
+        testResultsFiles: '**/TEST-*.xml'
+        goals: 'package'
+      displayName: 'Maven Build & Test'
+    - task: Cache@2
+      inputs:
+        key: 'maven | "$(Agent.OS)" | **/pom.xml'
+        restoreKeys: |
+          maven | "$(Agent.OS)"
+          maven
+        path: $(MAVEN_CACHE_FOLDER)
+      displayName: Cache Maven local repo
 
+  - job: Frontend
+    steps:
+      - task: Npm@1
+        inputs:
+          command: 'install'
+          workingDir: 'client'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          workingDir: 'client'
+          customCommand: 'run-script build'
+
+- stage: Release
+  jobs:
+    - job: 
+      steps:
+        - script: echo "Hello, world"
+
