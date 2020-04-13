@@ -20,7 +20,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-- stage: Build & Test
+- stage: Build
   jobs:
   - job: Backend
     services:
@@ -60,7 +60,7 @@ stages:
           workingDir: 'client'
           customCommand: 'run-script build'
 
-- stage: Release
+- stage: Package
   jobs:
     - job: 
       steps:
