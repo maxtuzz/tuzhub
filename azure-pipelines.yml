@@ -14,7 +14,7 @@ resources:
 
 variables:
   MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
-  MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+  MAVEN_OPTS: '--batch-mode -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -26,6 +26,15 @@ stages:
         services:
           pg11: pg11
         steps:
+          - task: Cache@2
+            inputs:
+              key: 'maven | "$(Agent.OS)" | **/pom.xml'
+              restoreKeys: |
+                maven | "$(Agent.OS)"
+                maven
+              path: $(MAVEN_CACHE_FOLDER)
+            displayName: Cache Maven local repo
+
           - task: Maven@3
             inputs:
               mavenPomFile: 'server/pom.xml'
@@ -38,15 +47,6 @@ stages:
               options: '$(MAVEN_OPTS)'
               goals: 'package'
             displayName: 'Maven Build & Test'
-
-          - task: Cache@2
-            inputs:
-              key: 'maven | "$(Agent.OS)" | **/pom.xml'
-              restoreKeys: |
-                maven | "$(Agent.OS)"
-                maven
-              path: $(MAVEN_CACHE_FOLDER)
-            displayName: Cache Maven local repo
 
           # Save jar and jar libs
           - publish: $(System.DefaultWorkingDirectory)/server/target/app.jar
