@@ -91,9 +91,5 @@ stages:
               buildType: 'current'
               artifactName: 'webapp'
               targetPath: '$(System.DefaultWorkingDirectory)'
-          - task: Docker@2
-            inputs:
-              command: 'build'
-              buildContext: '$(System.DefaultWorkingDirectory)'
-              Dockerfile: '**/Dockerfile'
+          - script: docker build -t $(Build.BuildId) $(System.DefaultWorkingDirectory)
 
