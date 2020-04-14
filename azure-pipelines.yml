@@ -44,6 +44,7 @@ stages:
               jdkArchitectureOption: 'x64'
               publishJUnitResults: true
               testResultsFiles: '**/TEST-*.xml'
+              codeCoverageToolOption: 'JaCoCo'
               options: '$(MAVEN_OPTS)'
               goals: 'package'
             displayName: 'Maven Build & Test'
@@ -80,17 +81,17 @@ stages:
             inputs:
               buildType: 'current'
               artifactName: 'lib'
-              targetPath: '$(Pipeline.Workspace)'
+              targetPath: '$(System.DefaultWorkingDirectory)'
           - task: DownloadPipelineArtifact@2
             inputs:
               buildType: 'current'
               artifactName: 'app.jar'
-              targetPath: '$(Pipeline.Workspace)'
+              targetPath: '$(System.DefaultWorkingDirectory)'
           - task: DownloadPipelineArtifact@2
             inputs:
               buildType: 'current'
               artifactName: 'webapp'
-              targetPath: '$(Pipeline.Workspace)'
+              targetPath: '$(System.DefaultWorkingDirectory)'
           # - task: Docker@2
           #   inputs:
           #     command: 'build'
