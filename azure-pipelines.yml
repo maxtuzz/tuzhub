@@ -46,6 +46,13 @@ stages:
           maven
         path: $(MAVEN_CACHE_FOLDER)
       displayName: Cache Maven local repo
+      
+    # Save jar and jar libs
+    - publish: $(System.DefaultWorkingDirectory)/server/target/app.jar
+      artifact: jar
+    - publish: $(System.DefaultWorkingDirectory)/server/target/lib
+      artifact: lib
+
 
   - job: Frontend
     steps:
@@ -60,9 +67,13 @@ stages:
           workingDir: 'client'
           customCommand: 'run-script build'
 
+      # Save webapp build
+      - publish: $(System.DefaultWorkingDirectory)/client/build
+        artifact: webapp
+
 - stage: Package
   jobs:
-    - job: 
+    - job: Build
       steps:
         - script: echo "Hello, world"
 
