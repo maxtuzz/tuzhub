@@ -95,5 +95,5 @@ stages:
             inputs:
               command: 'build'
               Dockerfile: '**/Dockerfile'
-              buildContext: '$(Pipeline.Workspace)'
+              buildContext: '$(Build.Repository.LocalPath)'
 
