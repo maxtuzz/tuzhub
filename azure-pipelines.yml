@@ -28,7 +28,6 @@ stages:
         steps:
           - task: Maven@3
             inputs:
-              options: '$(MAVEN_OPTS)'
               mavenPomFile: 'server/pom.xml'
               mavenOptions: '-Xmx3072m'
               javaHomeOption: 'JDKVersion'
@@ -36,6 +35,7 @@ stages:
               jdkArchitectureOption: 'x64'
               publishJUnitResults: true
               testResultsFiles: '**/TEST-*.xml'
+              options: '$(MAVEN_OPTS)'
               goals: 'package'
             displayName: 'Maven Build & Test'
 
@@ -76,12 +76,21 @@ stages:
     jobs:
       - job: Build
         steps:
-          - download: current
-            artifact: webapp
-          - download: current
-            artifact: app.jar
-          - download: current
-            artifact: lib
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'lib'
+              targetPath: '$(System.DefaultWorkingDirectory)'
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'app.jar'
+              targetPath: '$(System.DefaultWorkingDirectory)'
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'webapp'
+              targetPath: '$(System.DefaultWorkingDirectory)'
           - task: Docker@2
             inputs:
               command: 'build'
