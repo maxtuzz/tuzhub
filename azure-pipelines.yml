@@ -80,16 +80,20 @@ stages:
             inputs:
               buildType: 'current'
               artifactName: 'lib'
-              targetPath: '$(System.DefaultWorkingDirectory)'
+              targetPath: '$(Pipeline.Workspace)'
           - task: DownloadPipelineArtifact@2
             inputs:
               buildType: 'current'
               artifactName: 'app.jar'
-              targetPath: '$(System.DefaultWorkingDirectory)'
+              targetPath: '$(Pipeline.Workspace)'
           - task: DownloadPipelineArtifact@2
             inputs:
               buildType: 'current'
               artifactName: 'webapp'
-              targetPath: '$(System.DefaultWorkingDirectory)'
-          - script: docker build -t $(Build.BuildId) $(System.DefaultWorkingDirectory)
+              targetPath: '$(Pipeline.Workspace)'
+          - task: Docker@2
+            inputs:
+              command: 'build'
+              Dockerfile: '**/Dockerfile'
+              buildContext: '$(Pipeline.Workspace)'
 
