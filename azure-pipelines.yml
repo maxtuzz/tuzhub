@@ -94,5 +94,6 @@ stages:
           - task: Docker@2
             inputs:
               command: 'build'
+              buildContext: '$(System.DefaultWorkingDirectory)'
               Dockerfile: '**/Dockerfile'
 
