@@ -1,14 +1,14 @@
 # Tuzzy pipeline
 
 trigger:
-- master
+  - master
 
 resources:
   containers:
     - container: pg11
       image: postgres:11
-      ports: 
-      - 6432:5432
+      ports:
+        - 6432:5432
       env:
         POSTGRES_PASSWORD: admin
 
@@ -20,60 +20,70 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-- stage: Build
-  jobs:
-  - job: Backend
-    services:
-      pg11: pg11
-    steps:
-    - task: Maven@3
-      inputs:
-        options: '$(MAVEN_OPTS)'
-        mavenPomFile: 'server/pom.xml'
-        mavenOptions: '-Xmx3072m'
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '1.11'
-        jdkArchitectureOption: 'x64'
-        publishJUnitResults: true
-        testResultsFiles: '**/TEST-*.xml'
-        goals: 'package'
-      displayName: 'Maven Build & Test'
-    - task: Cache@2
-      inputs:
-        key: 'maven | "$(Agent.OS)" | **/pom.xml'
-        restoreKeys: |
-          maven | "$(Agent.OS)"
-          maven
-        path: $(MAVEN_CACHE_FOLDER)
-      displayName: Cache Maven local repo
-      
-    # Save jar and jar libs
-    - publish: $(System.DefaultWorkingDirectory)/server/target/app.jar
-      artifact: jar
-    - publish: $(System.DefaultWorkingDirectory)/server/target/lib
-      artifact: lib
+  - stage: Build
+    jobs:
+      - job: Backend
+        services:
+          pg11: pg11
+        steps:
+          - task: Maven@3
+            inputs:
+              options: '$(MAVEN_OPTS)'
+              mavenPomFile: 'server/pom.xml'
+              mavenOptions: '-Xmx3072m'
+              javaHomeOption: 'JDKVersion'
+              jdkVersionOption: '1.11'
+              jdkArchitectureOption: 'x64'
+              publishJUnitResults: true
+              testResultsFiles: '**/TEST-*.xml'
+              goals: 'package'
+            displayName: 'Maven Build & Test'
+
+          - task: Cache@2
+            inputs:
+              key: 'maven | "$(Agent.OS)" | **/pom.xml'
+              restoreKeys: |
+                maven | "$(Agent.OS)"
+                maven
+              path: $(MAVEN_CACHE_FOLDER)
+            displayName: Cache Maven local repo
+
+          # Save jar and jar libs
+          - publish: $(System.DefaultWorkingDirectory)/server/target/app.jar
+            artifact: app.jar
+          - publish: $(System.DefaultWorkingDirectory)/server/target/lib
+            artifact: lib
 
 
-  - job: Frontend
-    steps:
-      - task: Npm@1
-        inputs:
-          command: 'install'
-          workingDir: 'client'
+      - job: Frontend
+        steps:
+          - task: Npm@1
+            inputs:
+              command: 'install'
+              workingDir: 'client'
 
-      - task: Npm@1
-        inputs:
-          command: 'custom'
-          workingDir: 'client'
-          customCommand: 'run-script build'
+          - task: Npm@1
+            inputs:
+              command: 'custom'
+              workingDir: 'client'
+              customCommand: 'run-script build'
 
-      # Save webapp build
-      - publish: $(System.DefaultWorkingDirectory)/client/build
-        artifact: webapp
+          # Save webapp build
+          - publish: $(System.DefaultWorkingDirectory)/client/build
+            artifact: webapp
 
-- stage: Package
-  jobs:
-    - job: Build
-      steps:
-        - script: echo "Hello, world"
+  - stage: Package
+    jobs:
+      - job: Build
+        steps:
+          - download: current
+            artifact: webapp
+          - download: current
+            artifact: app.jar
+          - download: current
+            artifact: lib
+          - task: Docker@2
+            inputs:
+              command: 'build'
+              Dockerfile: '**/Dockerfile'
 

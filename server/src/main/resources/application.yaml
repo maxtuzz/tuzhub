@@ -6,27 +6,9 @@ ebean:
   migration:
     run: true
 
-db:
-  user: tuzzy_portal
-  password: test
-  url: jdbc:postgresql://localhost:7432/tuzzy_portal
-
 datasource:
   db:
     username: ${db.user:tuzzy_portal}
     password: ${db.password:test}
-    url: jdbc:postgresql://localhost:7432/tuzzy_portal
+    url: ${db.url:jdbc:postgresql://localhost:7432/tuzzy_portal}
     driver: ${db.driver:org.postgresql.Driver}
-
-# datasource:
-#  db:
-#    username: sa
-#    password: sa
-#    url: jdbc:h2:mem:myapp
-#    driver: org.h2.Driver
-
-#
-#  docstore:
-#    url: http://127.0.0.1:9200
-#    active: true
-
