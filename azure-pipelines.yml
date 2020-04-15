@@ -92,11 +92,6 @@ stages:
               buildType: 'current'
               artifactName: 'webapp'
               targetPath: '$(System.DefaultWorkingDirectory)/webapp'
-          # - task: Docker@2
-          #   inputs:
-          #     command: 'build'
-          #     Dockerfile: '**/Dockerfile'
-          #     buildContext: '$(Build.Repository.LocalPath)'
           - task: Bash@3
             inputs:
               targetType: 'inline'
@@ -106,3 +101,8 @@ stages:
                 echo Evaluating working directory
                 pwd
                 ls -lah
+          - task: Docker@2
+            inputs:
+              command: 'build'
+              Dockerfile: '**/Dockerfile'
+              buildContext: '$(System.DefaultWorkingDirectory)'
