@@ -108,3 +108,6 @@ stages:
               command: 'buildAndPush'
               Dockerfile: '**/Dockerfile'
               buildContext: '$(System.DefaultWorkingDirectory)'
+              tags: |
+                alpha-$(Build.BuildId)
+                latest
