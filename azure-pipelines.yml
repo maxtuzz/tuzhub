@@ -104,6 +104,7 @@ stages:
           - task: Docker@2
             inputs:
               containerRegistry: 'dockerhub'
+              repository: 'tuzzy-dev-portal'
               command: 'buildAndPush'
               Dockerfile: '**/Dockerfile'
               buildContext: '$(System.DefaultWorkingDirectory)'
