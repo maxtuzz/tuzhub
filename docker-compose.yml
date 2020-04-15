@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  tuzzy_db:
+    image: postgres:12
+    restart: always
+    ports:
+      - 8432:5432
+    environment:
+      POSTGRES_USER: 'tuzzy_portal'
+      POSTGRES_PASSWORD: 'test'
+    volumes:
+      - database_data:/var/lib/postgresql/data
+
+  tuzzy_portal:
+    image: maxtuzz/tuzzy-dev-portal:latest
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    volumes:
+      - ./api:/usr/src/app/
+    links:
+      - tuzzy_db
+    environment:
+      - DB_URL=tuzzy_db
+
+volumes:
+  database_data:
+    driver: local

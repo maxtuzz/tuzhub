@@ -8,7 +8,7 @@ ebean:
 
 datasource:
   db:
-    username: ${db.user:tuzzy_portal}
-    password: ${db.password:test}
-    url: ${db.url:jdbc:postgresql://localhost:7432/tuzzy_portal}
-    driver: ${db.driver:org.postgresql.Driver}
+    username: ${DB_USER:tuzzy_portal}
+    password: ${DB_PASSWORD:test}
+    url: ${DB_URL:jdbc:postgresql://localhost:7432/tuzzy_portal}
+    driver: ${DB_DRIVER:org.postgresql.Driver}
