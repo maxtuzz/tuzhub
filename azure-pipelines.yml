@@ -103,6 +103,7 @@ stages:
                 ls -lah
           - task: Docker@2
             inputs:
-              command: 'build'
+              containerRegistry: 'dockerhub'
+              command: 'buildAndPush'
               Dockerfile: '**/Dockerfile'
               buildContext: '$(System.DefaultWorkingDirectory)'
