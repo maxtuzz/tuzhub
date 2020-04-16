@@ -6,6 +6,7 @@ import io.dinject.controller.WebRoutes
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.path
 import io.javalin.core.util.Header
+import io.javalin.http.staticfiles.Location
 import io.javalin.plugin.json.JavalinJackson
 import io.javalin.plugin.openapi.jackson.JacksonToJsonMapper.objectMapper
 
@@ -26,8 +27,10 @@ fun create(routes: List<WebRoutes>): Javalin {
         config.showJavalinBanner = false
         config.logIfServerNotStarted = true
 
-        // When in production mode, serve public files
-        config.addStaticFiles("public")
+        // Serve static files when running in production
+        if (System.getenv("PROD_MODE") == "true") {
+            config.addStaticFiles("/app/public", Location.EXTERNAL)
+        }
     }
 
     app.before { ctx ->
