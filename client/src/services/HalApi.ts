@@ -5,7 +5,8 @@
 export const HalApi = {
     // First point of call, can act as base url
     getApiEntries(): Promise<Response> {
-        return fetch("http://localhost:8090/api-entries", {
+        // Todo: make baseurl configurable based on environment
+        return fetch(`${window.location.origin}/v1/api-entries`, {
             method: 'GET',
         })
             .then(resp => resp.json())

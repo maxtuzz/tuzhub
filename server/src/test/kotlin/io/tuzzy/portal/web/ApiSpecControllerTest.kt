@@ -31,7 +31,7 @@ class ApiSpecControllerTest : WebTest() {
     }
 
     private fun getSpecMeta(apiName: String): HalResource {
-        val reqUrl = "http://localhost:${servicePort}/api-entries/${apiName}/specs"
+        val reqUrl = "$baseUrl/api-entries/${apiName}/specs"
 
         println("Doing GET to $reqUrl")
 
@@ -87,7 +87,7 @@ class ApiSpecControllerTest : WebTest() {
     }
 
     @Test
-    fun `Z PUT active spec GET updated version - MANUAL`() {
+    fun `PUT active spec GET updated version - MANUAL`() {
         postApiSpec()
 
         val specJson = ResourceHelp.readYamlToJsonMap("/specs/uspto.yaml")

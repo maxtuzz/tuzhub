@@ -20,8 +20,8 @@ import org.slf4j.LoggerFactory
  * Web test will start a test javalin server before each test class and stop it afterwards
  */
 open class WebTest {
-    private val baseUrl = "http://localhost:$servicePort"
     private val logger = LoggerFactory.getLogger(javaClass)
+    val baseUrl = "http://localhost:$servicePort/v1"
 
     @BeforeEach
     fun tearDown() {
@@ -123,7 +123,7 @@ open class WebTest {
     }
 
     fun getApiSpec(apiName: String, specVersion: String): ApiSpec {
-        return Unirest.get("http://localhost:${servicePort}/api-entries/$apiName/specs/$specVersion")
+        return Unirest.get("$baseUrl/api-entries/$apiName/specs/$specVersion")
             .header("Content-Type", contentType)
             .asObject(object : GenericType<ApiSpec>() {})
             .getBody()

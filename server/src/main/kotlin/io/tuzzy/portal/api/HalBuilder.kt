@@ -17,12 +17,18 @@ class HalBuilder(private val ctx: Context) {
         "http"
     }
 
-    private val baseUrl = "${proto}://${ctx.host()}"
+    private val baseUrl = "${proto}://${ctx.host()}/v1"
     private val apiEntryBase = "${baseUrl}/api-entries"
     private fun specBase(apiName: String) = "${apiEntryBase}/${apiName}/specs"
 
     fun toContextPath(propertyName: String): HalBuilder {
         links[propertyName] = HalLink(ctx.fullUrl())
+
+        return this
+    }
+
+    fun toApiEntryBase(): HalBuilder {
+        links["apiEntries"] = HalLink(apiEntryBase)
 
         return this
     }

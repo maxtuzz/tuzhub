@@ -16,7 +16,7 @@ class RootControllerTest : WebTest() {
     }
 
     private fun fetchRoot(): HalResource {
-        return Unirest.get("http://localhost:${servicePort}/")
+        return Unirest.get(baseUrl)
             .header("Content-Type", "application/json")
             .asObject(object : GenericType<HalResource>() {})
             .getBody()

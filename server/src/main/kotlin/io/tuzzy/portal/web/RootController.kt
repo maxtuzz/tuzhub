@@ -3,7 +3,8 @@ package io.tuzzy.portal.web
 import io.dinject.controller.Controller
 import io.dinject.controller.Get
 import io.dinject.controller.Path
-import io.tuzzy.portal.api.HalLink
+import io.javalin.http.Context
+import io.tuzzy.portal.api.HalBuilder
 import io.tuzzy.portal.api.HalResource
 import io.tuzzy.portal.api.Links
 
@@ -14,14 +15,18 @@ class RootController {
      * Get meta.
      */
     @Get
-    fun getMeta(): HalResource {
-        val halLinks = Links(self = HalLink("http//localhost:8090"))
+    fun getMeta(ctx: Context): HalResource {
+        val links = Links()
 
-        // Root hateoas links
-        halLinks.add("apiEntries", "http://localhost:8090/api-entries")
+        links.addAll {
+            HalBuilder(ctx)
+                .toContextPath("self")
+                .toApiEntryBase()
+                .build()
+        }
 
-        return HalResource (
-            links = halLinks
+        return HalResource(
+            links = links
         )
     }
 }
