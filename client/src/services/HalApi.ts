@@ -1,12 +1,13 @@
 /**
  * The hateoas client service simply follows a supplied link for generic CRUD operations
  */
+import Env from "./Env";
 
 export const HalApi = {
     // First point of call, can act as base url
     getApiEntries(): Promise<Response> {
         // Todo: make baseurl configurable based on environment
-        return fetch(`${window.location.origin}/v1/api-entries`, {
+        return fetch(Env.getApiUrl(), {
             method: 'GET',
         })
             .then(resp => resp.json())

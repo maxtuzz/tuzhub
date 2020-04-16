@@ -43,7 +43,7 @@ fun create(routes: List<WebRoutes>): Javalin {
 
     return app.routes {
         path("/v1") {
-            routes.forEach { it.registerRoutes() }
+            routes.forEach(WebRoutes::registerRoutes)
         }
     }
 }
