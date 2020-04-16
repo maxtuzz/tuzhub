@@ -76,5 +76,4 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis, resetS
         </Container>
     );
 };
-
 export default ApiList;
