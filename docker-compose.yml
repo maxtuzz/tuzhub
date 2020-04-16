@@ -7,7 +7,8 @@ services:
     ports:
       - 8432:5432
     environment:
-      POSTGRES_USER: 'tuzzy_portal'
+      POSTGRES_DB: tuzzy_portal
+      POSTGRES_USER: tuzzy_portal
       POSTGRES_PASSWORD: 'test'
     volumes:
       - database_data:/var/lib/postgresql/data
@@ -15,15 +16,15 @@ services:
   tuzzy_portal:
     image: maxtuzz/tuzzy-dev-portal:latest
     expose:
-      - 8080
+      - 8090
     ports:
-      - 8080:8080
+      - 8090:8090
     volumes:
       - ./api:/usr/src/app/
     links:
       - tuzzy_db
     environment:
-      - DB_URL=tuzzy_db
+      DB_URL: jdbc:postgresql://tuzzy_db/tuzzy_portal
 
 volumes:
   database_data:
