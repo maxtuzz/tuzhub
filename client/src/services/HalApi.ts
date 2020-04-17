@@ -7,7 +7,7 @@ export const HalApi = {
     // First point of call, can act as base url
     getApiEntries(): Promise<Response> {
         // Todo: make baseurl configurable based on environment
-        return fetch(Env.getApiUrl(), {
+        return fetch(Env.getBaseApiUrl(), {
             method: 'GET',
         })
             .then(resp => resp.json())

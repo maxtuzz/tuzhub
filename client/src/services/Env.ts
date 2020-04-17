@@ -1,5 +1,5 @@
 const Env = {
-    getApiUrl(): string {
+    getBaseApiUrl(): string {
         if (process.env.NODE_ENV === "production") {
             return `${window.location.origin}/v1/api-entries`;
         }

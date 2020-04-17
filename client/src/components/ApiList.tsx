@@ -55,7 +55,7 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis, resetS
 
     return (
         <Container>
-            <SearchBar onChange={searchInputChanged} autofocus/>
+            {(apiEntries.length > 1 && !isLoading) && <SearchBar onChange={searchInputChanged} autofocus/>}
             {
                 isLoading
                     ?
@@ -76,4 +76,5 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis, resetS
         </Container>
     );
 };
+
 export default ApiList;

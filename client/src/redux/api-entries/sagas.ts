@@ -1,5 +1,13 @@
 import {all, call, fork, put, select, takeEvery} from "redux-saga/effects";
-import {alertEntries, ApiEntryActions, LoadApiAction, setApiEntries, setLoadingApis, setSelectedApi} from "./actions";
+import {
+    alertEntries,
+    ApiEntryActions,
+    LoadApiAction,
+    NewApiSubmitAction,
+    setApiEntries,
+    setLoadingApis,
+    setSelectedApi
+} from "./actions";
 import ApiEntry from "../../model/ApiEntry";
 import {AppState} from "../AppStore";
 import {HalApi} from "../../services/HalApi";
@@ -7,6 +15,7 @@ import ListResp from "../../model/ListResp";
 import Alert from "../../model/Alert";
 import AlertType from "../../model/AlertType";
 import {resetSpecPage} from "./api-specs/actions";
+import Env from "../../services/Env";
 
 function* getApiList() {
     const apis: ApiEntry[] = yield select((state: AppState) => state.apiEntriesReducer.apiEntries);
@@ -62,6 +71,35 @@ function* loadApi(action: LoadApiAction) {
     yield put(setSelectedApi(apiEntry))
 }
 
+function* createApiEntry(action: NewApiSubmitAction) {
+    let {apiEntry} = action;
+
+    // Default to auth enabled false
+    apiEntry.authEnabled = false;
+
+    // Flag checking
+    if (apiEntry.fullSpec && apiEntry.fullSpec.length > 20) {
+        apiEntry.dynamicConf = false;
+    }
+
+    if (apiEntry.displayName.includes("-")) {
+        const alert: Alert = {
+            message: `Illegal character found "-", in new api entry display name`,
+            type: AlertType.ERROR
+        };
+
+        yield put(alertEntries(alert));
+
+        return;
+    }
+
+    yield call(HalApi.post, Env.getBaseApiUrl(), apiEntry);
+}
+
+function* watchNewApiSubmit() {
+    yield takeEvery(ApiEntryActions.NEW_API_SUBMIT, createApiEntry);
+}
+
 function* watchFetchApis() {
     yield takeEvery(ApiEntryActions.FETCH_APIS, fetchApis);
 }
@@ -71,5 +109,5 @@ function* watchLoadApi() {
 }
 
 export default function* () {
-    yield all([fork(watchFetchApis), fork(watchLoadApi)])
+    yield all([fork(watchFetchApis), fork(watchLoadApi), fork(watchNewApiSubmit)])
 }

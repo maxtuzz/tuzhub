@@ -13,7 +13,7 @@ interface Props {
     responseBody?: OpenAPIV3.ResponsesObject,
     noTopMargin: boolean
 }
-
+{}
 const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
     const [open, setOpen] = useState(true);
 

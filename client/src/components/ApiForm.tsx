@@ -12,6 +12,7 @@ import FadeInContent from "./lib/FadeInContent";
 import Tabs, {Tab} from "./lib/tabs/Tabs";
 import {sampleYaml} from "../assets/samples/spec";
 import {useForm} from "react-hook-form";
+import ApiEntry from "../model/ApiEntry";
 
 const FormContainer = styled(FadeInContent)`
   display: flex;
@@ -53,20 +54,16 @@ const SubmitButton = styled(ButtonStyled)`
   width: 95%;
 `;
 
-interface FormData {
-    displayName: string
-    description: string
-    specUrl: string
-    fullSpec: string
-    dynamicConf: boolean
+interface Functions {
+    submit: (apiEntry: ApiEntry) => any
 }
 
-const ApiForm: React.FC = () => {
+const ApiForm: React.FC<Functions> = ({submit}) => {
     const [expandAdvancedSettings, setExpandAdvancedSettings] = useState(false);
-    const {register, setValue, handleSubmit, errors} = useForm<FormData>();
+    const {register, handleSubmit, errors} = useForm<ApiEntry>();
 
-    const onSubmit = handleSubmit((data: FormData) => {
-        alert("Hello there" + JSON.stringify(data));
+    const onSubmit = handleSubmit((data: ApiEntry) => {
+        submit(data);
     });
 
     return (
@@ -75,8 +72,8 @@ const ApiForm: React.FC = () => {
                 <HeaderText>Add API</HeaderText>
                 <Words>Enter in some basic details about the API you want to link</Words>
                 <FormInput type="text" placeholder="Display name" name={"displayName"}
-                           ref={register({required: true, maxLength: 20, })}/>
-                {errors.displayName && <Words>Wrongg!!!</Words>}
+                           ref={register({required: true, maxLength: 20,})}/>
+                {errors.displayName?.message && <Words>errors.displayName?.message</Words>}
                 <FormInput type="text" placeholder="Summary" name={"description"} ref={register}/>
 
                 <HeaderText>Spec</HeaderText>

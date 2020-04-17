@@ -5,7 +5,6 @@ import io.dinject.SystemContext
 import io.dinject.controller.WebRoutes
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.path
-import io.javalin.core.util.Header
 import io.javalin.http.staticfiles.Location
 import io.javalin.plugin.json.JavalinJackson
 import io.javalin.plugin.openapi.jackson.JacksonToJsonMapper.objectMapper
@@ -24,6 +23,7 @@ fun startServer(port: Int): Javalin {
  */
 fun create(routes: List<WebRoutes>): Javalin {
     val app = Javalin.create() { config ->
+        config.enableCorsForAllOrigins()
         config.showJavalinBanner = false
         config.logIfServerNotStarted = true
 
@@ -31,10 +31,6 @@ fun create(routes: List<WebRoutes>): Javalin {
         if (System.getenv("PROD_MODE") == "true") {
             config.addStaticFiles("/app/public", Location.EXTERNAL)
         }
-    }
-
-    app.before { ctx ->
-        ctx.header(Header.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
     }
 
     JavalinJackson.configure(

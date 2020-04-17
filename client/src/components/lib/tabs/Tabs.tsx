@@ -24,10 +24,12 @@ const Tabs: React.FC<Props> = ({children}) => {
         <div>
             <TabsContainer>
                 {
-                    children.map((tab: JSX.Element) => {
+                    children.map((tab: JSX.Element, index: number) => {
                         const label = tab.props.label;
 
-                        return <TabButton label={label} isActive={activeTab === label}
+                        return <TabButton key={index}
+                                          label={label}
+                                          isActive={activeTab === label}
                                           onClick={() => setActiveTab(label)}/>
                     })
                 }

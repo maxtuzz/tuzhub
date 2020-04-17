@@ -30,17 +30,17 @@ class DynamicUpdateService(private val specService: ApiSpecService) {
         logger.info("Starting spec update service, polling interval set to $refreshInterval")
 
         val refresh: TimerTask.() -> Unit = {
-            logger.info("Polling for API specification changes ...")
-
             // Get all pollable spec entries
             val specs = specService.getPollableSpecs()
 
-            logger.info("Fetching the following specs:")
+            if (specs.isNotEmpty()) {
+                logger.info("Polling for API specification changes ...")
 
-            specs.forEach {
-                logger.info("${it.apiEntry.name}/${it.specVersion} [${it.status}]")
+                specs.forEach {
+                    logger.info("${it.apiEntry.name}/${it.specVersion} [${it.status}]")
 
-                specService.refreshDSpec(it)
+                    specService.refreshDSpec(it)
+                }
             }
         }
 
