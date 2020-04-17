@@ -4,7 +4,7 @@ interface ApiEntry extends Hal {
     displayName: string;
     name: string;
     description: string;
-    fullSpec?: string
+    fullSpec?: string | object;
     specUrl?: string
     dynamicConf: boolean;
     authEnabled: boolean;

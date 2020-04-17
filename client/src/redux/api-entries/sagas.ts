@@ -1,4 +1,5 @@
 import {all, call, fork, put, select, takeEvery} from "redux-saga/effects";
+import {safeLoad} from "js-yaml";
 import {
     alertEntries,
     ApiEntryActions,
@@ -77,9 +78,40 @@ function* createApiEntry(action: NewApiSubmitAction) {
     // Default to auth enabled false
     apiEntry.authEnabled = false;
 
+    const fullSpec = apiEntry.fullSpec as string;
+
     // Flag checking
-    if (apiEntry.fullSpec && apiEntry.fullSpec.length > 20) {
+    // Todo: Think about creating a builder pattern to handle api entry payload construction
+    if (fullSpec && fullSpec.length > 20) {
         apiEntry.dynamicConf = false;
+        apiEntry.specUrl = undefined;
+
+        const isJson = fullSpec.trim().startsWith("{");
+
+        if (isJson) {
+            try {
+                apiEntry.fullSpec = JSON.parse(fullSpec);
+            } catch (e) {
+                yield put(alertEntries({
+                    message: `Problem when parsing supplied JSON`,
+                    type: AlertType.ERROR
+                }));
+
+                return;
+            }
+        } else {
+            try {
+                // Convert yaml to string
+                apiEntry.fullSpec = safeLoad(fullSpec);
+            } catch (e) {
+                yield put(alertEntries({
+                    message: `Incompatible yaml file supplied. Please check syntax`,
+                    type: AlertType.ERROR
+                }));
+
+                return;
+            }
+        }
     }
 
     if (apiEntry.displayName.includes("-")) {
