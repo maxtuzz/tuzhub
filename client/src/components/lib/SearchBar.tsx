@@ -8,7 +8,7 @@ const Form = styled.form`
   flex-direction: row;
   align-items: center;
   margin-bottom: 24px;
-  background-color: #2c2c30;
+  background-color: #222931;
   border-radius: 5px;
 `;
 

@@ -9,8 +9,7 @@ import kotlin.test.assertFailsWith
 internal class RemoteSpecServiceTest {
     private lateinit var remoteOpenAPIService: RemoteOpenAPIService
 
-    val specUrl =
-        "https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
+    val specUrl = "specs/petstore.yaml"
 
     @BeforeEach
     fun setup() {
@@ -19,8 +18,7 @@ internal class RemoteSpecServiceTest {
 
     @Test
     fun `Get remote spec`() {
-        val openAPI =
-            remoteOpenAPIService.get(specUrl)
+        val openAPI = remoteOpenAPIService.get(specUrl)
         assertThat(openAPI.info?.title?.toLowerCase()).contains("petstore")
     }
 

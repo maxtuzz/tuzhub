@@ -15,7 +15,7 @@ const SidebarContainer = styled.div`
     position: fixed;
     list-style: none;
     height: 100vh;
-    background-color: #2c2c30;
+    background-color: #1d2228;
     max-width: 260px;
  `;
 
@@ -41,6 +41,11 @@ const SidebarHeader = styled(Link)`
     padding-left: 30px;
     padding-bottom: 20px;
     border-bottom: 1px solid #2e2e33;
+    width: 12rem;
+    
+    @media (max-width: 1126px) {
+      width: 1.2rem;
+    }
     
     ${delayedWiggle}
 `;
@@ -102,7 +107,7 @@ const Sidebar: React.FC = () => {
                 <SidebarHeader to="/">
                     <SidebarHeaderIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
                     <SidebarHeaderLabel>
-                        Tuzzy Dev Portal
+                        Tuzhub
                     </SidebarHeaderLabel>
                 </SidebarHeader>
                 <StyledLink to="/apis">

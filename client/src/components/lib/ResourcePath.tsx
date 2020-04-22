@@ -15,20 +15,20 @@ const PathAccordionHeader = styled.div<{ open: boolean }>`
   padding: 10px 10px 30px 20px;
   transition: 0.3s;
   
-  background-color: ${props => props.open && `rgba(255, 255, 255, 0.05)`};
+  background-color: ${props => props.open && `#222931`};
   border-radius: 5px 5px 0 0;
   
   &:hover {
       color: #ffffff;
       cursor: pointer;
-      background-color: rgba(255, 255, 255, 0.05);
+      background-color: #222931;
       border-radius: ${props => props.open ? `5px 5px 0 0` : `5px`};
   }
 `;
 
 const ExpandableResourceContent = styled(ExpandableContent)<{ open: boolean }>`
   border-radius: 0 0 5px 5px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #222931;
   padding: ${props => (props.open ? "15px 15px" : "0 15px")};
 `;
 

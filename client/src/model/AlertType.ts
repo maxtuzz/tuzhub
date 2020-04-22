@@ -1,5 +1,6 @@
 enum AlertType {
     INFO,
+    WARNING,
     ERROR
 }
 
