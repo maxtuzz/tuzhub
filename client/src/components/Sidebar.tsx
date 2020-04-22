@@ -93,13 +93,16 @@ const LinkApiMenuItem = styled(SidebarMenuItem)`
   }
 `;
 
+const LinkIcon = styled(FontAwesomeIcon)`
+  margin-left: 20px;
+`;
+
 /**
  * Renders the side bar for navigation
  * @constructor
  */
 const Sidebar: React.FC = () => {
     let {pathname} = useLocation();
-    console.log("URL: " + pathname);
 
     return (
         <SidebarContainer>
@@ -107,7 +110,7 @@ const Sidebar: React.FC = () => {
                 <SidebarHeader to="/">
                     <SidebarHeaderIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
                     <SidebarHeaderLabel>
-                        Tuzhub
+                        Tuzhub.io
                     </SidebarHeaderLabel>
                 </SidebarHeader>
                 <StyledLink to="/apis">
@@ -134,7 +137,7 @@ const Sidebar: React.FC = () => {
                     <StyledLink to="/apis/new">
                         <LinkApiMenuItem>
                             <SidebarMenuItemLabel>Link API</SidebarMenuItemLabel>
-                            <FontAwesomeIcon icon={Icons.faPlus} color={"gray"}/>
+                            <LinkIcon icon={Icons.faPlus} color={"gray"}/>
                         </LinkApiMenuItem>
                     </StyledLink>
                 }

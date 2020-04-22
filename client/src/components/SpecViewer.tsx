@@ -47,7 +47,6 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
     }, [selectedApi, fetchSpec]);
 
     // Component un-mounts
-    // Todo: Bug with unmounting, if mouse hover over
     useEffect(() => {
         return () => {
             resetSpec();

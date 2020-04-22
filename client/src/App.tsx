@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from "styled-components";
 import Sidebar from "./components/Sidebar";
 import HomeScreen from "./components/screens/HomeScreen";
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, useLocation} from "react-router-dom";
 import ConfigureScreen from "./components/screens/ConfigureScreen";
 import DiscoverScreen from "./components/screens/DiscoverScreen";
 import ApiScreen from "./components/screens/ApiScreen";
@@ -38,6 +38,20 @@ const GriddedSidebar = styled(Sidebar)`
 `;
 
 /**
+ * Todo: Create HoC for Route that includes ScrollToTop component
+ * @constructor
+ */
+const ScrollToTop = () => {
+    let {pathname} = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+}
+
+/**
  * Main app layout
  * @constructor
  */
@@ -48,21 +62,27 @@ const App: React.FC = () => (
         <RoutableContent>
             <Switch>
                 <Route path="/config">
+                    <ScrollToTop/>
                     <ConfigureScreen/>
                 </Route>
                 <Route path="/apis/new">
+                    <ScrollToTop/>
                     <LinkApiScreen/>
                 </Route>
                 <Route path="/apis/:name">
+                    <ScrollToTop/>
                     <ApiScreen/>
                 </Route>
                 <Route path="/apis">
+                    <ScrollToTop/>
                     <DiscoverScreen/>
                 </Route>
                 <Route path="/metrics">
+                    <ScrollToTop/>
                     <MetricsScreen/>
                 </Route>
                 <Route path="/">
+                    <ScrollToTop/>
                     <HomeScreen/>
                 </Route>
             </Switch>
