@@ -57,12 +57,13 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
         return <Words>Loading specification ...</Words>
     }
 
-    const docPaths = apiSpec.document.paths;
+    const document = apiSpec.document;
+    const docPaths = document.paths;
 
     return (
         <div>
             <Words>
-                OpenAPI version: {apiSpec?.document?.openapi}
+                OpenAPI version: {document?.openapi}
             </Words>
 
             <div ref={resourceSectionRef}>
@@ -70,7 +71,7 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
             </div>
 
             <div ref={objectSectionRef}>
-                <ObjectList components={apiSpec?.document?.components} navPath={navPath}/>
+                <ObjectList components={document?.components} navPath={navPath}/>
             </div>
         </div>
     );

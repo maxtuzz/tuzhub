@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 
 export const SidebarMenuItemLabel = styled.p`
     font-family: "Roboto", sans-serif;
@@ -14,20 +14,28 @@ export const SidebarMenuItemLabel = styled.p`
     }
 `;
 
-const SidebarMenuItem = styled.li`
+const activeStyle = css`
+  color: #ffffff;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 3px 0 0 0 #51aec0;
+`
+
+const SidebarMenuItem = styled.li<{ selected?: boolean }>`
     display: flex;
     align-items: center;
     padding-left: 2em;
     height: 40px;
     max-width: 16em;
     color: #b9bbbe;
+    transition: all 0.3s ease-out;
     
     &:hover {
-      color: #ffffff;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.05);
-      box-shadow: inset 3px 0 0 0 #51aec0;
+      ${activeStyle}
     }
+    
+    ${props => props.selected && activeStyle}
+    
 `;
 
 export default SidebarMenuItem;

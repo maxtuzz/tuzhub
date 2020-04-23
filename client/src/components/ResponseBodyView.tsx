@@ -13,7 +13,7 @@ interface Props {
     responseBody?: OpenAPIV3.ResponsesObject,
     noTopMargin: boolean
 }
-{}
+
 const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
     const [open, setOpen] = useState(true);
 
@@ -27,12 +27,14 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
             ? <Words>{statusValue.description}</Words>
             : <Words>{StatusHelper.getDescription(status)}</Words>;
 
+        const style = monokai;
+
         if (!statusContent) {
             return (
                 <ExpandableContent open={open}>
                     {statusDescription}
 
-                    <SyntaxHighlighter language="json" style={monokai}>
+                    <SyntaxHighlighter language="json" style={style} customStyle={{background: 0}}>
                         {"{}"}
                     </SyntaxHighlighter>
                 </ExpandableContent>
@@ -48,7 +50,7 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
             return (
                 <ExpandableContent open={open}>
                     {statusDescription}
-                    <SyntaxHighlighter language="json" style={monokai}>
+                    <SyntaxHighlighter language="json" style={style} customStyle={{background: 0}}>
                         {
                             codeSnippet
                         }

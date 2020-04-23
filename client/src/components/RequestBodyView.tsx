@@ -40,7 +40,7 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
                 {headerTitle}
             </AccordionHeader>
             <ExpandableContent open={open}>
-                <SyntaxHighlighter language="json" style={monokai}>
+                <SyntaxHighlighter language="json" style={monokai} customStyle={{background: 0}}>
                     {jsonRequest ? jsonRequest : "{}"}
                 </SyntaxHighlighter>
             </ExpandableContent>

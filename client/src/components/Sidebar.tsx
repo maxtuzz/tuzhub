@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import * as Icons from "@fortawesome/free-solid-svg-icons"
@@ -104,43 +104,50 @@ const LinkIcon = styled(FontAwesomeIcon)`
 const Sidebar: React.FC = () => {
     let {pathname} = useLocation();
 
+    const [activeLink, setActiveLink] = useState(pathname);
+
+    const apiPath = "/apis";
+    const metricsPath = "/metrics";
+    const configPath = "/config";
+
     return (
         <SidebarContainer>
             <SidebarMenu>
-                <SidebarHeader to="/">
+                <SidebarHeader to="/" onClick={() => setActiveLink("")}>
                     <SidebarHeaderIcon icon={Icons.faLessThanEqual} color={"white"} size={"lg"}/>
                     <SidebarHeaderLabel>
                         Tuzhub.io
                     </SidebarHeaderLabel>
                 </SidebarHeader>
-                <StyledLink to="/apis">
-                    <SidebarMenuItem>
+                <StyledLink to={apiPath} onClick={() => setActiveLink(apiPath)}>
+                    <SidebarMenuItem selected={activeLink === apiPath}>
                         <FontAwesomeIcon icon={Icons.faProjectDiagram} color={"white"}/>
                         <SidebarMenuItemLabel>APIs</SidebarMenuItemLabel>
                     </SidebarMenuItem>
                 </StyledLink>
-                <StyledLink to="/metrics">
-                    <SidebarMenuItem>
+                <StyledLink to={metricsPath} onClick={() => setActiveLink(metricsPath)}>
+                    <SidebarMenuItem selected={activeLink === metricsPath}>
                         <FontAwesomeIcon icon={Icons.faChartLine} color={"white"} size={"lg"}/>
                         <SidebarMenuItemLabel>Metrics</SidebarMenuItemLabel>
                     </SidebarMenuItem>
                 </StyledLink>
-                <StyledLink to="/config">
-                    <SidebarMenuItem>
+                <StyledLink to={configPath} onClick={() => setActiveLink(configPath)}>
+                    <SidebarMenuItem selected={activeLink === configPath}>
                         <FontAwesomeIcon icon={Icons.faCogs} color={"white"}/>
                         <SidebarMenuItemLabel>Configure</SidebarMenuItemLabel>
                     </SidebarMenuItem>
                 </StyledLink>
                 <MenuDivider/>
                 {
-                    pathname.endsWith("apis") &&
-                    <StyledLink to="/apis/new">
+                    pathname.endsWith(apiPath) &&
+                    <StyledLink to={`${apiPath}/new`}>
                         <LinkApiMenuItem>
                             <SidebarMenuItemLabel>Link API</SidebarMenuItemLabel>
                             <LinkIcon icon={Icons.faPlus} color={"gray"}/>
                         </LinkApiMenuItem>
                     </StyledLink>
                 }
+
                 <SpecNavContainer/>
             </SidebarMenu>
             <SidebarMenuItem>
