@@ -53,7 +53,7 @@ const ObjectList: React.FC<Props> = ({components, navPath}) => {
                     entries && entries.map(([schemaName, resource]) => {
                         const schema = resource as OpenAPIV3.SchemaObject;
 
-                        return <div ref={refs && refs[schemaName]}>
+                        return <div ref={refs && refs[schemaName]} key={schemaName}>
                             <ObjectAccordion
                                 schemaName={schemaName}
                                 schema={schema}

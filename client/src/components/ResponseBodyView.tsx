@@ -48,7 +48,7 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
             const codeSnippet = JSON.stringify(schema, null, 2);
 
             return (
-                <ExpandableContent open={open}>
+                <ExpandableContent open={open} key={responseType}>
                     {statusDescription}
                     <SyntaxHighlighter language="json" style={style} customStyle={{background: 0}}>
                         {
@@ -61,7 +61,7 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
     };
 
     const tabs = Object.entries(responses).map(([key, value], index) =>
-        <Tab label={key}>
+        <Tab label={key} key={key}>
             {
                 getTabContent(key, value)
             }

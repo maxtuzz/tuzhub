@@ -28,14 +28,14 @@ const fadeInTop = keyframes`
   }
 `;
 
-const fadeOutTop = keyframes`
+const fadeInBottom = keyframes`
   from {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 0;
+    transform: translateY(20px);
   }
   to {
-    opacity: 0;
-    transform: translateY(-20px);
+    opacity: 1;
+    transform: translateY(0);
   }
 `;
 
@@ -43,45 +43,22 @@ const fadeOutTop = keyframes`
  * Can be added to any styled component to add a fade in and down effect upon rendering
  */
 const fadeInTopCss = css`
-    animation: fadeinTop 0.3s;
-    -moz-animation: fadeinTop 0.3s; /* Firefox */
-    -webkit-animation: fadeinTop 0.3s; /* Safari and Chrome */
-    -o-animation: fadeinTop 0.3s; /* Opera */
-
-    @keyframes fadeinTop {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    animation: ${fadeInTop} 0.3s;
+    -moz-animation: ${fadeInTop} 0.3s; /* Firefox */
+    -webkit-animation: ${fadeInTop} 0.3s; /* Safari and Chrome */
+    -o-animation: ${fadeInTop} 0.3s; /* Opera */
 `;
 
 const fadeInBottomCss = css`
-    animation: fadeinBottom 0.3s;
-    -moz-animation: fadeinBottom 0.3s; /* Firefox */
-    -webkit-animation: fadeinBottom 0.3s; /* Safari and Chrome */
-    -o-animation: fadeinBottom 0.3s; /* Opera */
-
-    @keyframes fadeinBottom {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    animation: ${fadeInBottom} 0.3s;
+    -moz-animation: ${fadeInBottom} 0.3s; /* Firefox */
+    -webkit-animation: ${fadeInBottom} 0.3s; /* Safari and Chrome */
+    -o-animation: ${fadeInBottom} 0.3s; /* Opera */
 `;
 
 export {
     delayedWiggle,
     fadeInTop,
-    fadeOutTop,
     fadeInTopCss,
     fadeInBottomCss
 };

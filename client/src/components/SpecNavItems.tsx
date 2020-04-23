@@ -37,7 +37,7 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollT
     }, [apiDoc]);
 
     const resources = apiDoc?.paths && ResourceFormatter.getPaths(apiDoc?.paths).map(path =>
-        <SidebarMenuItem onClick={() => scrollTo(path)}>
+        <SidebarMenuItem onClick={() => scrollTo(path)} key={path}>
             <span>&#8226;</span>
             <SidebarMenuItemLabel>{path}</SidebarMenuItemLabel>
         </SidebarMenuItem>
@@ -45,7 +45,7 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollT
 
     const objectSchemas = apiDoc?.components?.schemas
         && Object.entries(apiDoc?.components?.schemas).map(([key]) => (
-            <SidebarMenuItem onClick={() => scrollTo(key)}>
+            <SidebarMenuItem onClick={() => scrollTo(key)} key={key}>
                 <span>&#8226;</span>
                 <SidebarMenuItemLabel>{key}</SidebarMenuItemLabel>
             </SidebarMenuItem>

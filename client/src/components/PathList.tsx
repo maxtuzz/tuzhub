@@ -73,7 +73,7 @@ const PathList: React.FC<Props> = ({docPaths, navPath}) => {
     };
 
     const paths = Object.entries(filteredPaths).map(([key, resource]) => (
-            <div ref={refs[key]}>
+            <div ref={refs[key]} key={key}>
                 {
                     resource.get &&
                     <ResourcePath
