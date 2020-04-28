@@ -26,7 +26,8 @@ const SidebarMenu = styled.ul`
     width: 100%;
     list-style: none;
     padding-inline-start: 0;
-    overflow-y: scroll;
+    // Todo: White box
+    //overflow-y: scroll;
     overflow-x: hidden;
 `;
 

@@ -1,11 +1,11 @@
 import React from "react";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import TinyLoadingSpinner from "../Spinner";
 
 /**
  * Standard configurable button
  */
-export const ButtonStyled = styled.button`
+const ButtonStyled = styled.button<{ submit?: boolean, disabled?: boolean }>`
   background-color: #51aec0;
   height: 3em;
   color: #FFF;
@@ -15,20 +15,32 @@ export const ButtonStyled = styled.button`
   padding: 0.25em 1em;
   border: none;
   border-radius: 3px;
-  
   transition: 0.3s all;
   
-  &:hover {
-    background-color: #4590a2;
-    cursor: pointer;
-  }
+  // Submit button styling 
+  ${props => props.submit && css`
+    width: 95%;
+    margin-top: 3em;
+  `}
+  
+  // If disabled, turn off hover effects
+  ${props => props.disabled ? css`
+    background-color: rgba(81,174,192,0.26);
+    color: rgba(255,255,255,0.18);
+  `
+  : css`
+    &:hover {
+      background-color: rgba(81,174,192,0.25);
+      cursor: pointer;
+    }
+  `}
 `;
 
 interface Props {
     children: string
     disabled?: boolean
     isLoading?: boolean
-    type?: "button" | "reset" | "submit"
+    submit?: boolean
     ref?: any
 }
 
@@ -36,8 +48,8 @@ interface Functions {
     onClick?: () => void
 }
 
-const Button: React.FC<Props & Functions> = ({onClick, isLoading, children, disabled = false, type = "button", ref}) => (
-    <ButtonStyled disabled={disabled} onClick={onClick} type={type} ref={ref}>
+const Button: React.FC<Props & Functions> = ({onClick, isLoading, children, disabled = false, submit = false, ref}) => (
+    <ButtonStyled disabled={disabled} onClick={onClick} type={submit ? "submit": "button"} ref={ref} submit={submit}>
         {
             isLoading
                 ? <TinyLoadingSpinner/>

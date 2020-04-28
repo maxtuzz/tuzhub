@@ -6,7 +6,7 @@ import AccordionHeader from "./lib/AccordionHeader";
 import styled from "styled-components";
 import Input from "./lib/Input";
 import ExpandableContent from "./lib/ExpandableContent";
-import {ButtonStyled} from "./lib/Button";
+import Button from "./lib/Button";
 import SectionHeader from "./lib/SectionHeader";
 import FadeInContent from "./lib/FadeInContent";
 import Tabs, {Tab} from "./lib/tabs/Tabs";
@@ -49,18 +49,13 @@ const SpecTextArea = styled.textarea`
   border-radius: 5px;
 `;
 
-const SubmitButton = styled(ButtonStyled)`
-  margin-top: 3em;
-  width: 95%;
-`;
-
 interface Functions {
     submit: (apiEntry: ApiEntry) => any
 }
 
 const ApiForm: React.FC<Functions> = ({submit}) => {
     const [expandAdvancedSettings, setExpandAdvancedSettings] = useState(false);
-    const {register, handleSubmit, errors} = useForm<ApiEntry>();
+    const {formState, register, handleSubmit, errors} = useForm<ApiEntry>();
 
     const onSubmit = handleSubmit((data: ApiEntry) => {
         submit(data);
@@ -72,12 +67,12 @@ const ApiForm: React.FC<Functions> = ({submit}) => {
                 <HeaderText>Add API</HeaderText>
                 <Words>Enter in some basic details about the API you want to link</Words>
                 <FormInput type="text" placeholder="Display name" name={"displayName"}
-                           ref={register({required: true, maxLength: 20,})}/>
-                {errors.displayName?.message && <Words>errors.displayName?.message</Words>}
-                <FormInput type="text" placeholder="Summary" name={"description"} ref={register}/>
+                           ref={register({ required: true, maxLength: 20 })} />
+                {errors.displayName && <Words>Yo nah</Words>}
+                <FormInput type="text" placeholder="Summary" name={"description"} ref={register({required: true, maxLength: 100})}/>
 
                 <HeaderText>Spec</HeaderText>
-                <Words>You can either choose to link a spec directly and let Tuzzy take care of polling it for changes.
+                <Words>You can either choose to link a spec directly and let the hub take care of polling it for changes.
                     Or you can upload it directly.</Words>
                 <Words>Multiple specs can be assigned to an API after creation (versions, pre-release demos
                     etc.)</Words>
@@ -88,7 +83,7 @@ const ApiForm: React.FC<Functions> = ({submit}) => {
                         <FormInput type="text"
                                    placeholder="https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
                                    name={"specUrl"}
-                                   ref={register}
+                                   ref={register()}
                         />
                         <SectionHeader>Auto configure</SectionHeader>
                         <SwitchToggle name={"dynamicConf"} register={register}/>
@@ -96,7 +91,7 @@ const ApiForm: React.FC<Functions> = ({submit}) => {
                     <Tab label="Upload">
                         <FadeInContent>
                             <Words>Paste a valid OpenAPI spec</Words>
-                            <SpecTextArea placeholder={sampleYaml} name="fullSpec" ref={register}/>
+                            <SpecTextArea placeholder={sampleYaml} name="fullSpec" ref={register()}/>
                         </FadeInContent>
                     </Tab>
                 </Tabs>
@@ -108,9 +103,10 @@ const ApiForm: React.FC<Functions> = ({submit}) => {
                 <ExpandableContent open={expandAdvancedSettings}>
                     <Words>Coming soon. (Disable proxy, authentication, etc.)</Words>
                 </ExpandableContent>
-                <SubmitButton type="submit">
+
+                <Button submit disabled={!formState.isValid}>
                     Create
-                </SubmitButton>
+                </Button>
             </Form>
         </FormContainer>
     );
