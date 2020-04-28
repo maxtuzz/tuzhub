@@ -49,11 +49,15 @@ const SpecTextArea = styled.textarea`
   border-radius: 5px;
 `;
 
+interface Props {
+    isSubmitting: boolean;
+}
+
 interface Functions {
     submit: (apiEntry: ApiEntry) => any
 }
 
-const ApiForm: React.FC<Functions> = ({submit}) => {
+const ApiForm: React.FC<Props & Functions> = ({isSubmitting, submit}) => {
     const [expandAdvancedSettings, setExpandAdvancedSettings] = useState(false);
     const {formState, register, handleSubmit, errors} = useForm<ApiEntry>();
 
@@ -67,12 +71,14 @@ const ApiForm: React.FC<Functions> = ({submit}) => {
                 <HeaderText>Add API</HeaderText>
                 <Words>Enter in some basic details about the API you want to link</Words>
                 <FormInput type="text" placeholder="Display name" name={"displayName"}
-                           ref={register({ required: true, maxLength: 20 })} />
+                           ref={register({required: true, maxLength: 20})}/>
                 {errors.displayName && <Words>Yo nah</Words>}
-                <FormInput type="text" placeholder="Summary" name={"description"} ref={register({required: true, maxLength: 100})}/>
+                <FormInput type="text" placeholder="Summary" name={"description"}
+                           ref={register({required: true, maxLength: 100})}/>
 
                 <HeaderText>Spec</HeaderText>
-                <Words>You can either choose to link a spec directly and let the hub take care of polling it for changes.
+                <Words>You can either choose to link a spec directly and let the hub take care of polling it for
+                    changes.
                     Or you can upload it directly.</Words>
                 <Words>Multiple specs can be assigned to an API after creation (versions, pre-release demos
                     etc.)</Words>
@@ -82,16 +88,16 @@ const ApiForm: React.FC<Functions> = ({submit}) => {
                         <Words>Provide an URL to remote spec</Words>
                         <FormInput type="text"
                                    placeholder="https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
-                                   name={"specUrl"}
-                                   ref={register()}
+                                   name="specUrl"
+                                   ref={register}
                         />
                         <SectionHeader>Auto configure</SectionHeader>
-                        <SwitchToggle name={"dynamicConf"} register={register}/>
+                        <SwitchToggle name="dynamicConf" register={register}/>
                     </Tab>
                     <Tab label="Upload">
                         <FadeInContent>
                             <Words>Paste a valid OpenAPI spec</Words>
-                            <SpecTextArea placeholder={sampleYaml} name="fullSpec" ref={register()}/>
+                            <SpecTextArea placeholder={sampleYaml} name="fullSpec" ref={register}/>
                         </FadeInContent>
                     </Tab>
                 </Tabs>
@@ -104,7 +110,7 @@ const ApiForm: React.FC<Functions> = ({submit}) => {
                     <Words>Coming soon. (Disable proxy, authentication, etc.)</Words>
                 </ExpandableContent>
 
-                <Button submit disabled={!formState.isValid}>
+                <Button submit isLoading={isSubmitting}>
                     Create
                 </Button>
             </Form>

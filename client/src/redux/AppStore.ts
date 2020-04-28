@@ -3,6 +3,8 @@ import apiEntriesReducer from "./api-entries/reducers";
 import apiSpecReducer from "./api-entries/api-specs/reducers";
 import {all, fork} from "redux-saga/effects";
 import apiEntrySaga from "./api-entries/sagas"
+import apiFormSaga from "./api-entries/api-form/sagas"
+import apiFormReducer from "./api-entries/api-form/reducers"
 import apiSpecSaga from "./api-entries/api-specs/sagas"
 import createSagaMiddleware from "redux-saga";
 import {composeWithDevTools} from 'remote-redux-devtools';
@@ -11,11 +13,12 @@ const sagaMiddleware = createSagaMiddleware();
 const middleware = applyMiddleware(sagaMiddleware);
 
 function* rootSaga() {
-    yield all([fork(apiEntrySaga), fork(apiSpecSaga)])
+    yield all([fork(apiEntrySaga), fork(apiFormSaga), fork(apiSpecSaga)])
 }
 
 const rootReducer = combineReducers({
     apiEntriesReducer,
+    apiFormReducer,
     apiSpecReducer
 });
 
