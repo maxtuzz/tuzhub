@@ -2,6 +2,7 @@ package io.tuzzy.portal.api
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.javalin.http.Context
+import io.tuzzy.portal.util.NameFormatter
 
 data class ApiEntry(val displayName: String, val description: String?, var dynamicConf: Boolean = true) :
     HalResource() {
@@ -9,7 +10,9 @@ data class ApiEntry(val displayName: String, val description: String?, var dynam
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     var specUrl: String? = null
     var authEnabled: Boolean = false
-    var name: String = displayName.toLowerCase().replace(" ", "-")
+
+    // Format name based on display name
+    var name: String = NameFormatter.format(displayName)
 
     var fullSpec: Map<String, Any>? = null
 

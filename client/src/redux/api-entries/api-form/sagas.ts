@@ -1,4 +1,4 @@
-import {all, call, fork, put, takeEvery} from "redux-saga/effects";
+import {all, call, delay, fork, put, takeEvery} from "redux-saga/effects";
 import AlertType from "../../../model/AlertType";
 import {safeLoad} from "js-yaml";
 import Alert from "../../../model/Alert";
@@ -6,6 +6,7 @@ import {HalApi} from "../../../services/HalApi";
 import Env from "../../../services/Env";
 import {ApiFormActions, NewApiSubmitAction, setApiSubmitLoading} from "./actions";
 import {alertEntries} from "../actions";
+import {push} from "connected-react-router";
 
 function* createApiEntry(action: NewApiSubmitAction) {
     let {apiEntry} = action;
@@ -63,6 +64,18 @@ function* createApiEntry(action: NewApiSubmitAction) {
     }
 
     yield call(HalApi.post, Env.getBaseApiUrl(), apiEntry);
+
+    // Give some time
+    yield delay(600);
+
+    // Navigate to newly created API screen
+    const name = apiEntry.displayName
+        .trimStart()
+        .trimEnd()
+        .replace(" ", "-")
+        .toLowerCase();
+
+    yield put(push(`/apis/${name}`))
 
     yield put(setApiSubmitLoading(false));
 }
