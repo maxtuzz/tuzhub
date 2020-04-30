@@ -1,15 +1,15 @@
 import ApiSpec from "../model/ApiSpec";
-import Alert from "../model/Alert";
+import Notification from "../model/Notification";
 import React, {RefObject, useEffect} from "react";
 import Words from "./lib/Words";
 import ApiEntry from "../model/ApiEntry";
 import PathList from "./PathList";
-import ObjectList from "../ObjectList";
+import SchemaList from "./SchemaList";
 
 interface Props {
     selectedApi?: ApiEntry
     apiSpec?: ApiSpec
-    alert?: Alert
+    alert?: Notification
     isLoading: boolean
     navPath?: string
 }
@@ -19,6 +19,16 @@ interface Functions {
     resetSpec: () => void
 }
 
+/**
+ * This is the main component for viewing an API spec
+ * @param selectedApi
+ * @param apiSpec
+ * @param isLoading
+ * @param fetchSpec
+ * @param resetSpec
+ * @param navPath
+ * @constructor
+ */
 const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoading, fetchSpec, resetSpec, navPath}) => {
     const resourceSectionRef: RefObject<any> = React.createRef();
     const objectSectionRef: RefObject<any> = React.createRef();
@@ -48,6 +58,7 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
 
     // Component un-mounts
     useEffect(() => {
+        // Return only executes when component un-mounts
         return () => {
             resetSpec();
         }
@@ -71,7 +82,7 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
             </div>
 
             <div ref={objectSectionRef}>
-                <ObjectList components={document?.components} navPath={navPath}/>
+                <SchemaList components={document?.components} navPath={navPath}/>
             </div>
         </div>
     );

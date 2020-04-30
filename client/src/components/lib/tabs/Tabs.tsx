@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import styled from "styled-components";
 import TabButton from "./TabButton";
 
-const TabsContainer = styled.div`
+const TabsButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid grey;
@@ -17,12 +17,17 @@ interface Props {
     children: any
 }
 
+/**
+ * Used with 0..n Tab components defined above, takes Tab children content
+ * @param children
+ * @constructor
+ */
 const Tabs: React.FC<Props> = ({children}) => {
     const [activeTab, setActiveTab] = useState(children[0].props.label);
 
     return (
         <div>
-            <TabsContainer>
+            <TabsButtonContainer>
                 {
                     children.map((tab: JSX.Element, index: number) => {
                         const label = tab.props.label;
@@ -33,7 +38,7 @@ const Tabs: React.FC<Props> = ({children}) => {
                                           onClick={() => setActiveTab(label)}/>
                     })
                 }
-            </TabsContainer>
+            </TabsButtonContainer>
 
             <div>
                 {children.map((tab: JSX.Element) => {

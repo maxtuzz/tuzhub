@@ -1,12 +1,12 @@
 import ApiEntry from "../../model/ApiEntry";
 import {ApiEntryActions, TApiEntryActions} from "./actions";
-import Alert from "../../model/Alert";
+import Notification from "../../model/Notification";
 
 interface IApiEntryState {
     readonly selectedApi?: ApiEntry;
     readonly apiEntries: ApiEntry[];
     readonly isLoading: boolean;
-    readonly alert?: Alert;
+    readonly alert?: Notification;
 }
 
 const initialState: IApiEntryState = {
@@ -25,8 +25,6 @@ export default function (state: IApiEntryState = initialState, action: TApiEntry
             return {...state, isLoading: action.isLoading};
         case ApiEntryActions.SET_API_ENTRIES:
             return {...state, apiEntries: action.apiEntries};
-        case ApiEntryActions.SET_ALERT:
-            return {...state, alert: action.alert};
         default:
             return state;
     }

@@ -1,10 +1,10 @@
 import {SpecActions, TApiSpecActions} from "./actions";
 import ApiSpec from "../../../model/ApiSpec";
-import Alert from "../../../model/Alert";
+import Notification from "../../../model/Notification";
 
 interface IApiSpecState {
     readonly apiSpec?: ApiSpec;
-    readonly alert?: Alert;
+    readonly alert?: Notification;
     readonly isLoading: boolean
     readonly navPath?: string
 }

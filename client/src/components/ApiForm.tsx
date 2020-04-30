@@ -57,6 +57,13 @@ interface Functions {
     submit: (apiEntry: ApiEntry) => any
 }
 
+/**
+ * Used to link/create new API entry
+ * Todo: Correctly implement validation
+ * @param isSubmitting (loading indicator)
+ * @param submit (function to call on submission)
+ * @constructor
+ */
 const ApiForm: React.FC<Props & Functions> = ({isSubmitting, submit}) => {
     const [expandAdvancedSettings, setExpandAdvancedSettings] = useState(false);
     const {formState, register, handleSubmit, errors} = useForm<ApiEntry>();

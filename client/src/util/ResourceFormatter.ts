@@ -4,8 +4,8 @@ class ResourceFormatter {
     static getPaths(docPaths: OpenAPIV3.PathsObject): string[] {
         let paths = new Set<string>();
 
-        Object.entries(docPaths).forEach(([key]) => {
-            const resources = key.split("/");
+        Object.entries(docPaths).forEach(([fullPath]) => {
+            const resources = fullPath.split("/");
 
             resources.forEach(resource => {
                 if (!resource.includes("{") && !resource.includes(":")) {
@@ -17,7 +17,6 @@ class ResourceFormatter {
                 }
             });
         });
-
 
         return Array.from(paths);
     }

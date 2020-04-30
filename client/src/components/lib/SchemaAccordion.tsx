@@ -19,7 +19,7 @@ interface Props {
  * @param schema
  * @constructor
  */
-const ObjectAccordion: React.FC<Props> = ({schemaName, schema, openWhen}) => {
+const SchemaAccordion: React.FC<Props> = ({schemaName, schema, openWhen}) => {
     const [open, setOpened] = useState(false);
 
     useEffect(() => {
@@ -48,4 +48,4 @@ const ObjectAccordion: React.FC<Props> = ({schemaName, schema, openWhen}) => {
     );
 };
 
-export default ObjectAccordion;
+export default SchemaAccordion;

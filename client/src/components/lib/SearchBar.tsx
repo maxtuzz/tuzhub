@@ -21,6 +21,13 @@ interface Functions {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => any
 }
 
+/**
+ * Live search bar component - supply function, placeholder text, and whether auto focus should be toggled on
+ * @param onChange
+ * @param placeholder
+ * @param autofocus
+ * @constructor
+ */
 const SearchBar: React.FC<Props & Functions> = ({onChange, placeholder, autofocus}) => (
     <Form>
         <InputIcon icon={Icons.faSearch} color={"grey"}/>

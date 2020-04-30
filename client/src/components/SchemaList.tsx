@@ -1,8 +1,8 @@
 import React, {RefObject, useEffect} from "react";
 import {OpenAPIV3} from "openapi-types";
-import HeaderText from "./components/lib/HeaderText";
+import HeaderText from "./lib/HeaderText";
 import styled from "styled-components";
-import ObjectAccordion from "./components/lib/ObjectAccordion";
+import SchemaAccordion from "./lib/SchemaAccordion";
 
 const ObjectsContainer = styled.div`
   margin-top: 50px;
@@ -22,7 +22,13 @@ interface Props {
     navPath?: string
 }
 
-const ObjectList: React.FC<Props> = ({components, navPath}) => {
+/**
+ * Renders a list of schema definitions for a spec
+ * @param components
+ * @param navPath
+ * @constructor
+ */
+const SchemaList: React.FC<Props> = ({components, navPath}) => {
     const entries = components?.schemas && Object.entries(components?.schemas);
 
     const refs = entries && entries.reduce((prevRefs: SectionRefs, [key]) => {
@@ -54,7 +60,7 @@ const ObjectList: React.FC<Props> = ({components, navPath}) => {
                         const schema = resource as OpenAPIV3.SchemaObject;
 
                         return <div ref={refs && refs[schemaName]} key={schemaName}>
-                            <ObjectAccordion
+                            <SchemaAccordion
                                 schemaName={schemaName}
                                 schema={schema}
                                 openWhen={schemaName === navPath}/>
@@ -66,4 +72,4 @@ const ObjectList: React.FC<Props> = ({components, navPath}) => {
     );
 };
 
-export default ObjectList;
+export default SchemaList;

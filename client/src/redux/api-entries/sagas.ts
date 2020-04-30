@@ -1,12 +1,13 @@
 import {all, call, fork, put, select, takeEvery} from "redux-saga/effects";
-import {alertEntries, ApiEntryActions, LoadApiAction, setApiEntries, setLoadingApis, setSelectedApi} from "./actions";
+import {ApiEntryActions, LoadApiAction, setApiEntries, setLoadingApis, setSelectedApi} from "./actions";
 import ApiEntry from "../../model/ApiEntry";
 import {AppState} from "../AppStore";
 import {HalApi} from "../../services/HalApi";
 import ListResp from "../../model/ListResp";
-import Alert from "../../model/Alert";
-import AlertType from "../../model/AlertType";
+import Notification from "../../model/Notification";
+import NotificationType from "../../model/NotificationType";
 import {resetSpecPage} from "./api-specs/actions";
+import {pushNotification} from "../notifications/actions";
 
 function* getApiList() {
     const apis: ApiEntry[] = yield select((state: AppState) => state.apiEntriesReducer.apiEntries);
@@ -28,12 +29,12 @@ function* fetchApis() {
 
         yield put(setApiEntries(content));
     } catch (e) {
-        const alert: Alert = {
+        const alert: Notification = {
             message: "There was an error connecting to the Tuzzy backend, unable to retrieve APIs",
-            type: AlertType.ERROR
+            type: NotificationType.ERROR
         };
 
-        yield put(alertEntries(alert));
+        yield put(pushNotification(alert));
     }
 
     yield put(setLoadingApis(false));

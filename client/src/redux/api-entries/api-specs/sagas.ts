@@ -4,8 +4,8 @@ import {AppState} from "../../AppStore";
 import ApiEntry from "../../../model/ApiEntry";
 import ApiSpec from "../../../model/ApiSpec";
 import {HalApi} from "../../../services/HalApi";
-import Alert from "../../../model/Alert";
-import AlertType from "../../../model/AlertType";
+import Notification from "../../../model/Notification";
+import NotificationType from "../../../model/NotificationType";
 import {OpenAPI} from "../../../services/OpenAPI";
 
 function* fetchActive() {
@@ -14,9 +14,9 @@ function* fetchActive() {
     const api: ApiEntry = yield select((state: AppState) => state.apiEntriesReducer.selectedApi);
 
     if (!api) {
-        const alert: Alert = {
+        const alert: Notification = {
             message: "Requested spec cannot be retrieved as the API it belongs to cannot be found",
-            type: AlertType.ERROR
+            type: NotificationType.ERROR
         };
 
         yield put(alertSpec(alert));

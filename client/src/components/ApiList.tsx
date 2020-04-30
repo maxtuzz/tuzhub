@@ -27,6 +27,14 @@ const ListContainer = styled.div`
   flex-wrap: wrap;
 `;
 
+/**
+ * Renders a list of ApiCards and a search bar that filters the apiEntries
+ * @param apiEntries
+ * @param isLoading
+ * @param getApis
+ * @param resetSpec
+ * @constructor
+ */
 const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis, resetSpec}) => {
     const [filteredApis, setFilteredApis] = useState(apiEntries);
 

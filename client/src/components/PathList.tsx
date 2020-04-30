@@ -13,6 +13,12 @@ interface SectionRefs {
     [pattern: string]: RefObject<any>
 }
 
+/**
+ * Renders a list of expandable resource paths and their corresponding HTTP verb
+ * @param docPaths
+ * @param navPath
+ * @constructor
+ */
 const PathList: React.FC<Props> = ({docPaths, navPath}) => {
     const [filteredPaths, setFilteredPaths] = useState(docPaths);
 

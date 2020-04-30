@@ -1,6 +1,6 @@
 import {Action, ActionCreator} from "redux";
 import ApiSpec from "../../../model/ApiSpec";
-import Alert from "../../../model/Alert";
+import Notification from "../../../model/Notification";
 
 export enum SpecActions {
     FETCH_ACTIVE_SPEC = "@@specs/FETCH_ACTIVE_SPEC",
@@ -28,7 +28,7 @@ interface SetLoadingAction extends Action {
 
 interface AlertSpecAction extends Action {
     type: SpecActions.ALERT_SPEC,
-    alert: Alert
+    alert: Notification
 }
 
 interface ScrollToSpecSectionAction extends Action {
@@ -58,7 +58,7 @@ export const loadSpec: ActionCreator<LoadSpecAction> = (apiSpec: ApiSpec) => ({
     apiSpec: apiSpec
 });
 
-export const alertSpec: ActionCreator<AlertSpecAction> = (alert: Alert) => ({
+export const alertSpec: ActionCreator<AlertSpecAction> = (alert: Notification) => ({
     type: SpecActions.ALERT_SPEC,
     alert: alert
 });

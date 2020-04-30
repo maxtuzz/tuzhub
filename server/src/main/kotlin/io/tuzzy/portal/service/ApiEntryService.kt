@@ -78,9 +78,9 @@ class ApiEntryService(private val remoteOpenAPIService: RemoteOpenAPIService) {
         val rows = QDApiEntry()
             .name.eq(name)
             .asUpdate()
-            .set("display_name", apiUpdate.displayName)
-            .set("name", apiUpdate.displayName.toLowerCase().replace(" ", "-"))
-            .set("description", apiUpdate.description)
+                .set("display_name", apiUpdate.displayName)
+                .set("name", apiUpdate.displayName.toLowerCase().replace(" ", "-"))
+                .set("description", apiUpdate.description)
             .update()
 
         if (rows < 1) {

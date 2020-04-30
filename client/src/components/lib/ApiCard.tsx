@@ -6,7 +6,7 @@ import Linkable from "./Linkable";
 import {useRouteMatch} from "react-router-dom";
 import styled from "styled-components";
 
-type CardProps = {
+interface CardProps {
     apiEntry: ApiEntry;
     fadeInSeconds?: number;
 }
@@ -23,6 +23,12 @@ const CardContent = styled(Words)`
     }
 `;
 
+/**
+ * ApiCard displays an API entries basic details in card format. Uses lib card component.
+ * @param apiEntry
+ * @param fadeInSeconds
+ * @constructor
+ */
 const ApiCard: React.FC<CardProps> = ({apiEntry, fadeInSeconds = 0}) => {
     let {url} = useRouteMatch();
 
