@@ -75,7 +75,7 @@ const ApiForm: React.FC<Props & Functions> = ({isSubmitting, submit}) => {
     return (
         <FormContainer>
             <Form onSubmit={onSubmit}>
-                <HeaderText>Add API</HeaderText>
+                <HeaderText>Add API:</HeaderText>
                 <Words>Enter in some basic details about the API you want to link</Words>
                 <FormInput type="text" placeholder="Display name" name={"displayName"}
                            ref={register({required: true, maxLength: 20})}/>

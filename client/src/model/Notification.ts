@@ -1,6 +1,13 @@
 import NotificationType from "./NotificationType";
 
-export default interface Notification {
-    message: string,
-    type: NotificationType
+class Notification {
+    message: string;
+    type: NotificationType;
+
+    constructor(message: string, type: NotificationType) {
+        this.message = message;
+        this.type = type;
+    }
 }
+
+export default Notification;

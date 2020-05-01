@@ -4,15 +4,21 @@ import Notification from "../../model/Notification";
 export enum NotificationActions {
     PUSH = "@@notifications/PUSH",
     POP = "@@notifications/POP",
+    DISMISS = "@@notifications/DISMISS",
     CLEAR = "@@notifications/CLEAR",
 }
 
-interface PushAction extends Action {
+export interface PushAction extends Action {
     type: NotificationActions.PUSH,
     notification: Notification
 }
 
-interface PopAction extends Action {
+export interface DismissAction extends Action {
+    type: NotificationActions.DISMISS,
+    key: string
+}
+
+export interface PopAction extends Action {
     type: NotificationActions.POP
 }
 
@@ -29,4 +35,9 @@ export const popNotification: ActionCreator<PopAction> = () => ({
     type: NotificationActions.POP
 })
 
-export type TNotificationActions = PushAction | PopAction | ClearAction;
+export const dismissNotification: ActionCreator<DismissAction> = (key: string) => ({
+    type: NotificationActions.DISMISS,
+    key: key
+});
+
+export type TNotificationActions = PopAction | ClearAction | PushAction | DismissAction;

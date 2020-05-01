@@ -8,6 +8,7 @@ import DiscoverScreen from "./components/screens/DiscoverScreen";
 import ApiScreen from "./components/screens/ApiScreen";
 import MetricsScreen from "./components/screens/MetricsScreen";
 import LinkApiScreen from "./components/screens/LinkApiScreen";
+import NotificationsContainer from "./containers/NotificationsContainer";
 
 const Parent = styled.div`
   display: grid;
@@ -57,6 +58,7 @@ const ScrollToTop = () => {
  */
 const App: React.FC = () => (
     <Parent>
+        <NotificationsContainer/>
         <GriddedSidebar/>
 
         <RoutableContent>

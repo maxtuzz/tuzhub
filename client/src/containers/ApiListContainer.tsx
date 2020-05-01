@@ -7,7 +7,7 @@ import {resetSpecPage} from "../redux/api-entries/api-specs/actions";
 
 const mapStateToProps = (state: AppState) => ({
     apiEntries: state.apiEntriesReducer.apiEntries,
-    isLoading: state.apiEntriesReducer.isLoading,
+    isLoading: state.apiEntriesReducer.isLoading
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -2,11 +2,11 @@ import {NotificationActions, TNotificationActions} from "./actions";
 import Notification from "../../model/Notification";
 
 interface INotificationState {
-    readonly notifications: Notification[];
+    readonly notifications: Map<string, Notification>;
 }
 
 const initialState: INotificationState = {
-    notifications: []
+    notifications: new Map<string, Notification>()
 };
 
 /**
@@ -19,10 +19,14 @@ export default function (state: INotificationState = initialState, action: TNoti
         case NotificationActions.CLEAR:
             return initialState;
         case NotificationActions.PUSH:
-            return {notifications: [action.notification, ...state.notifications]}
-        case NotificationActions.POP:
-            return {notifications: state.notifications.pop()};
+            const notifications = state.notifications.set(action.notification.message, action.notification);
+            console.log("HELLO THERE!");
+            console.log(notifications);
+            return {...state, notifications: notifications};
+        case NotificationActions.DISMISS:
+            state.notifications.delete(action.key);
+            return state;
         default:
             return state;
     }
-};
+}

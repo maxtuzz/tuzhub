@@ -28,4 +28,4 @@ export default function (state: IApiEntryState = initialState, action: TApiEntry
         default:
             return state;
     }
-};
+}

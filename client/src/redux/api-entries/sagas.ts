@@ -15,6 +15,8 @@ function* getApiList() {
 }
 
 function* fetchApis() {
+    yield put(pushNotification(new Notification("Fetching APIs", NotificationType.INFO)));
+
     // Reset any specs that are currently being stored in state
     yield put(resetSpecPage());
 
@@ -29,10 +31,10 @@ function* fetchApis() {
 
         yield put(setApiEntries(content));
     } catch (e) {
-        const alert: Notification = {
-            message: "There was an error connecting to the Tuzzy backend, unable to retrieve APIs",
-            type: NotificationType.ERROR
-        };
+        const alert = new Notification(
+            "There was an error connecting to the Tuzzy backend, unable to retrieve APIs",
+            NotificationType.ERROR
+        );
 
         yield put(pushNotification(alert));
     }
