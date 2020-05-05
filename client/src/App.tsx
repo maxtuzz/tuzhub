@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import styled from "styled-components";
+import styled, {ThemeProvider} from "styled-components";
 import Sidebar from "./components/Sidebar";
 import HomeScreen from "./components/screens/HomeScreen";
 import {Route, Switch, useLocation} from "react-router-dom";
@@ -9,6 +9,7 @@ import ApiScreen from "./components/screens/ApiScreen";
 import MetricsScreen from "./components/screens/MetricsScreen";
 import LinkApiScreen from "./components/screens/LinkApiScreen";
 import NotificationsContainer from "./containers/NotificationsContainer";
+import theme from "./styling/theme";
 
 const Parent = styled.div`
   display: grid;
@@ -58,37 +59,39 @@ const ScrollToTop = () => {
  */
 const App: React.FC = () => (
     <Parent>
-        <NotificationsContainer/>
-        <GriddedSidebar/>
+        <ThemeProvider theme={theme}>
+            <NotificationsContainer/>
+            <GriddedSidebar/>
 
-        <RoutableContent>
-            <Switch>
-                <Route path="/config">
-                    <ScrollToTop/>
-                    <ConfigureScreen/>
-                </Route>
-                <Route path="/apis/new">
-                    <ScrollToTop/>
-                    <LinkApiScreen/>
-                </Route>
-                <Route path="/apis/:name">
-                    <ScrollToTop/>
-                    <ApiScreen/>
-                </Route>
-                <Route path="/apis">
-                    <ScrollToTop/>
-                    <DiscoverScreen/>
-                </Route>
-                <Route path="/metrics">
-                    <ScrollToTop/>
-                    <MetricsScreen/>
-                </Route>
-                <Route path="/">
-                    <ScrollToTop/>
-                    <HomeScreen/>
-                </Route>
-            </Switch>
-        </RoutableContent>
+            <RoutableContent>
+                <Switch>
+                    <Route path="/config">
+                        <ScrollToTop/>
+                        <ConfigureScreen/>
+                    </Route>
+                    <Route path="/apis/new">
+                        <ScrollToTop/>
+                        <LinkApiScreen/>
+                    </Route>
+                    <Route path="/apis/:name">
+                        <ScrollToTop/>
+                        <ApiScreen/>
+                    </Route>
+                    <Route path="/apis">
+                        <ScrollToTop/>
+                        <DiscoverScreen/>
+                    </Route>
+                    <Route path="/metrics">
+                        <ScrollToTop/>
+                        <MetricsScreen/>
+                    </Route>
+                    <Route path="/">
+                        <ScrollToTop/>
+                        <HomeScreen/>
+                    </Route>
+                </Switch>
+            </RoutableContent>
+        </ThemeProvider>
     </Parent>
 );
 

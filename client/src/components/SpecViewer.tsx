@@ -65,7 +65,7 @@ const SpecViewer: React.FC<Props & Functions> = ({selectedApi, apiSpec, isLoadin
     }, [resetSpec]);
 
     if (isLoading || !apiSpec || !apiSpec.document) {
-        return <Words>Loading specification ...</Words>
+        return <></>;
     }
 
     const document = apiSpec.document;
