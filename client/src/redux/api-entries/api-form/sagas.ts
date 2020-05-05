@@ -77,6 +77,7 @@ function* createApiEntry(action: NewApiSubmitAction) {
         .toLowerCase();
 
     yield put(push(`/apis/${name}`))
+    yield put(pushNotification(new Notification(`API ${name} created successfully ...`, NotificationType.INFO)))
 
     yield put(setApiSubmitLoading(false));
 }

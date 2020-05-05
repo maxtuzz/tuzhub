@@ -15,6 +15,7 @@ const Form = styled.form`
 interface Props {
     placeholder?: string
     autofocus?: boolean
+    defaultText?: string
 }
 
 interface Functions {
@@ -26,12 +27,14 @@ interface Functions {
  * @param onChange
  * @param placeholder
  * @param autofocus
+ * @param defaultText - if there should be anything filled out in search by default
  * @constructor
  */
-const SearchBar: React.FC<Props & Functions> = ({onChange, placeholder, autofocus}) => (
+const SearchBar: React.FC<Props & Functions> = ({onChange, placeholder, autofocus, defaultText = ""}) => (
     <Form>
         <InputIcon icon={Icons.faSearch} color={"grey"}/>
-        <Input onChange={onChange} type="text" placeholder={placeholder ? placeholder : "Search"}
+        <Input defaultValue={defaultText}
+               onChange={onChange} type="text" placeholder={placeholder ? placeholder : "Search"}
                autoFocus={autofocus}/>
     </Form>
 );

@@ -4,6 +4,7 @@ import ApiCard from "./lib/ApiCard";
 import styled from "styled-components";
 import SearchBar from "./lib/SearchBar";
 import LoadingSpinner from "./LoaderSpinner";
+import {useLocation} from "react-router-dom";
 
 interface Props {
     apiEntries: ApiEntry[],
@@ -27,6 +28,10 @@ const ListContainer = styled.div`
   flex-wrap: wrap;
 `;
 
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
+
 /**
  * Renders a list of ApiCards and a search bar that filters the apiEntries
  * @param apiEntries
@@ -36,7 +41,10 @@ const ListContainer = styled.div`
  * @constructor
  */
 const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis, resetSpec}) => {
+    const query: URLSearchParams = useQuery();
     const [filteredApis, setFilteredApis] = useState(apiEntries);
+
+    const searchQuery = query.get("search");
 
     // Component mounts
     useEffect(() => {
@@ -46,12 +54,15 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis, resetS
 
     // Reset filtered list when we refreshed
     useEffect(() => {
-        setFilteredApis(apiEntries);
+        // Use search query if it has been defined
+        if (searchQuery != null) {
+            refreshList(searchQuery);
+        } else {
+            setFilteredApis(apiEntries);
+        }
     }, [apiEntries]);
 
-    const searchInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const searchTerm = e.target.value;
-
+    const refreshList = (searchTerm: string) => {
         setFilteredApis(
             apiEntries.filter(apiEntry => {
                 return apiEntry.displayName.includes(searchTerm)
@@ -59,11 +70,17 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis, resetS
                     || apiEntry.name.includes(searchTerm);
             })
         );
+    }
+
+    const searchInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+        refreshList(e.target.value);
     };
 
     return (
         <Container>
-            {(apiEntries.length > 1 && !isLoading) && <SearchBar onChange={searchInputChanged} autofocus/>}
+            {(apiEntries.length > 1 && !isLoading) &&
+            <SearchBar defaultText={searchQuery != null ? searchQuery : undefined} onChange={searchInputChanged}
+                       autofocus/>}
             {
                 isLoading
                     ?

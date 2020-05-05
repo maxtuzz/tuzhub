@@ -8,6 +8,7 @@ import Notification from "../../model/Notification";
 import NotificationType from "../../model/NotificationType";
 import {resetSpecPage} from "./api-specs/actions";
 import {pushNotification} from "../notifications/actions";
+import {push} from "connected-react-router";
 
 function* getApiList() {
     const apis: ApiEntry[] = yield select((state: AppState) => state.apiEntriesReducer.apiEntries);
@@ -15,8 +16,6 @@ function* getApiList() {
 }
 
 function* fetchApis() {
-    yield put(pushNotification(new Notification("Fetching APIs", NotificationType.INFO)));
-
     // Reset any specs that are currently being stored in state
     yield put(resetSpecPage());
 
@@ -42,7 +41,6 @@ function* fetchApis() {
 }
 
 function* loadApi(action: LoadApiAction) {
-    console.log("Loading api: " + action.apiName);
     let apiList: ApiEntry[] = yield call(getApiList);
 
     // If there are no apis stored in state, we should fetch them
@@ -54,10 +52,11 @@ function* loadApi(action: LoadApiAction) {
     const apiEntry = apiList.find((e: ApiEntry) => e.name === action.apiName);
 
     if (!apiEntry) {
-        const alert = new Notification("An API with that name doesn't exist for your organisation/team",
+        const alert = new Notification("An API with that name cannot be found. Performing search ...",
             NotificationType.ERROR
         );
         yield put(pushNotification(alert));
+        yield put(push(`/apis?search=${action.apiName}`));
 
         return;
     }

@@ -1,16 +1,17 @@
 import {connect} from "react-redux";
 import {AppState} from "../redux/AppStore";
 import ToastList from "../components/ToastList";
-import Notification from "../model/Notification";
+import {Dispatch} from "redux";
+import {dismissNotification} from "../redux/notifications/actions";
 
-const mapStateToProps = ({notificationsReducer }: AppState) => {
-    const notifications: Notification[] = Array.from(notificationsReducer.notifications.values());
+const mapStateToProps = ({notificationsReducer}: AppState) => ({
+    notifications: Array.from(notificationsReducer.notifications.values())
+});
 
-    return ({
-        notifications: notifications
-    });
-};
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    notificationClicked: (key: string) => dispatch(dismissNotification(key))
+});
 
-const NotificationsContainer = connect(mapStateToProps)(ToastList);
+const NotificationsContainer = connect(mapStateToProps, mapDispatchToProps)(ToastList);
 
 export default NotificationsContainer;
