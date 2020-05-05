@@ -66,7 +66,7 @@ interface Functions {
  */
 const ApiForm: React.FC<Props & Functions> = ({isSubmitting, submit}) => {
     const [expandAdvancedSettings, setExpandAdvancedSettings] = useState(false);
-    const {formState, register, handleSubmit, errors} = useForm<ApiEntry>();
+    const {register, handleSubmit, errors} = useForm<ApiEntry>();
 
     const onSubmit = handleSubmit((data: ApiEntry) => {
         submit(data);

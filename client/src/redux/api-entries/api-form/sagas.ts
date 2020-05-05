@@ -1,5 +1,5 @@
 import {all, call, delay, fork, put, takeEvery} from "redux-saga/effects";
-import NotificationType from "../../../model/NotificationType";
+import NotifyType from "../../../model/NotificationType";
 import {safeLoad} from "js-yaml";
 import Notification from "../../../model/Notification";
 import {HalApi} from "../../../services/HalApi";
@@ -33,7 +33,7 @@ function* createApiEntry(action: NewApiSubmitAction) {
             } catch (e) {
                 yield put(pushNotification({
                     message: `Problem when parsing supplied JSON`,
-                    type: NotificationType.ERROR
+                    type: NotifyType.ERROR
                 }));
 
                 return;
@@ -45,7 +45,7 @@ function* createApiEntry(action: NewApiSubmitAction) {
             } catch (e) {
                 yield put(pushNotification({
                     message: `Incompatible yaml file supplied. Please check syntax`,
-                    type: NotificationType.ERROR
+                    type: NotifyType.ERROR
                 }));
 
                 return;
@@ -56,7 +56,7 @@ function* createApiEntry(action: NewApiSubmitAction) {
     if (apiEntry.displayName.includes("-")) {
         const alert: Notification = {
             message: `Illegal character found "-", in new api entry display name`,
-            type: NotificationType.ERROR
+            type: NotifyType.ERROR
         };
 
         yield put(pushNotification(alert));
@@ -67,7 +67,7 @@ function* createApiEntry(action: NewApiSubmitAction) {
     yield call(HalApi.post, Env.getBaseApiUrl(), apiEntry);
 
     // Give some time
-    yield delay(800);
+    yield delay(1000);
 
     // Navigate to newly created API screen
     const name = apiEntry.displayName
@@ -77,7 +77,7 @@ function* createApiEntry(action: NewApiSubmitAction) {
         .toLowerCase();
 
     yield put(push(`/apis/${name}`))
-    yield put(pushNotification(new Notification(`API ${name} created successfully ...`, NotificationType.INFO)))
+    yield put(pushNotification(new Notification(NotifyType.INFO, `API "${name}" created successfully ...`)))
 
     yield put(setApiSubmitLoading(false));
 }

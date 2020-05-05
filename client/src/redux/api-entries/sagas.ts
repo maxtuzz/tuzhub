@@ -30,10 +30,7 @@ function* fetchApis() {
 
         yield put(setApiEntries(content));
     } catch (e) {
-        const alert = new Notification(
-            "There was an error connecting to the Tuzzy backend, unable to retrieve APIs",
-            NotificationType.ERROR
-        );
+        const alert = new Notification(NotificationType.ERROR, "There was an error connecting to the Tuzzy backend, unable to retrieve APIs");
         yield put(pushNotification(alert));
     }
 
@@ -44,7 +41,8 @@ function* loadApi(action: LoadApiAction) {
     let apiList: ApiEntry[] = yield call(getApiList);
 
     // If there are no apis stored in state, we should fetch them
-    if (apiList.length === 0) {
+    // Todo: Just fetch single entry here. Get rid of true when this is implemented
+    if (apiList.length === 0 || true) {
         yield call(fetchApis);
         apiList = yield call(getApiList);
     }
@@ -52,9 +50,7 @@ function* loadApi(action: LoadApiAction) {
     const apiEntry = apiList.find((e: ApiEntry) => e.name === action.apiName);
 
     if (!apiEntry) {
-        const alert = new Notification("An API with that name cannot be found. Performing search ...",
-            NotificationType.ERROR
-        );
+        const alert = new Notification(NotificationType.ERROR, "An API with that name cannot be found. Performing search ...");
         yield put(pushNotification(alert));
         yield put(push(`/apis?search=${action.apiName}`));
 
