@@ -18,7 +18,7 @@ const initialState: IApiEntryState = {
 
 export default function (state: IApiEntryState = initialState, action: TApiEntryActions) {
     switch (action.type) {
-        case ApiEntryActions.SET_SELECTED_API:
+        case ApiEntryActions.SET_VIEWABLE_API:
             return {...state, selectedApi: action.apiEntry};
         case ApiEntryActions.SET_LOADING:
             console.log("called set loading: " + action.isLoading);

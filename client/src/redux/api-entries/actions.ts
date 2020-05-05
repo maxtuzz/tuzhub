@@ -5,7 +5,7 @@ export enum ApiEntryActions {
     FETCH_APIS = "@@api-entries/FETCH_APIS",
     SET_LOADING = "@@api-entries/SET_LOADING",
     SET_API_ENTRIES = "@@api-entries/SET_API_ENTRIES",
-    SET_SELECTED_API = "@@api-entries/SET_SELECTED_API",
+    SET_VIEWABLE_API = "@@api-entries/SET_VIEWABLE_API",
     LOAD_API = "@@api-entries/LOAD_API"
 }
 
@@ -23,9 +23,9 @@ interface SetApiEntriesAction extends Action {
     apiEntries: ApiEntry[]
 }
 
-export interface SetSelectedApiAction extends Action {
-    type: ApiEntryActions.SET_SELECTED_API,
-    apiEntry: ApiEntry | undefined
+export interface SetViewableApiAction extends Action {
+    type: ApiEntryActions.SET_VIEWABLE_API,
+    apiEntry?: ApiEntry
 }
 
 export interface LoadApiAction extends Action {
@@ -47,8 +47,8 @@ export const setApiEntries: ActionCreator<SetApiEntriesAction> = (apiEntries: Ap
     apiEntries: apiEntries
 });
 
-export const setSelectedApi: ActionCreator<SetSelectedApiAction> = (apiEntry: ApiEntry) => ({
-    type: ApiEntryActions.SET_SELECTED_API,
+export const setViewableApi: ActionCreator<SetViewableApiAction> = (apiEntry: ApiEntry) => ({
+    type: ApiEntryActions.SET_VIEWABLE_API,
     apiEntry: apiEntry
 });
 
@@ -59,5 +59,5 @@ export const loadApi: ActionCreator<LoadApiAction> = (apiName: string) => ({
 
 export type TApiEntryActions = SetLoadingAction
     | SetApiEntriesAction
-    | SetSelectedApiAction
+    | SetViewableApiAction
     | LoadApiAction;

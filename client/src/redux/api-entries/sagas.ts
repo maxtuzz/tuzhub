@@ -1,5 +1,5 @@
 import {all, call, fork, put, select, takeEvery} from "redux-saga/effects";
-import {ApiEntryActions, LoadApiAction, setApiEntries, setLoadingApis, setSelectedApi} from "./actions";
+import {ApiEntryActions, LoadApiAction, setApiEntries, setLoadingApis, setViewableApi} from "./actions";
 import ApiEntry from "../../model/ApiEntry";
 import {AppState} from "../AppStore";
 import {HalApi} from "../../services/HalApi";
@@ -20,7 +20,7 @@ function* fetchApis() {
     yield put(resetSpecPage());
 
     // Remove selected api
-    yield put(setSelectedApi(undefined));
+    yield put(setViewableApi(undefined));
 
     // Start loading
     yield put(setLoadingApis(true));
@@ -57,7 +57,7 @@ function* loadApi(action: LoadApiAction) {
         return;
     }
 
-    yield put(setSelectedApi(apiEntry))
+    yield put(setViewableApi(apiEntry))
 }
 
 function* watchFetchApis() {
