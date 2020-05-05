@@ -37,7 +37,7 @@ const ToastContent = styled(Words)`
 `
 
 interface Props {
-    notifications: Map<string, Notification>
+    notifications: Notification[]
 }
 
 /**
@@ -47,12 +47,10 @@ interface Props {
  * @constructor
  */
 const ToastList: React.FC<Props> = ({notifications}) => {
-    console.log("AND ON COMP");
-    console.log(notifications);
 
     return (
         <ToastListContainer>
-            {Array.from(notifications, ([key, value]) => {
+            {notifications.map(value => {
                 console.log("##############: " + value);
                     return <Toast>
                         <ToastContent>

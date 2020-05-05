@@ -1,10 +1,16 @@
 import {all, delay, fork, put, takeEvery} from "redux-saga/effects";
-import {NotificationActions, popNotification, PushAction} from "./actions";
+import {dismissNotification, NotificationActions, PushAction} from "./actions";
 
 function* popDelay(action: PushAction) {
-    console.log(`Notification recieved of type {${action.notification.type}}, message: ${action.notification.message}`)
-    yield delay(7000);
-    yield put(popNotification());
+    const notification = action.notification;
+
+    console.log(`Notification recieved of type {${notification.type}}, message: ${notification.message}`)
+    yield delay(5000);
+
+    console.log("Dismissing notification: " + notification.message);
+
+    // Remove specific notification after a delay
+    yield put(dismissNotification(notification.message));
 }
 
 /**

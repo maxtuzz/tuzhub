@@ -19,13 +19,10 @@ export default function (state: INotificationState = initialState, action: TNoti
         case NotificationActions.CLEAR:
             return initialState;
         case NotificationActions.PUSH:
-            const notifications = state.notifications.set(action.notification.message, action.notification);
-            console.log("HELLO THERE!");
-            console.log(notifications);
-            return {...state, notifications: notifications};
+            return {...state, notifications: state.notifications.set(action.notification.message, action.notification)};
         case NotificationActions.DISMISS:
             state.notifications.delete(action.key);
-            return state;
+            return {...state, notifications: state.notifications};
         default:
             return state;
     }

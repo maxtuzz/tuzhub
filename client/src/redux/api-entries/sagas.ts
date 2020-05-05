@@ -35,7 +35,6 @@ function* fetchApis() {
             "There was an error connecting to the Tuzzy backend, unable to retrieve APIs",
             NotificationType.ERROR
         );
-
         yield put(pushNotification(alert));
     }
 
@@ -55,12 +54,13 @@ function* loadApi(action: LoadApiAction) {
     const apiEntry = apiList.find((e: ApiEntry) => e.name === action.apiName);
 
     if (!apiEntry) {
-        // throw an error here
-        console.error("404 api not found");
+        const alert = new Notification("An API with that name doesn't exist for your organisation/team",
+            NotificationType.ERROR
+        );
+        yield put(pushNotification(alert));
+
         return;
     }
-
-    console.log(apiEntry);
 
     yield put(setSelectedApi(apiEntry))
 }
