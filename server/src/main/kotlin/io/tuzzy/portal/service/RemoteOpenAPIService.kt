@@ -3,7 +3,7 @@ package io.tuzzy.portal.service
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.parser.OpenAPIV3Parser
 import org.slf4j.LoggerFactory
-import java.net.URISyntaxException
+import java.net.UnknownHostException
 import javax.inject.Singleton
 
 @Singleton
@@ -16,15 +16,11 @@ class RemoteOpenAPIService {
     fun get(specUrl: String): OpenAPI {
         try {
             return OpenAPIV3Parser().read(specUrl)
-        } catch (e: URISyntaxException) {
-            logger.warn(e.message)
+        } catch (e: Exception) {
+            logger.error(e.message)
 
-            throw IllegalArgumentException()
-        }// catch (e: Exception) {
-//            logger.error(e.message)
-//
-//            throw UnknownHostException()
-//        }
+            throw UnknownHostException()
+        }
     }
 
     /**
