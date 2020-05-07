@@ -15,7 +15,7 @@ const SidebarContainer = styled.div`
     position: fixed;
     list-style: none;
     height: 100vh;
-    background-color: #1d2228;
+    background-color: ${props => props.theme.colors.sidebarColor};
     max-width: 260px;
  `;
 

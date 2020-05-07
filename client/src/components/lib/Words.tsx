@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Words = styled.p`
-  color: #b9bbbe;
+  color: ${props => props.theme.colors.words};
   line-height: 20px;
   font-weight: 400;
 `;

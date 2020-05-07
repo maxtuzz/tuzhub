@@ -43,7 +43,7 @@ const Toast = styled.div<{ type: NotificationType }>`
 
 const ToastContent = styled(Words)`
   font-weight: 600;
-  color: #b9bbbe;
+  color: ${props => props.theme.colors.words};
   padding: 20px;
 `
 

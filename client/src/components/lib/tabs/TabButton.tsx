@@ -23,7 +23,7 @@ const TabUnderline = styled.div<{ active: boolean }>`
   `};
   
   height: 2px;
-  background-color: #51aec0;
+  background-color: ${props => props.theme.colors.active};
   transition: transform .3s ease-in-out;
   
   ${StyledButton}:hover & {

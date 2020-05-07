@@ -6,7 +6,7 @@ import TinyLoadingSpinner from "../Spinner";
  * Standard configurable button
  */
 const ButtonStyled = styled.button<{ submit?: boolean, disabled?: boolean }>`
-  background-color: #51aec0;
+  background-color: ${props => props.theme.colors.active};
   height: 3em;
   color: #FFF;
   font-size: 1em;

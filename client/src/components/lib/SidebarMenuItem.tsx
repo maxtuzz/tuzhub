@@ -17,8 +17,8 @@ export const SidebarMenuItemLabel = styled.p`
 const activeStyle = css`
   color: #ffffff;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: inset 3px 0 0 0 #51aec0;
+  background:  ${props => props.theme.colors.sidebarHighlight};
+  box-shadow: inset 3px 0 0 0 ${props => props.theme.colors.active};;
 `
 
 const SidebarMenuItem = styled.li<{ selected?: boolean }>`
@@ -27,7 +27,7 @@ const SidebarMenuItem = styled.li<{ selected?: boolean }>`
     padding-left: 2em;
     height: 40px;
     max-width: 16em;
-    color: #b9bbbe;
+    color: ${props => props.theme.colors.words};
     transition: all 0.3s ease-out;
     
     &:hover {

@@ -12,7 +12,7 @@ export const Card = styled.div<{ clickable?: boolean, fadeInFor?: number }>`
   margin-right: 20px;
   padding: 20px; 
   border-radius: 10px;
-  background-color: #222931;
+  background-color: ${props => props.theme.colors.main};
  
   @media (max-width: 1126px) {
       width: 140px;
@@ -24,7 +24,7 @@ export const Card = styled.div<{ clickable?: boolean, fadeInFor?: number }>`
     props.clickable && css`
         &:hover {
           cursor: pointer;
-          background-color: #2b343e;
+          background-color: ${props.theme.colors.secondary};
         }
   `}
   
@@ -49,7 +49,7 @@ export const Card = styled.div<{ clickable?: boolean, fadeInFor?: number }>`
 `;
 
 export const CardTitle = styled.div`
-  color: #b9bbbe;
+  color: ${props => props.theme.colors.words};;
   font-size: 16px;
   line-height: 1.3;
   font-weight: 600;

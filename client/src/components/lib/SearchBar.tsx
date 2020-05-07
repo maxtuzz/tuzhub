@@ -8,7 +8,7 @@ const Form = styled.form`
   flex-direction: row;
   align-items: center;
   margin-bottom: 24px;
-  background-color: #222931;
+  background-color: ${props => props.theme.colors.main};
   border-radius: 5px;
 `;
 

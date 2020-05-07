@@ -9,7 +9,7 @@ const AccordionHeaderContainer = styled.div<{ noTopMargin?: boolean, open: boole
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  color: ${props => props.open ? "#ffffff" : "#b9bbbe"};
+  color: ${props => props.open ? "#ffffff" : props.theme.colors.words};
   transition: all 0.2s ease-out;
   
   &:hover {

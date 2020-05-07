@@ -12,7 +12,7 @@ const Input = styled.input`
   border: none; 
   width: 95%;
   height: 40px;
-  background-color: #222931;
+  background-color: ${props => props.theme.colors.main};
   color: white;
   font-size: 16px;
   font-weight: 400;

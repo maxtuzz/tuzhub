@@ -2,10 +2,14 @@ import {DefaultTheme} from "./styled";
 
 const theme: DefaultTheme = {
     colors: {
-        main: "blue",
+        sidebarColor: "#1d2228",
+        sidebarHighlight: "rgba(255, 255, 255, 0.05)",
+
+        main: "#222931",
+        secondary: "#2b343e",
         backgroundColor: "#181c24",
-        screenBgColor: "#181c24",
-        secondary: "blue"
+        active: "#51aec0",
+        words: "#b9bbbe"
     },
 }
 
