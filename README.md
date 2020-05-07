@@ -35,12 +35,13 @@ $ mvn clean install
 ```
 $ yarn install  
 ```
-6. Run backend through editor or through cli with
+6. Run StartPostgresDocker.kt to throw up a postgres instance for local development 
+7. Run backend through editor or through cli with
 ```
 $ mvn clean package 
 $ java -jar target/app.jar
 ```
-7. Run app (from client directory):
+8. Run app (from client directory):
 ```
 $ npm start
 ``` 
