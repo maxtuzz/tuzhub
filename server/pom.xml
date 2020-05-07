@@ -85,7 +85,7 @@
         <dependency>
             <groupId>io.swagger.parser.v3</groupId>
             <artifactId>swagger-parser</artifactId>
-            <version>2.0.16</version>
+            <version>2.0.19</version>
         </dependency>
 
         <!-- Optional: query bean support -->

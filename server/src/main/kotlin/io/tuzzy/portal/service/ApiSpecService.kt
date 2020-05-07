@@ -162,7 +162,7 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
 
         val jsonSpec = remoteOpenAPIService.getJson(apiSpec.specUrl!!)
 
-        if (compareSpecs(apiSpec.spec, jsonSpec)) return
+        if (specsAreTheSame(apiSpec.spec, jsonSpec)) return
 
         logger.info("New version detected for ${apiSpec.apiEntry.name}/${apiSpec.specVersion}")
 
@@ -173,7 +173,7 @@ class ApiSpecService(private val remoteOpenAPIService: RemoteOpenAPIService) {
     /**
      * Checks to see if new spec is different from stored spec
      */
-    private fun compareSpecs(
+    private fun specsAreTheSame(
         spec1: Map<String, Any>?,
         spec2: Map<String, Any>
     ): Boolean {
