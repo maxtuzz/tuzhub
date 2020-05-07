@@ -100,6 +100,7 @@ const ApiForm: React.FC<Props & Functions> = ({isSubmitting, submit}) => {
                         />
                         <SectionHeader>Auto configure</SectionHeader>
                         <SwitchToggle name="dynamicConf" register={register}/>
+                        {/*<Words>When enabled, remote url will be polled periodically to ensure your spec is always up to date</Words>*/}
                     </Tab>
                     <Tab label="Upload">
                         <FadeInContent>

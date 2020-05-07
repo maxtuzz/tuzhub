@@ -9,6 +9,7 @@ import NotificationType from "../../model/NotificationType";
 import {resetSpecPage} from "./api-specs/actions";
 import {pushNotification} from "../notifications/actions";
 import {push} from "connected-react-router";
+import Env from "../../services/Env";
 
 function* getApiList() {
     const apis: ApiEntry[] = yield select((state: AppState) => state.apiEntriesReducer.apiEntries);
@@ -39,15 +40,12 @@ function* fetchApis() {
 
 function* loadApi(action: LoadApiAction) {
     let apiList: ApiEntry[] = yield call(getApiList);
+    let apiEntry = apiList.find((e: ApiEntry) => e.name === action.apiName);
 
-    // If there are no apis stored in state, we should fetch them
-    // Todo: Just fetch single entry here. Get rid of true when this is implemented
-    if (apiList.length === 0 || true) {
-        yield call(fetchApis);
-        apiList = yield call(getApiList);
+    // If api doesn't exist in state, fetch it
+    if (!apiEntry) {
+        apiEntry = yield call(HalApi.get, `${Env.getBaseApiUrl()}/${action.apiName}`);
     }
-
-    const apiEntry = apiList.find((e: ApiEntry) => e.name === action.apiName);
 
     if (!apiEntry) {
         const alert = new Notification(NotificationType.ERROR, "An API with that name cannot be found. Performing search ...");
