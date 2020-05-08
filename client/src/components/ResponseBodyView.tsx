@@ -9,6 +9,7 @@ import BodyView from "./lib/BodyView";
 import Tabs, {Tab} from "./lib/tabs/Tabs";
 import StatusHelper from "../util/StatusHelper";
 import PropertyTable from "./lib/PropertyTable";
+import CodeFormatter from "../util/CodeFormatter";
 
 interface Props {
     responseBody?: OpenAPIV3.ResponsesObject,
@@ -46,7 +47,7 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
         // Todo: Accept multiple format types (responseType)
         return Object.entries(statusContent).map(([responseType, mediaType]) => {
             const schema = mediaType.schema as OpenAPIV3.BaseSchemaObject;
-            const codeSnippet = JSON.stringify(schema, null, 2);
+            const codeSnippet = CodeFormatter.toJson(schema);
 
             return (
                 <ExpandableContent open={open} key={responseType}>

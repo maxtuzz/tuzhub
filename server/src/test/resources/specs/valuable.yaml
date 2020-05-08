@@ -1,0 +1,3434 @@
+openapi: 3.0.0
+info:
+  description: This is the API Documentation for Valuable - the Decision Making Tool.
+  version: ALPHA
+  title: Valuable Decision Making
+  contact:
+    email: alex@ringfence.nz
+tags:
+  - name: assessments-api-controller
+    description: Assessments Api Controller
+  - name: companies-api-controller
+    description: the companies API
+  - name: objectives-api-controller
+    description: the objectives API
+  - name: onboarding-api-controller
+    description: Onboarding Api Controller
+  - name: projects-api-controller
+    description: the projects API
+  - name: teams-api-controller
+    description: Teams Api Controller
+  - name: users-api-controller
+    description: the users API
+paths:
+  /assessments:
+    get:
+      tags:
+        - Assessments API
+      summary: Gets all assessments
+      operationId: getAllOdiAssessments
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OdiAssessment"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/assessments/{id}":
+    get:
+      tags:
+        - Assessments API
+      summary: Gets the specified assessment
+      operationId: getOdiAssessment
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OdiAssessment"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - Assessments API
+      summary: Updates the specified assessment
+      operationId: updateOdiAssessment
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OdiAssessment"
+        description: outcomeDrivenInnovationSet
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiAssessment"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiAssessment"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - Assessments API
+      summary: Deletes the specified assessment
+      operationId: deleteOdiAssessment
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      deprecated: false
+  "/assessments/{id}/customer":
+    get:
+      tags:
+        - Customer Value Measurements API
+      summary: Get the customer rating associated with an assessment
+      operationId: getOdiCustomerRatings
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OdiCustomerRating"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - Customer Value Measurements API
+      summary: Creates a customer rating associated with an assessment
+      operationId: createOdiCustomerRating
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/OdiCustomerRating"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiCustomerRating"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiCustomerRating"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - Customer Value Measurements API
+      summary: Updates a customer rating associated with an assessment
+      operationId: updateOdiCustomerRating
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/OdiCustomerRating"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiCustomerRating"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiCustomerRating"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - Customer Value Measurements API
+      summary: Deletes a customer rating associated with an assessment
+      operationId: deleteOdiCustomerRating
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      deprecated: false
+  "/assessments/{id}/technology":
+    get:
+      tags:
+        - Technology Value Measurements API
+      summary: Get the technology rating associated with an assessment
+      operationId: getOdiTechRating
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OdiTechnologyRating"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - Technology Value Measurements API
+      summary: Creates a technology rating associated with an assessment
+      operationId: createOdiTechRating
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/OdiTechnologyRating"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiTechnologyRating"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiTechnologyRating"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - Technology Value Measurements API
+      summary: Updates a technology rating associated with an assessment
+      operationId: updateOdiTechRating
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/OdiTechnologyRating"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiTechnologyRating"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiTechnologyRating"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - Technology Value Measurements API
+      summary: Deletes a technology rating associated with an assessment
+      operationId: deleteOdiTechRating
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      deprecated: false
+  "/assessments/{id}/value":
+    get:
+      tags:
+        - Financial Value Masurements API
+      summary: Get the financial rating associated with an assessment
+      operationId: getOdiValueRating
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OdiValueRating"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - Financial Value Masurements API
+      summary: Creates a financial rating associated with an assessment
+      operationId: createOdiValueRating
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/OdiValueRating"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiValueRating"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiValueRating"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - Financial Value Masurements API
+      summary: Updates a financial rating associated with an assessment
+      operationId: updateOdiValueRating
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/OdiValueRating"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiValueRating"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiValueRating"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - Financial Value Masurements API
+      summary: Deletes a financial rating associated with an assessment
+      operationId: deleteOdiValueRating
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      deprecated: false
+  /companies:
+    get:
+      tags:
+        - Company API
+      summary: Gets a list of all companies
+      operationId: getAllCompanies
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CompanyResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - Company API
+      summary: Creates a company
+      operationId: createCompany
+      requestBody:
+        $ref: "#/components/requestBodies/Company"
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/Company"
+        "201":
+          description: Created
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/Company"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/companies/{companyId}/objective/{objectiveId}":
+    delete:
+      tags:
+        - Company API
+      summary: unlinks a company and a objective
+      operationId: unlinkCompanyToObjective
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: objectiveId
+          in: path
+          description: objectiveId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    patch:
+      tags:
+        - Company API
+      summary: Links a company and a objective
+      operationId: linkCompanyToObjective
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: objectiveId
+          in: path
+          description: objectiveId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/companies/{companyId}/objectives/{objectiveId}":
+    get:
+      tags:
+        - Company API
+      summary: Gets the specified objective for a company
+      operationId: getOneCompanyObjective
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: objectiveId
+          in: path
+          description: objectiveId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObjectiveResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/companies/{companyId}/project/{projectId}":
+    delete:
+      tags:
+        - Company API
+      summary: Links a company and a project
+      operationId: unlinkCompanyToProject
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    patch:
+      tags:
+        - Company API
+      summary: Links a company and a project
+      operationId: linkCompanyToProject
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/companies/{companyId}/team/{teamId}":
+    delete:
+      tags:
+        - Company API
+      summary: Links a company and a objective
+      operationId: unlinkCompanyToTeam
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: teamId
+          in: path
+          description: teamId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    patch:
+      tags:
+        - Company API
+      summary: Links a company and a objective
+      operationId: linkCompanyToTeam
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: teamId
+          in: path
+          description: teamId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/companies/{id}":
+    get:
+      tags:
+        - Company API
+      summary: Gets a specific company
+      operationId: getCompany
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - Company API
+      summary: Updates a company
+      operationId: updateCompany
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/Company"
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/Company"
+        "201":
+          description: Created
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/Company"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - Company API
+      summary: Deletes a specific company
+      operationId: deleteCompany
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      deprecated: false
+  "/companies/{id}/employees":
+    get:
+      tags:
+        - Company API
+      summary: Gets a list of all employees who work for a company
+      operationId: getCompanyEmployees
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValuableUserResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/companies/{id}/objectives":
+    get:
+      tags:
+        - Company API
+      summary: Gets the objectives for a company
+      operationId: getAllCompanyObjectives
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ObjectiveResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/companies/{id}/projects":
+    get:
+      tags:
+        - Company API
+      summary: Gets the projects underway with a company
+      operationId: getCompanyProjects
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/companies/{id}/teams":
+    get:
+      tags:
+        - Company API
+      summary: Gets a list of all teams a company has
+      operationId: getCompanyTeams
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TeamsResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/objective/{objectiveId}/company/{companyId}":
+    delete:
+      tags:
+        - Objectives and Key Results API
+      summary: Links a objective and a company
+      operationId: unlinkObjectiveToCompany
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: objectiveId
+          in: path
+          description: objectiveId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    patch:
+      tags:
+        - Objectives and Key Results API
+      summary: Links a objective and a company
+      operationId: linkObjectiveToCompany
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: objectiveId
+          in: path
+          description: objectiveId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  /objectives:
+    get:
+      tags:
+        - Objectives and Key Results API
+      summary: Gets a list of all objectives
+      operationId: getAllObjectives
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Objective"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - Objectives and Key Results API
+      summary: Creates a new objective
+      operationId: createObjective
+      requestBody:
+        $ref: "#/components/requestBodies/Objective"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Objective"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Objective"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/objectives/{id}":
+    get:
+      tags:
+        - Objectives and Key Results API
+      summary: Gets a specific objective
+      operationId: getObjective
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Objective"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - Objectives and Key Results API
+      summary: Updates an objective
+      operationId: updateObjective
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/Objective"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Objective"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Objective"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - Objectives and Key Results API
+      summary: Deletes a specific objective
+      operationId: deleteObjective
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      deprecated: false
+  "/objectives/{id}/company":
+    get:
+      tags:
+        - Objectives and Key Results API
+      summary: Gets the parent company of an objective
+      operationId: getParentCompany
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/objectives/{id}/keyresult":
+    get:
+      tags:
+        - Objectives and Key Results API
+      summary: Gets all key results for a given objective
+      operationId: getKeyResultsForObjective
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyResult"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - Objectives and Key Results API
+      summary: Creates a key result associated with a specific objective
+      operationId: createKeyResult
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/KeyResult"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyResult"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyResult"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - Objectives and Key Results API
+      summary: Deletes all key results associated with a specific objective
+      operationId: deleteAllLinkedKeyResults
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      deprecated: false
+  "/objectives/{id}/teams":
+    get:
+      tags:
+        - Objectives and Key Results API
+      summary: Gets the teams working on this objective
+      operationId: getTeamsWorkingOnThisObjective
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TeamsResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/objectives/{objectiveId}/keyresult/{keyResultId}":
+    get:
+      tags:
+        - Objectives and Key Results API
+      summary: Gets a specific key result associated with an objective
+      operationId: getKeyResultForObjective
+      parameters:
+        - name: keyResultId
+          in: path
+          description: the id of the key result
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: objectiveId
+          in: path
+          description: the id of the objective you want key results for
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyResult"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - Objectives and Key Results API
+      summary: Updates a specific key result
+      operationId: updateKeyResult
+      parameters:
+        - name: keyResultId
+          in: path
+          description: the id of the key result
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: objectiveId
+          in: path
+          description: the id of the objective you want key results for
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/KeyResult"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyResult"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KeyResult"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - Objectives and Key Results API
+      summary: Deletes a specific key result associated with an objective
+      operationId: deleteOneKeyResult
+      parameters:
+        - name: keyResultId
+          in: path
+          description: the id of the key result
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: objectiveId
+          in: path
+          description: the id of the objective you want key results for
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      deprecated: false
+  /onboarding:
+    post:
+      tags:
+        - Onboarding API
+      summary: Processes onboarding data for the given user
+      operationId: onboardUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OnboardingPacket"
+        description: userDTO
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/OnboardingPacket"
+        "201":
+          description: Created
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/OnboardingPacket"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  /projects:
+    get:
+      tags:
+        - Projects API
+      summary: Gets a list of all projects
+      operationId: getAllProjects
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - Projects API
+      summary: Creates a new project
+      operationId: createProject
+      requestBody:
+        $ref: "#/components/requestBodies/Project"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/projects/{id}":
+    get:
+      tags:
+        - Projects API
+      summary: Get a specific project
+      operationId: getProject
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - Projects API
+      summary: Updates a project
+      operationId: updateProject
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/Project"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - Projects API
+      summary: Delete a specific project
+      operationId: deleteProject
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      deprecated: false
+    patch:
+      tags:
+        - Projects API
+      summary: Updates the status of an object
+      operationId: patchProjectStatus
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectStatusOnly"
+        description: statusDTO
+        required: true
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      deprecated: false
+  "/projects/{id}/assessment":
+    get:
+      tags:
+        - Projects API
+      summary: Returns the assessment related to a project
+      operationId: getProjectAssessment
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OutcomeDrivenInnovationAssessmentResour\
+                  ce"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - Assessments API
+      summary: Creates a new assessment
+      operationId: createOdiAssessment
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OdiAssessment"
+        description: assessment
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiAssessment"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OdiAssessment"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/projects/{id}/company":
+    get:
+      tags:
+        - Projects API
+      summary: Get the parent company of a project
+      operationId: getProjectParentCompany
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/projects/{id}/objectives":
+    get:
+      tags:
+        - Projects API
+      summary: Returns a list of users working on a project
+      operationId: getProjectParticipants
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ObjectiveResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/projects/{id}/teams":
+    get:
+      tags:
+        - Projects API
+      summary: Returns a list of teams working on a project
+      operationId: getProjectTeams
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TeamsResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/projects/{id}/users":
+    get:
+      tags:
+        - Projects API
+      summary: Returns a list of users working on a project
+      operationId: getProjectParticipants_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TeamsResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/projects/{projectId}/company/{companyId}":
+    delete:
+      tags:
+        - Projects API
+      summary: Removes a link between a project and a company
+      operationId: unlinkProjectToCopmany
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    patch:
+      tags:
+        - Projects API
+      summary: Links a project and a company
+      operationId: linkProjectToCopmany
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/projects/{projectId}/teams/{teamId}":
+    delete:
+      tags:
+        - Projects API
+      summary: Removes any link that may exist between the project and team passed in.
+        Represents the project being put down by the team.Note that this does
+        not delete the entities in question, just the link between the entities.
+        This is operation will fail if no link exists.
+      operationId: unlinkProjectToTeam
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: teamId
+          in: path
+          description: teamId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    patch:
+      tags:
+        - Projects API
+      summary: Links the given project to the given team, represents a project being
+        assigned to a team. This is the same functionality as linkTeamToProject
+        in the projects API, the user can pick whichever API usage they find
+        more fluent and sensible. This is an idempotent operation.
+      operationId: linkProjectToTeam
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: teamId
+          in: path
+          description: teamId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  /teams:
+    get:
+      tags:
+        - Teams API
+      summary: Gets a list of all teams
+      operationId: getAllTeams
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TeamsResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - Teams API
+      summary: Create a new team
+      operationId: createTeam
+      requestBody:
+        $ref: "#/components/requestBodies/Team"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Team"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Team"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/teams/{id}":
+    get:
+      tags:
+        - Teams API
+      summary: Get a specific team
+      operationId: getTeam
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamsResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - Teams API
+      summary: Update a team
+      operationId: updateTeam
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: "#/components/requestBodies/Team"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Team"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Team"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - Teams API
+      summary: Delete a specific team
+      operationId: deleteTeam
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+      deprecated: false
+  "/teams/{id}/company":
+    get:
+      tags:
+        - Teams API
+      summary: Get the parent company for a team
+      operationId: getTeamParentCompany
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/teams/{id}/members":
+    get:
+      tags:
+        - Teams API
+      summary: Gets a list of all users a team is currently has
+      operationId: getAllUsersForTeam
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValuableUserResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/teams/{id}/objectives":
+    get:
+      tags:
+        - Teams API
+      summary: Get the objectives a team is working on
+      operationId: getTeamObjectives
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ObjectiveResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/teams/{id}/projects":
+    get:
+      tags:
+        - Teams API
+      summary: Gets a list of all projects a team is currently working on
+      operationId: getAllProjectsWithTeam
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/teams/{teamId}/members/{userId}":
+    delete:
+      tags:
+        - Teams API
+      summary: Removes a user from a team
+      operationId: removeUserFromTeam
+      parameters:
+        - name: teamId
+          in: path
+          description: teamId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: path
+          description: userId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    patch:
+      tags:
+        - Teams API
+      summary: Adds a user to a team
+      operationId: addUserToTeam
+      parameters:
+        - name: teamId
+          in: path
+          description: teamId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: path
+          description: userId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/teams/{teamId}/objectives/{objectiveId}":
+    delete:
+      tags:
+        - Teams API
+      summary: Removes a objective from a team
+      operationId: removeObjectiveFromTeam
+      parameters:
+        - name: objectiveId
+          in: path
+          description: objectiveId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: teamId
+          in: path
+          description: teamId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    patch:
+      tags:
+        - Teams API
+      summary: Adds a objective to a team
+      operationId: addObjectiveToTeam
+      parameters:
+        - name: objectiveId
+          in: path
+          description: objectiveId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: teamId
+          in: path
+          description: teamId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/teams/{teamId}/projects/{projectId}":
+    delete:
+      tags:
+        - Teams API
+      summary: Removes any link that may exist between the project and team passed in.
+        Represents the project being put down by the team.Note that this does
+        not delete the entities in question, just the link between the entities.
+        This is operation will fail if no link exists.
+      operationId: unlinkTeamToProject
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: teamId
+          in: path
+          description: teamId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    patch:
+      tags:
+        - Teams API
+      summary: Links the given team to the given project, represents a team picking up
+        a project to work on. This is the same functionality as
+        linkProjectToTeam in the projects API, the user can pick whichever API
+        usage they find more fluent and sensible. This is an idempotent
+        operation.
+      operationId: linkTeamToProject
+      parameters:
+        - name: projectId
+          in: path
+          description: projectId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: teamId
+          in: path
+          description: teamId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  /users:
+    get:
+      tags:
+        - Users API
+      summary: Get a list of all users
+      operationId: getAllUsers
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ValuableUser"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    post:
+      tags:
+        - Users API
+      summary: Creates a new user
+      operationId: createUser
+      requestBody:
+        $ref: "#/components/requestBodies/ValuableUser"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValuableUser"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValuableUser"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  /users/findByAuth0Id:
+    get:
+      tags:
+        - Users API
+      summary: Find user by Auth0 Id
+      operationId: getUserByAuth0Id
+      parameters:
+        - name: auth0Id
+          in: query
+          description: auth0Id
+          required: true
+          allowEmptyValue: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValuableUser"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  /users/me:
+    get:
+      tags:
+        - Users API
+      summary: Get the currently logged in user
+      operationId: getCurrentlyLoggedInUser
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValuableUser"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    put:
+      tags:
+        - Users API
+      summary: Updates the currently logged in user's details
+      operationId: updateCurrentlyLoggedInUser
+      requestBody:
+        $ref: "#/components/requestBodies/ValuableUser"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValuableUser"
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValuableUser"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  /users/me/company:
+    get:
+      tags:
+        - Users API
+      summary: Get the parent company of a user
+      operationId: getUserCompany
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Company"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/users/{id}":
+    get:
+      tags:
+        - Users API
+      summary: Get a specific user
+      operationId: getUser
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValuableUser"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/users/{id}/company":
+    get:
+      tags:
+        - Users API
+      summary: Get the users parent company
+      operationId: getUserParentCompany
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/users/{id}/projects":
+    get:
+      tags:
+        - Users API
+      summary: Get a the projects a user is working on
+      operationId: getUserProjects
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/users/{id}/teams":
+    get:
+      tags:
+        - Users API
+      summary: Get a the teams a user is part of
+      operationId: getUserTeams
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamsResource"
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/users/{userId}/company/{companyId}":
+    delete:
+      tags:
+        - Users API
+      summary: Unlinks a user and a company
+      operationId: unlinkUserToCompany
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: path
+          description: userId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    patch:
+      tags:
+        - Users API
+      summary: Links a user and a company
+      operationId: linkCompanyToUser
+      parameters:
+        - name: companyId
+          in: path
+          description: companyId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: path
+          description: userId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+  "/users/{userId}/team/{teamId}":
+    delete:
+      tags:
+        - Users API
+      summary: Unlinks a user and a team
+      operationId: removeUserToTeam
+      parameters:
+        - name: teamId
+          in: path
+          description: teamId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: path
+          description: userId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+    patch:
+      tags:
+        - Users API
+      summary: Links a user and a team
+      operationId: addTeamToUser
+      parameters:
+        - name: teamId
+          in: path
+          description: teamId
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: path
+          description: userId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+      deprecated: false
+servers:
+  - url: //dev-api-valuable.herokuapp.com/
+components:
+  requestBodies:
+    KeyResult:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/KeyResult"
+      description: keyResult
+      required: true
+    Company:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Company"
+      description: company
+      required: true
+    OdiCustomerRating:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OdiCustomerRating"
+      description: oDICustomerRating
+      required: true
+    OdiValueRating:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OdiValueRating"
+      description: oDIValueRating
+      required: true
+    OdiTechnologyRating:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OdiTechnologyRating"
+      description: oDITechnologyRating
+      required: true
+    Objective:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Objective"
+      description: objective
+      required: true
+    Project:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Project"
+      description: project
+      required: true
+    Team:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Team"
+      description: team
+      required: true
+    ValuableUser:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ValuableUser"
+      description: userDTO
+      required: true
+  schemas:
+    Assumption:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        value:
+          type: string
+      title: Assumption
+    Company:
+      type: object
+      properties:
+        billingContactEmailAddress:
+          type: string
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        objectives:
+          type: array
+          items:
+            $ref: "#/components/schemas/Objective"
+        primaryContactEmailAddress:
+          type: string
+        projects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Project"
+        teams:
+          type: array
+          items:
+            $ref: "#/components/schemas/Team"
+        valuableUsers:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValuableUser"
+        webPageAddress:
+          type: string
+      title: Company
+    CompanyResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: "#/components/schemas/Link"
+        billingContactEmailAddress:
+          type: string
+        companyId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        primaryContactEmailAddress:
+          type: string
+        webPageAddress:
+          type: string
+      title: CompanyResource
+    KeyResult:
+      type: object
+      properties:
+        completed:
+          type: boolean
+        description:
+          type: string
+        id:
+          type: integer
+          format: int64
+        subjectObjective:
+          $ref: "#/components/schemas/Objective"
+      title: KeyResult
+    KeyResultResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: "#/components/schemas/Link"
+        completed:
+          type: boolean
+        description:
+          type: string
+        keyResultId:
+          type: integer
+          format: int64
+      title: KeyResultResource
+    Link:
+      type: object
+      properties:
+        deprecation:
+          type: string
+          xml:
+            name: deprecation
+            attribute: true
+            wrapped: false
+        href:
+          type: string
+          xml:
+            name: href
+            attribute: true
+            wrapped: false
+        hreflang:
+          type: string
+          xml:
+            name: hreflang
+            attribute: true
+            wrapped: false
+        media:
+          type: string
+          xml:
+            name: media
+            attribute: true
+            wrapped: false
+        rel:
+          type: string
+          xml:
+            name: rel
+            attribute: true
+            wrapped: false
+        templated:
+          type: boolean
+        title:
+          type: string
+          xml:
+            name: title
+            attribute: true
+            wrapped: false
+        type:
+          type: string
+          xml:
+            name: type
+            attribute: true
+            wrapped: false
+      title: Link
+    ODICustomerRatingResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: "#/components/schemas/Link"
+        odiCustomerRatingId:
+          type: integer
+          format: int64
+        overallCustomerRating:
+          type: integer
+          format: int32
+        percentAddressableCustomers:
+          type: integer
+          format: int32
+        percentCustomersAtRisk:
+          type: integer
+          format: int32
+        percentTargetCustomers:
+          type: integer
+          format: int32
+      title: ODICustomerRatingResource
+    ODITechnologyRatingResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: "#/components/schemas/Link"
+        doTechTeamsHaveBuyIn:
+          type: boolean
+        doWeHaveTheSkillRightNow:
+          type: boolean
+        doWeKnowHowToDoIt:
+          type: boolean
+        doesToolingExistToday:
+          type: boolean
+        odiTechRatingId:
+          type: integer
+          format: int64
+        overallTechRating:
+          type: integer
+          format: int32
+      title: ODITechnologyRatingResource
+    ODIValueRatingResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: "#/components/schemas/Link"
+        earnableRevenue:
+          type: integer
+          format: int32
+        odiValueRatingId:
+          type: integer
+          format: int64
+        overallValueRating:
+          type: integer
+          format: int32
+        revenueAtRisk:
+          type: integer
+          format: int32
+      title: ODIValueRatingResource
+    Objective:
+      type: object
+      properties:
+        company:
+          $ref: "#/components/schemas/Company"
+        completed:
+          type: boolean
+        description:
+          type: string
+        id:
+          type: integer
+          format: int64
+        keyResults:
+          type: array
+          items:
+            $ref: "#/components/schemas/KeyResult"
+        name:
+          type: string
+      title: Objective
+    ObjectiveResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: "#/components/schemas/Link"
+        completed:
+          type: boolean
+        description:
+          type: string
+        name:
+          type: string
+        objectiveId:
+          type: integer
+          format: int64
+      title: ObjectiveResource
+    OdiAssessment:
+      type: object
+      properties:
+        assumptions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Assumption"
+        customerRating:
+          $ref: "#/components/schemas/OdiCustomerRating"
+        id:
+          type: integer
+          format: int64
+        importance:
+          type: integer
+          format: int32
+        opportunity:
+          type: integer
+          format: int32
+        satisfaction:
+          type: integer
+          format: int32
+        techRating:
+          $ref: "#/components/schemas/OdiTechnologyRating"
+        valueRating:
+          $ref: "#/components/schemas/OdiValueRating"
+      title: OdiAssessment
+    OdiCustomerRating:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        overallCustomerRating:
+          type: integer
+          format: int32
+        percentAddressableCustomers:
+          type: integer
+          format: int32
+        percentCustomersAtRisk:
+          type: integer
+          format: int32
+        percentTargetCustomers:
+          type: integer
+          format: int32
+      title: OdiCustomerRating
+    OdiTechnologyRating:
+      type: object
+      properties:
+        doTechTeamsHaveBuyIn:
+          type: boolean
+        doWeHaveTheSkillRightNow:
+          type: boolean
+        doWeKnowHowToDoIt:
+          type: boolean
+        doesToolingExistToday:
+          type: boolean
+        id:
+          type: integer
+          format: int64
+        overallTechnologyRating:
+          type: integer
+          format: int32
+      title: OdiTechnologyRating
+    OdiValueRating:
+      type: object
+      properties:
+        earnableRevenue:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int64
+        overallValueRating:
+          type: integer
+          format: int32
+        revenueAtRisk:
+          type: integer
+          format: int32
+      title: OdiValueRating
+    OnboardingPacket:
+      type: object
+      properties:
+        submittedCompany:
+          $ref: "#/components/schemas/Company"
+        submittedProject:
+          $ref: "#/components/schemas/Project"
+        submittedTeam:
+          $ref: "#/components/schemas/Team"
+        submittedUser:
+          $ref: "#/components/schemas/ValuableUser"
+      title: OnboardingPacket
+    OnboardingPacketResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: "#/components/schemas/Link"
+      title: OnboardingPacketResource
+    OutcomeDrivenInnovationAssessmentResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: "#/components/schemas/Link"
+        assumptions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Assumption"
+        importance:
+          type: integer
+          format: int32
+        odiAssessmentId:
+          type: integer
+          format: int64
+        opportunity:
+          type: integer
+          format: int32
+        satisfaction:
+          type: integer
+          format: int32
+      title: OutcomeDrivenInnovationAssessmentResource
+    Project:
+      type: object
+      properties:
+        additionalNotes:
+          type: string
+        assessment:
+          $ref: "#/components/schemas/OdiAssessment"
+        businessOwner:
+          type: string
+        company:
+          $ref: "#/components/schemas/Company"
+        dateCreated:
+          type: string
+          format: date
+        id:
+          type: integer
+          format: int64
+        job:
+          type: string
+        name:
+          type: string
+        objectives:
+          type: array
+          items:
+            $ref: "#/components/schemas/Objective"
+        reference:
+          type: string
+        status:
+          type: string
+        targetFinish:
+          type: string
+          format: date
+        targetStart:
+          type: string
+          format: date
+        teams:
+          type: array
+          items:
+            $ref: "#/components/schemas/Team"
+      title: Project
+    ProjectResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: "#/components/schemas/Link"
+        additionalNotes:
+          type: string
+        businessOwner:
+          type: string
+        dateCreated:
+          type: string
+          format: date
+        job:
+          type: string
+        name:
+          type: string
+        projectId:
+          type: integer
+          format: int64
+        reference:
+          type: string
+        status:
+          type: string
+        targetFinish:
+          type: string
+          format: date
+        targetStart:
+          type: string
+          format: date
+      title: ProjectResource
+    ProjectStatusOnly:
+      type: object
+      properties:
+        status:
+          type: string
+      title: ProjectStatusOnly
+    Team:
+      type: object
+      properties:
+        company:
+          $ref: "#/components/schemas/Company"
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        objectives:
+          type: array
+          items:
+            $ref: "#/components/schemas/Objective"
+        primaryContactEmailAddress:
+          type: string
+        valuableUsers:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValuableUser"
+      title: Team
+    TeamsResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: "#/components/schemas/Link"
+        name:
+          type: string
+        primaryContactEmailAddress:
+          type: string
+        teamId:
+          type: integer
+          format: int64
+      title: TeamsResource
+    ValuableUser:
+      type: object
+      properties:
+        auth0Id:
+          type: string
+        company:
+          $ref: "#/components/schemas/Company"
+        email:
+          type: string
+        firstName:
+          type: string
+        hasOnboarded:
+          type: boolean
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        projects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Project"
+      title: ValuableUser
+    ValuableUserResource:
+      type: object
+      properties:
+        _links:
+          type: array
+          xml:
+            name: link
+            attribute: false
+            wrapped: false
+          items:
+            $ref: "#/components/schemas/Link"
+        auth0Id:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        hasOnboarded:
+          type: boolean
+        lastName:
+          type: string
+        userId:
+          type: integer
+          format: int64
+      title: ValuableUserResource

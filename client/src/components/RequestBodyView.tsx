@@ -1,11 +1,10 @@
 import React, {useState} from "react";
 import {OpenAPIV3} from "openapi-types";
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import {monokai} from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import Words from "./lib/Words";
 import ExpandableContent from "./lib/ExpandableContent";
 import AccordionHeader from "./lib/AccordionHeader";
 import BodyView from "./lib/BodyView";
+import PropertyTable from "./lib/PropertyTable";
 
 interface Props {
     requestBody?: OpenAPIV3.RequestBodyObject,
@@ -13,23 +12,24 @@ interface Props {
 }
 
 const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
-    const [jsonRequest, setJsonRequest] = useState("");
+    const [schema, setSchema] = useState<OpenAPIV3.BaseSchemaObject | null>();
     const [open, setOpen] = useState(true);
 
     if (!requestBody) {
         return <Words>Please define request body as a parameter</Words>
     }
 
-    // Only support JSON at this time
-    Object.entries(requestBody.content).forEach(([key, resource]) => {
-        if (key.toLowerCase().includes("json") && jsonRequest === "") {
-            const schema = resource.schema as OpenAPIV3.BaseSchemaObject;
+    const headerTitle = `Requests ${requestBody.required ? "(required)" : ""}`;
 
-            setJsonRequest(JSON.stringify(schema.properties, null, 2));
+    Object.entries(requestBody.content).forEach(([key, resource]) => {
+        if (key.toLowerCase().includes("json") && !schema) {
+            setSchema(resource.schema as OpenAPIV3.BaseSchemaObject);
         }
     });
 
-    const headerTitle = `Requests ${requestBody.required ? "(required)" : ""}`;
+    if (!schema) {
+        return <></>;
+    }
 
     return (
         <BodyView>
@@ -40,9 +40,7 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
                 {headerTitle}
             </AccordionHeader>
             <ExpandableContent open={open}>
-                <SyntaxHighlighter language="json" style={monokai} customStyle={{background: 0}}>
-                    {jsonRequest ? jsonRequest : "{}"}
-                </SyntaxHighlighter>
+                <PropertyTable schema={schema}/>
             </ExpandableContent>
         </BodyView>
     );

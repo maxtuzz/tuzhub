@@ -1,6 +1,11 @@
 import {OpenAPIV3} from "openapi-types";
 
 class ResourceFormatter {
+    /**
+     * Returns a collection all paths and subpaths in a single array.
+     * Used for spec navigation items.
+     * @param docPaths
+     */
     static getPaths(docPaths: OpenAPIV3.PathsObject): string[] {
         let paths = new Set<string>();
 
