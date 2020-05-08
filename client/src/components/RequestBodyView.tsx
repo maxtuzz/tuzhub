@@ -11,8 +11,14 @@ interface Props {
     noTopMargin: boolean
 }
 
+/**
+ * Request body review renders request schemas in tabular form
+ * For 99% of usecases, we can just render the first item, however we will need to support multiples requests
+ * @param requestBody
+ * @param noTopMargin
+ * @constructor
+ */
 const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
-    const [schema, setSchema] = useState<OpenAPIV3.BaseSchemaObject | null>();
     const [open, setOpen] = useState(true);
 
     if (!requestBody) {
@@ -21,13 +27,12 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
 
     const headerTitle = `Requests ${requestBody.required ? "(required)" : ""}`;
 
-    Object.entries(requestBody.content).forEach(([key, resource]) => {
-        if (key.toLowerCase().includes("json") && !schema) {
-            setSchema(resource.schema as OpenAPIV3.BaseSchemaObject);
-        }
-    });
+    // Todo: Support multiple schema requests
+    const firstSchema = Object.entries(requestBody.content).map(([key, resource]) => {
+        return resource.schema as OpenAPIV3.BaseSchemaObject
+    })[0];
 
-    if (!schema) {
+    if (!firstSchema) {
         return <></>;
     }
 
@@ -40,7 +45,7 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
                 {headerTitle}
             </AccordionHeader>
             <ExpandableContent open={open}>
-                <PropertyTable schema={schema}/>
+                <PropertyTable schema={firstSchema}/>
             </ExpandableContent>
         </BodyView>
     );
