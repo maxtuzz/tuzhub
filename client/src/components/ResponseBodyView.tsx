@@ -8,6 +8,7 @@ import Words from "./lib/Words";
 import BodyView from "./lib/BodyView";
 import Tabs, {Tab} from "./lib/tabs/Tabs";
 import StatusHelper from "../util/StatusHelper";
+import PropertyTable from "./lib/PropertyTable";
 
 interface Props {
     responseBody?: OpenAPIV3.ResponsesObject,
@@ -50,17 +51,18 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
             return (
                 <ExpandableContent open={open} key={responseType}>
                     {statusDescription}
-                    <SyntaxHighlighter language="json" style={style} customStyle={{background: 0}}>
-                        {
-                            codeSnippet
-                        }
-                    </SyntaxHighlighter>
+                    {/*<SyntaxHighlighter language="json" style={style} customStyle={{background: 0}}>*/}
+                    {/*    {*/}
+                    {/*        codeSnippet*/}
+                    {/*    }*/}
+                    {/*</SyntaxHighlighter>*/}
+                    <PropertyTable schema={schema}/>
                 </ExpandableContent>
             );
         });
     };
 
-    const tabs = Object.entries(responses).map(([key, value], index) =>
+    const tabs = Object.entries(responses).map(([key, value]) =>
         <Tab label={key} key={key}>
             {
                 getTabContent(key, value)
