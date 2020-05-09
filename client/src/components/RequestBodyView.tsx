@@ -19,6 +19,7 @@ interface Props {
  * @constructor
  */
 const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
+    const [schema, setSchema] = useState<OpenAPIV3.BaseSchemaObject | null>();
     const [open, setOpen] = useState(true);
 
     if (!requestBody) {
@@ -27,12 +28,13 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
 
     const headerTitle = `Requests ${requestBody.required ? "(required)" : ""}`;
 
-    // Todo: Support multiple schema requests
-    const firstSchema = Object.entries(requestBody.content).map(([key, resource]) => {
-        return resource.schema as OpenAPIV3.BaseSchemaObject
-    })[0];
+    Object.entries(requestBody.content).forEach(([key, resource]) => {
+        if (key.toLowerCase().includes("json") && !schema) {
+            setSchema(resource.schema as OpenAPIV3.BaseSchemaObject);
+        }
+    });
 
-    if (!firstSchema) {
+    if (!schema) {
         return <></>;
     }
 
@@ -45,7 +47,7 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
                 {headerTitle}
             </AccordionHeader>
             <ExpandableContent open={open}>
-                <PropertyTable schema={firstSchema}/>
+                <PropertyTable schema={schema}/>
             </ExpandableContent>
         </BodyView>
     );

@@ -63,7 +63,7 @@ interface Props {
  * @constructor
  */
 const PropertyTable: React.FC<Props> = ({schema}) => {
-    const [descriptionVisible, setDescriptionVisble] = useState(false);
+    const [descriptionVisible, setDescriptionVisible] = useState(false);
     const properties = schema.properties
 
     if (!properties) {
@@ -81,7 +81,7 @@ const PropertyTable: React.FC<Props> = ({schema}) => {
         const description = fieldContent.description;
 
         if (description) {
-            setDescriptionVisble(true);
+            setDescriptionVisible(true);
         }
 
         return (
