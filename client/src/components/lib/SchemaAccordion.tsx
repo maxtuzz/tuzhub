@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {OpenAPIV3} from "openapi-types";
 import AccordionHeader from "./AccordionHeader";
 import ExpandableContent from "./ExpandableContent";
-import PropertyTable from "./PropertyTable";
+import PropertyTableContainer from "../../containers/PropertyTableContainer";
 
 interface Props {
     schemaName: string,
@@ -31,7 +31,7 @@ const SchemaAccordion: React.FC<Props> = ({schemaName, schema, openWhen}) => {
                 {schemaName}
             </AccordionHeader>
             <ExpandableContent open={open}>
-                <PropertyTable schema={schema}/>
+                <PropertyTableContainer schema={schema}/>
                 {/*<SyntaxHighlighter language="json" style={monokai} customStyle={{background: 0}}>*/}
                 {/*    {*/}
                 {/*        JSON.stringify(value, null, 2)*/}

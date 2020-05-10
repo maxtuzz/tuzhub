@@ -4,7 +4,7 @@ import Words from "./lib/Words";
 import ExpandableContent from "./lib/ExpandableContent";
 import AccordionHeader from "./lib/AccordionHeader";
 import BodyView from "./lib/BodyView";
-import PropertyTable from "./lib/PropertyTable";
+import PropertyTableContainer from "../containers/PropertyTableContainer";
 
 interface Props {
     requestBody?: OpenAPIV3.RequestBodyObject,
@@ -47,7 +47,7 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
                 {headerTitle}
             </AccordionHeader>
             <ExpandableContent open={open}>
-                <PropertyTable schema={schema}/>
+                <PropertyTableContainer schema={schema}/>
             </ExpandableContent>
         </BodyView>
     );

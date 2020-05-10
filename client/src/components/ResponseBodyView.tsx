@@ -8,8 +8,8 @@ import Words from "./lib/Words";
 import BodyView from "./lib/BodyView";
 import Tabs, {Tab} from "./lib/tabs/Tabs";
 import StatusHelper from "../util/StatusHelper";
-import PropertyTable from "./lib/PropertyTable";
 import CodeFormatter from "../util/CodeFormatter";
+import PropertyTableContainer from "../containers/PropertyTableContainer";
 
 interface Props {
     responseBody?: OpenAPIV3.ResponsesObject,
@@ -57,7 +57,7 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
                     {/*        codeSnippet*/}
                     {/*    }*/}
                     {/*</SyntaxHighlighter>*/}
-                    <PropertyTable schema={schema}/>
+                    <PropertyTableContainer schema={schema}/>
                 </ExpandableContent>
             );
         });

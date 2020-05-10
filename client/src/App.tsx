@@ -20,8 +20,6 @@ const Parent = styled.div`
   "sidebar main main main"
   "sidebar main main main"
   "sidebar main main main";
-
-   /* grid-container height = 100% of viewport height */
    
   @media screen and (max-width: 1126px) {
     grid-template-columns: 75px 1fr;

@@ -1,10 +1,7 @@
 import React, {useState} from "react";
 import {OpenAPIV3} from "openapi-types";
 import styled, {css} from "styled-components";
-
-const TableContainer = styled.div`
-  //background: black;
-`;
+import RefFinder from "../../util/RefFinder";
 
 const TableRow = styled.tr<{ header?: boolean, index: number }>`
    background-color: ${props => props.theme.colors.sidebarColor};
@@ -32,17 +29,12 @@ const Table = styled.table`
   text-align: left;
   width: 100%;
   border-collapse: collapse;
+  border-radius: 5px;
+  overflow: hidden;
   
   ${TableRow}:last-child {
     border-radius: 0 0 6px 0;
   }
-`;
-
-const SchemaHeader = styled.div`
-  padding: 0.9em;
-  background: ${props => props.theme.colors.secondary};
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
 `;
 
 const TableData = styled.td`
@@ -56,13 +48,14 @@ const TableHeader = styled.th`
 
 interface Props {
     schema: OpenAPIV3.BaseSchemaObject
+    components?: OpenAPIV3.ComponentsObject
 }
 
 /**
  * Renders a table from schema
  * @constructor
  */
-const PropertyTable: React.FC<Props> = ({schema}) => {
+const PropertyTable: React.FC<Props> = ({schema, components}) => {
     const [descriptionVisible, setDescriptionVisible] = useState(false);
     const properties = schema.properties
 
@@ -84,13 +77,28 @@ const PropertyTable: React.FC<Props> = ({schema}) => {
             setDescriptionVisible(true);
         }
 
+        /**
+         * Todo: I really want to be able to cross check properties inside a dereferenced schema to properly identify it's object 'type'
+         * so instead of type 'object' we could show type 'UserDetails', something along those lines
+         */
+        let type: string = fieldContent.type;
+
+        // If component references is includes, look up type in list
+        if (components) {
+            console.log("COMPONENT HIT");
+            if (type === "object") {
+            console.log("type hit");
+                type = RefFinder.find(fieldContent, components);
+            }
+        }
+
         return (
             <TableRow key={index} index={index}>
                 <TableData>
                     {fieldName}
                 </TableData>
                 <TableData>
-                    {fieldContent.type}
+                    {type}
                 </TableData>
                 {
                     descriptionVisible && <TableData>{description}</TableData>
@@ -100,18 +108,18 @@ const PropertyTable: React.FC<Props> = ({schema}) => {
     });
 
     return (
-        <TableContainer>
-            <Table>
-                <TableRow header index={0}>
-                    <TableHeader>Field</TableHeader>
-                    <TableHeader>Type</TableHeader>
-                    {
-                        descriptionVisible && <TableHeader>Description</TableHeader>
-                    }
-                </TableRow>
-                {rowData}
-            </Table>
-        </TableContainer>
+        <Table>
+            <tbody>
+            <TableRow header index={0}>
+                <TableHeader>Field</TableHeader>
+                <TableHeader>Type</TableHeader>
+                {
+                    descriptionVisible && <TableHeader>Description</TableHeader>
+                }
+            </TableRow>
+            {rowData}
+            </tbody>
+        </Table>
     )
 };
 

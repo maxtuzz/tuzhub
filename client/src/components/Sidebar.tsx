@@ -17,6 +17,7 @@ const SidebarContainer = styled.div`
     height: 100vh;
     background-color: ${props => props.theme.colors.sidebarColor};
     max-width: 260px;
+    overflow-y: hidden;
  `;
 
 const SidebarMenu = styled.ul`
@@ -27,8 +28,9 @@ const SidebarMenu = styled.ul`
     list-style: none;
     padding-inline-start: 0;
     // Todo: White box
-    //overflow-y: scroll;
-    overflow-x: hidden;
+    overflow-x: hidden;  
+    overflow-y: auto;
+    scrollbar-color: ${props => props.theme.colors.secondary} ${props => props.theme.colors.sidebarColor};
 `;
 
 const SidebarHeader = styled(Link)`
