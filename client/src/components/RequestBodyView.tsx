@@ -22,7 +22,7 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
     const [schema, setSchema] = useState<OpenAPIV3.BaseSchemaObject | null>();
     const [open, setOpen] = useState(true);
 
-    if (!requestBody) {
+    if (!requestBody || !requestBody.content) {
         return <Words>Please define request body as a parameter</Words>
     }
 

@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import {OpenAPIV3} from "openapi-types";
 import styled, {css} from "styled-components";
 import RefFinder from "../../util/RefFinder";
+import Modal from "./Modal";
+import Words from "./Words";
 
 const TableRow = styled.tr<{ header?: boolean, index: number }>`
    background-color: ${props => props.theme.colors.sidebarColor};
@@ -56,6 +58,7 @@ interface Props {
  * @constructor
  */
 const PropertyTable: React.FC<Props> = ({schema, components}) => {
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [descriptionVisible, setDescriptionVisible] = useState(false);
     const properties = schema.properties
 
@@ -85,15 +88,13 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
 
         // If component references is includes, look up type in list
         if (components) {
-            console.log("COMPONENT HIT");
             if (type === "object") {
-            console.log("type hit");
                 type = RefFinder.find(fieldContent, components);
             }
         }
 
         return (
-            <TableRow key={index} index={index}>
+            <TableRow key={index} index={index} onClickCapture={()=> setModalOpen(true)}>
                 <TableData>
                     {fieldName}
                 </TableData>
@@ -108,18 +109,25 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
     });
 
     return (
-        <Table>
-            <tbody>
-            <TableRow header index={0}>
-                <TableHeader>Field</TableHeader>
-                <TableHeader>Type</TableHeader>
-                {
-                    descriptionVisible && <TableHeader>Description</TableHeader>
-                }
-            </TableRow>
-            {rowData}
-            </tbody>
-        </Table>
+        <div>
+            <Modal open={modalOpen} title="Modal test">
+                <Words>
+                    Property table modal test
+                </Words>
+            </Modal>
+            <Table>
+                <tbody>
+                <TableRow header index={0}>
+                    <TableHeader>Field</TableHeader>
+                    <TableHeader>Type</TableHeader>
+                    {
+                        descriptionVisible && <TableHeader>Description</TableHeader>
+                    }
+                </TableRow>
+                {rowData}
+                </tbody>
+            </Table>
+        </div>
     )
 };
 

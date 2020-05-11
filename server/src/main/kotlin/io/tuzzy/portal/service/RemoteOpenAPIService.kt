@@ -16,10 +16,14 @@ class RemoteOpenAPIService {
     fun get(specUrl: String): OpenAPI {
         try {
             return OpenAPIV3Parser().read(specUrl)
+        } catch (e: UnknownHostException) {
+            logger.warn("Unknown host detected when trying to poll: $specUrl")
+
+            throw RuntimeException();
         } catch (e: Exception) {
             logger.error(e.message)
 
-            throw UnknownHostException()
+            throw RuntimeException();
         }
     }
 

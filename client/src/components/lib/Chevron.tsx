@@ -23,7 +23,6 @@ const ChevronIcon = styled(FontAwesomeIcon)<{ open: boolean }>`
 interface Props {
     open: boolean
     labeled?: boolean
-    visible?: boolean
 }
 
 const Chevron: React.FC<Props> = ({open, labeled = false}) => (

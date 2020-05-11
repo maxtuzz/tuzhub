@@ -17,6 +17,45 @@ const delayedWiggle = css`
   }
 `;
 
+const popIn = keyframes`
+     from {
+         transform: scale(0);
+         opacity: 0;
+     }
+     to {
+         transform: scale(1);
+         opacity: 1;
+     }
+`;
+
+const popOut = keyframes`
+     from {
+         transform: scale(1);
+         opacity: 1;
+     }
+     to {
+         transform: scale(0);
+         opacity: 0;
+     }
+`
+const fadeIn = keyframes`
+     from {
+         opacity: 0;
+     }
+     to {
+         opacity: 1;
+     }
+`;
+
+const fadeOut = keyframes`
+     from {
+         opacity: 1;
+     }
+     to {
+         opacity: 0;
+     }
+`;
+
 const fadeInTop = keyframes`
   from {
     opacity: 0;
@@ -57,6 +96,10 @@ const fadeInBottomCss = css`
 `;
 
 export {
+    fadeIn,
+    fadeOut,
+    popIn,
+    popOut,
     delayedWiggle,
     fadeInTop,
     fadeInTopCss,

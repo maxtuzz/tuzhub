@@ -3,12 +3,17 @@ import PageTitle from "../lib/PageTitle";
 import ScreenArea from "./ScreenArea";
 import Words from "../lib/Words";
 import SubHeaderText from "../lib/SubHeaderText";
+import Modal from "../lib/Modal";
 
 const ConfigureScreen: React.FC = () => (
     <ScreenArea>
         <PageTitle>
             Configure
         </PageTitle>
+
+        <Modal open={true} title={"My title"}>
+            <Words>Modal Test</Words>
+        </Modal>
 
         <SubHeaderText>
             Portal settings
