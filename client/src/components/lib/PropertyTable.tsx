@@ -3,7 +3,6 @@ import {OpenAPIV3} from "openapi-types";
 import styled, {css} from "styled-components";
 import RefFinder from "../../util/RefFinder";
 import Modal from "./Modal";
-import Words from "./Words";
 
 const TableRow = styled.tr<{ header?: boolean, index: number }>`
    background-color: ${props => props.theme.colors.sidebarColor};
@@ -49,7 +48,7 @@ const TableHeader = styled.th`
 `;
 
 interface Props {
-    schema: OpenAPIV3.BaseSchemaObject
+    schema?: OpenAPIV3.BaseSchemaObject
     components?: OpenAPIV3.ComponentsObject
 }
 
@@ -58,9 +57,11 @@ interface Props {
  * @constructor
  */
 const PropertyTable: React.FC<Props> = ({schema, components}) => {
+    const [modalTitle, setModalTitle] = useState<string>("");
     const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [modalContent, setModalContent] = useState<OpenAPIV3.BaseSchemaObject | undefined>(undefined);
     const [descriptionVisible, setDescriptionVisible] = useState(false);
-    const properties = schema.properties
+    const properties = schema?.properties
 
     if (!properties) {
         return <></>;
@@ -80,10 +81,6 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
             setDescriptionVisible(true);
         }
 
-        /**
-         * Todo: I really want to be able to cross check properties inside a dereferenced schema to properly identify it's object 'type'
-         * so instead of type 'object' we could show type 'UserDetails', something along those lines
-         */
         let type: string = fieldContent.type;
 
         // If component references is includes, look up type in list
@@ -93,8 +90,17 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
             }
         }
 
+        const onClickCapture = () => {
+            /**
+             * Todo: Compose these into single object
+             */
+            setModalOpen(true);
+            setModalTitle(type);
+            setModalContent(fieldContent);
+        };
+
         return (
-            <TableRow key={index} index={index} onClickCapture={()=> setModalOpen(true)}>
+            <TableRow key={index} index={index} onClickCapture={onClickCapture}>
                 <TableData>
                     {fieldName}
                 </TableData>
@@ -110,11 +116,12 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
 
     return (
         <div>
-            <Modal open={modalOpen} title="Modal test">
-                <Words>
-                    Property table modal test
-                </Words>
-            </Modal>
+            {
+                modalOpen &&
+                <Modal open={modalOpen} title={modalTitle} onClose={() => setModalOpen(false)}>
+                    <PropertyTable schema={modalContent}/>
+                </Modal>
+            }
             <Table>
                 <tbody>
                 <TableRow header index={0}>

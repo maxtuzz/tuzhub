@@ -1,18 +1,22 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {fadeIn, fadeOut, popIn, popOut} from "../../styling/anims";
+import HeaderText from "./HeaderText";
 
-const ModalContainer = styled.div<{out: boolean}>`
-  position: absolute;
+const MODAL_CLOSE_TIMEOUT_MILLIS = 300;
+
+const ModalContainer = styled.div<{ out: boolean }>`
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   
+  
   visibility: ${props => props.out ? 'hidden' : 'visible'};
-  animation: ${props => props.out ? fadeOut : fadeIn} 0.1s linear;
-  transition: visibility 0.1s linear;
+  animation: ${props => props.out ? fadeOut : fadeIn} ${MODAL_CLOSE_TIMEOUT_MILLIS}ms linear;
+  transition: visibility ${MODAL_CLOSE_TIMEOUT_MILLIS}ms linear;
   
   width: 100vw;
   height: 100vh;
@@ -20,8 +24,8 @@ const ModalContainer = styled.div<{out: boolean}>`
   background-color: rgba(0,0,0,0.37);
 `;
 
-const ModalContents = styled.div<{out: boolean}>`
-  background-color: aliceblue;
+const ModalContents = styled.div<{ out: boolean }>`
+  background-color: ${props => props.theme.colors.main};
   
   display: inline-block;
   visibility: ${props => props.out ? 'hidden' : 'visible'};
@@ -31,7 +35,7 @@ const ModalContents = styled.div<{out: boolean}>`
   min-width: 50em;
   min-height: 40em;
   
-  padding: 10px;
+  padding: 10px 20px;
   border-radius: 5px;
 `;
 
@@ -39,6 +43,7 @@ interface Props {
     children?: JSX.Element
     open: boolean
     title: string
+    onClose?: () => any
 }
 
 /**
@@ -46,19 +51,38 @@ interface Props {
  * @param children
  * @param open
  * @param title
+ * @param onClose
  * @constructor
  */
-const Modal: React.FC<Props> = ({children, open, title}) => {
+const Modal: React.FC<Props> = ({children, open, title, onClose}) => {
     const [showModal, setShowModal] = useState<boolean>(open);
 
-    // useEffect(() => {
-    //     setShowModal(true);
-    // }, [open]);
+    useEffect(() => {
+        setShowModal(open);
+    }, [open]);
+
+    const onClickCapture = () => {
+        setShowModal(false);
+
+        if (onClose) {
+            // Only call on close method once closing animation has finished
+            setTimeout(() => {
+                onClose();
+            }, MODAL_CLOSE_TIMEOUT_MILLIS);
+        }
+    };
 
     return (
-        <ModalContainer onClickCapture={() => setShowModal(false)} out={!showModal}>
+        <ModalContainer onClickCapture={onClickCapture} out={!showModal}>
             <ModalContents out={!showModal}>
-                {children}
+                {
+                    title && (
+                        <HeaderText>
+                            {title}
+                        </HeaderText>
+                    )
+                }
+                {showModal && children}
             </ModalContents>
         </ModalContainer>
     );
