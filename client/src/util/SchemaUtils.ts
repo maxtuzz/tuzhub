@@ -1,0 +1,59 @@
+import {OpenAPIV3} from "openapi-types";
+
+/**
+ * Common functions for handling OpenAPI schema processing
+ */
+class SchemaUtils {
+    static getArraySchema(arraySchema: OpenAPIV3.SchemaObject): OpenAPIV3.SchemaObject | undefined {
+        if (!SchemaUtils.isArray(arraySchema)) {
+            throw TypeError("Cannot get array schema of non array schema type");
+        }
+
+        if (arraySchema.items) {
+            if (SchemaUtils.isSchema(arraySchema.items)) {
+                return arraySchema.items;
+            }
+        }
+
+        if (arraySchema.properties) {
+            if (SchemaUtils.isSchema(arraySchema)) {
+                return arraySchema;
+            }
+        }
+    }
+
+    static getSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject) {
+        if (!SchemaUtils.isSchema(schema)) {
+            throw TypeError("The supplied parameter is not of type schema ")
+        }
+
+        return schema;
+    }
+
+    static getSchemaProps(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject | undefined) {
+        if (!schema) {
+            return undefined;
+        }
+
+        if (!SchemaUtils.isSchema(schema)) {
+            throw TypeError("The supplied parameter is not of type schema ")
+        }
+
+        const props = schema.properties;
+        if (!props) {
+            return undefined;
+        }
+
+        return Object.entries(props).filter(([, value]) => SchemaUtils.isSchema(value));
+    }
+
+    static isSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject): schema is OpenAPIV3.SchemaObject {
+        return !!(schema as OpenAPIV3.SchemaObject).type;
+    }
+
+    static isArray(schema: OpenAPIV3.SchemaObject): schema is OpenAPIV3.ArraySchemaObject {
+        return !!(schema as OpenAPIV3.ArraySchemaObject).type;
+    }
+}
+
+export default SchemaUtils;

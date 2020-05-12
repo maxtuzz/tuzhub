@@ -6,7 +6,7 @@ import PropertyTableContainer from "../../containers/PropertyTableContainer";
 
 interface Props {
     schemaName: string,
-    schema: OpenAPIV3.ArraySchemaObject | OpenAPIV3.NonArraySchemaObject
+    schema: OpenAPIV3.SchemaObject
 
     // Used to open accordion when nav button for object is pushed
     openWhen: boolean

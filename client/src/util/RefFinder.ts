@@ -1,10 +1,7 @@
 import {OpenAPIV3} from "openapi-types";
+import SchemaUtils from "./SchemaUtils";
 
 class RefFinder {
-    static isArray(schema: OpenAPIV3.SchemaObject): schema is OpenAPIV3.ArraySchemaObject {
-        return !!(schema as OpenAPIV3.ArraySchemaObject).type;
-    }
-
     /**
      * Fetches the name of the schema that a suppliedSchema belongs to based on its property contents
      * @param suppliedSchema
@@ -12,17 +9,15 @@ class RefFinder {
      */
     static find(suppliedSchema: OpenAPIV3.SchemaObject, components: OpenAPIV3.ComponentsObject): string {
         const type = suppliedSchema.type;
-        let schemaToProcess = suppliedSchema;
+        let schemaToProcess: OpenAPIV3.SchemaObject | undefined = suppliedSchema;
 
         // Array - reset schema to process to inner array type
-        const isArray: boolean = RefFinder.isArray(suppliedSchema);
+        const isArray: boolean = SchemaUtils.isArray(suppliedSchema);
         if (isArray) {
-            const arraySchema = schemaToProcess as OpenAPIV3.ArraySchemaObject;
-            schemaToProcess = (arraySchema.items as OpenAPIV3.SchemaObject);
+            schemaToProcess = SchemaUtils.getArraySchema(suppliedSchema);
 
-            // Properties can be under "items" or "properties" of array type
             if (!schemaToProcess) {
-                schemaToProcess = arraySchema;
+                return "Array<object>";
             }
 
             if (schemaToProcess.type !== "object") {

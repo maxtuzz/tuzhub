@@ -6,7 +6,7 @@ import SwaggerParser from "@apidevtools/swagger-parser";
 export const OpenAPI = {
     // First point of call, can act as base url
     dereference(apiSpec: string): Promise<Response> {
-        return SwaggerParser.bundle(apiSpec)
+        return SwaggerParser.dereference(apiSpec)
             .then(resp => resp)
             .catch(error => error);
     },

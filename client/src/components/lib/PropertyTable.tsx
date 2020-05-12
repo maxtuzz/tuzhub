@@ -3,10 +3,10 @@ import {OpenAPIV3} from "openapi-types";
 import styled, {css} from "styled-components";
 import RefFinder from "../../util/RefFinder";
 import Modal from "./Modal";
+import SchemaUtils from "../../util/SchemaUtils";
 
 const TableRow = styled.tr<{ header?: boolean, index: number }>`
    background-color: ${props => props.theme.colors.sidebarColor};
-   transition: all 0.3s ease-in;
      
    &:hover {
     background-color: rgba(81,174,192,0.72);
@@ -48,7 +48,7 @@ const TableHeader = styled.th`
 `;
 
 interface Props {
-    schema?: OpenAPIV3.BaseSchemaObject
+    schema?: OpenAPIV3.SchemaObject
     components?: OpenAPIV3.ComponentsObject
 }
 
@@ -65,15 +65,15 @@ interface ModalProps {
 const PropertyTable: React.FC<Props> = ({schema, components}) => {
     const [modalTitle, setModalTitle] = useState<string>("");
     const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const [modalContent, setModalContent] = useState<OpenAPIV3.BaseSchemaObject | undefined>(undefined);
+    const [modalContent, setModalContent] = useState<OpenAPIV3.SchemaObject | undefined>(undefined);
     const [descriptionVisible, setDescriptionVisible] = useState(false);
-    const properties = schema?.properties
+    const properties = SchemaUtils.getSchemaProps(schema);
 
     if (!properties) {
         return <></>;
     }
 
-    const rowData = Object.entries(properties).map(([key, contents], index) => {
+    const rowData = properties.map(([key, contents], index) => {
         let fieldName = key;
         const fieldContent = contents as OpenAPIV3.SchemaObject;
 

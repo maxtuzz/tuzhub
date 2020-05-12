@@ -19,7 +19,7 @@ interface Props {
  * @constructor
  */
 const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
-    const [schema, setSchema] = useState<OpenAPIV3.BaseSchemaObject | null>();
+    const [schema, setSchema] = useState<OpenAPIV3.SchemaObject | null>();
     const [open, setOpen] = useState(true);
 
     if (!requestBody || !requestBody.content) {
@@ -30,7 +30,7 @@ const RequestBodyView: React.FC<Props> = ({requestBody, noTopMargin}) => {
 
     Object.entries(requestBody.content).forEach(([key, resource]) => {
         if (key.toLowerCase().includes("json") && !schema) {
-            setSchema(resource.schema as OpenAPIV3.BaseSchemaObject);
+            setSchema(resource.schema as OpenAPIV3.SchemaObject);
         }
     });
 

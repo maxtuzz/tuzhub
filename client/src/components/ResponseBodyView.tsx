@@ -46,7 +46,7 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
 
         // Todo: Accept multiple format types (responseType)
         return Object.entries(statusContent).map(([responseType, mediaType]) => {
-            const schema = mediaType.schema as OpenAPIV3.BaseSchemaObject;
+            const schema = mediaType.schema as OpenAPIV3.SchemaObject;
             const codeSnippet = CodeFormatter.toJson(schema);
 
             return (
