@@ -52,6 +52,12 @@ interface Props {
     components?: OpenAPIV3.ComponentsObject
 }
 
+interface ModalProps {
+    title: string
+    open: boolean
+    content?: OpenAPIV3.BaseSchemaObject
+}
+
 /**
  * Renders a table from schema
  * @constructor
@@ -85,7 +91,7 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
 
         // If component references is includes, look up type in list
         if (components) {
-            if (type === "object") {
+            if (type === "object" || type === "array") {
                 type = RefFinder.find(fieldContent, components);
             }
         }

@@ -1,20 +1,44 @@
 import {OpenAPIV3} from "openapi-types";
 
 class RefFinder {
+    static isArray(schema: OpenAPIV3.SchemaObject): schema is OpenAPIV3.ArraySchemaObject {
+        return !!(schema as OpenAPIV3.ArraySchemaObject).type;
+    }
+
     /**
      * Fetches the name of the schema that a suppliedSchema belongs to based on its property contents
      * @param suppliedSchema
      * @param components
      */
     static find(suppliedSchema: OpenAPIV3.SchemaObject, components: OpenAPIV3.ComponentsObject): string {
-        if (suppliedSchema.type !== "object" || !suppliedSchema) {
-            throw TypeError("Please supply schema of type object");
+        const type = suppliedSchema.type;
+        let schemaToProcess = suppliedSchema;
+
+        // Array - reset schema to process to inner array type
+        const isArray: boolean = RefFinder.isArray(suppliedSchema);
+        if (isArray) {
+            const arraySchema = schemaToProcess as OpenAPIV3.ArraySchemaObject;
+            schemaToProcess = (arraySchema.items as OpenAPIV3.SchemaObject);
+
+            // Properties can be under "items" or "properties" of array type
+            if (!schemaToProcess) {
+                schemaToProcess = arraySchema;
+            }
+
+            if (schemaToProcess.type !== "object") {
+                return `Array<${schemaToProcess.type}>`
+            }
         }
 
-        // Default schema ref title
-        let schemaRefTitle: string = "object";
+        let schemaRefTitle: string = isArray ? "array" : "object";
 
-        const properties = suppliedSchema.properties
+        // Default schema ref title
+        const notArrayOrObject = !isArray && type !== "object";
+        if (notArrayOrObject || !schemaToProcess) {
+            throw TypeError("Nothing defined to process")
+        }
+
+        const properties = schemaToProcess.properties
         if (!properties) {
             return schemaRefTitle;
         }
@@ -40,6 +64,11 @@ class RefFinder {
             const found: boolean[] = Object.entries(refProps).map(([key]) => fieldNames.includes(key));
             if (found.every(Boolean)) {
                 schemaRefTitle = schemaName;
+
+                // Add array notation to schema title if valid array
+                if (isArray) {
+                    schemaRefTitle = `Array<${schemaRefTitle}>`;
+                }
 
                 break;
             }
