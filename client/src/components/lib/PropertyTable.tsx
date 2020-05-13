@@ -55,7 +55,7 @@ interface Props {
 interface ModalProps {
     title: string
     open: boolean
-    content?: OpenAPIV3.BaseSchemaObject
+    content?: OpenAPIV3.SchemaObject
 }
 
 /**
@@ -63,9 +63,11 @@ interface ModalProps {
  * @constructor
  */
 const PropertyTable: React.FC<Props> = ({schema, components}) => {
-    const [modalTitle, setModalTitle] = useState<string>("");
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const [modalContent, setModalContent] = useState<OpenAPIV3.SchemaObject | undefined>(undefined);
+    const [modalProps, setModalProps] = useState<ModalProps>({
+        title: "",
+        open: false,
+        content: undefined
+    });
     const [descriptionVisible, setDescriptionVisible] = useState(false);
     const properties = SchemaUtils.getSchemaProps(schema);
 
@@ -75,10 +77,12 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
 
     const rowData = properties.map(([key, contents], index) => {
         let fieldName = key;
-        const fieldContent = contents as OpenAPIV3.SchemaObject;
+        let fieldContent = SchemaUtils.getSchema(contents);
 
-        if (fieldContent.nullable) {
-            fieldName += "?";
+        if (fieldContent.required) {
+            if (fieldContent.required.includes(fieldName)) {
+                fieldName += "?";
+            }
         }
 
         const description = fieldContent.description;
@@ -93,6 +97,14 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
         if (components) {
             if (type === "object" || type === "array") {
                 type = RefFinder.find(fieldContent, components);
+
+                // Array can have properties outside of items tag, if they aren't linked to a reference.
+                // This method gets whatever is supplied be in under schema.properties or schema.items.properties
+                if (type === "array") {
+                    const arraySchema = SchemaUtils.getArraySchema(fieldContent);
+
+                    if (arraySchema) fieldContent = arraySchema
+                }
             }
         }
 
@@ -100,9 +112,11 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
             /**
              * Todo: Compose these into single object
              */
-            setModalOpen(true);
-            setModalTitle(type);
-            setModalContent(fieldContent);
+            setModalProps({
+                content: fieldContent,
+                open: true,
+                title: type
+            })
         };
 
         return (
@@ -123,9 +137,10 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
     return (
         <div>
             {
-                modalOpen &&
-                <Modal open={modalOpen} title={modalTitle} onClose={() => setModalOpen(false)}>
-                    <PropertyTable schema={modalContent}/>
+                modalProps.open &&
+                <Modal open={modalProps.open} title={modalProps.title}
+                       onClose={() => setModalProps({...modalProps, open: false})}>
+                    <PropertyTable schema={modalProps.content}/>
                 </Modal>
             }
             <Table>

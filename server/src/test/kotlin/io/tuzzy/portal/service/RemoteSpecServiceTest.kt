@@ -1,9 +1,9 @@
 package io.tuzzy.portal.service
 
+import io.javalin.http.ServiceUnavailableResponse
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.net.UnknownHostException
 import kotlin.test.assertFailsWith
 
 internal class RemoteSpecServiceTest {
@@ -31,7 +31,7 @@ internal class RemoteSpecServiceTest {
 
     @Test
     fun `Remote spec fails`() {
-        assertFailsWith<UnknownHostException> {
+        assertFailsWith<ServiceUnavailableResponse> {
             remoteOpenAPIService.get("https://execute.order.66.com/api-spec")
         }
     }

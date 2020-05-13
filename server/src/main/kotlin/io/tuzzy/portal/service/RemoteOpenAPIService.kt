@@ -1,9 +1,9 @@
 package io.tuzzy.portal.service
 
+import io.javalin.http.ServiceUnavailableResponse
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.parser.OpenAPIV3Parser
 import org.slf4j.LoggerFactory
-import java.net.UnknownHostException
 import javax.inject.Singleton
 
 @Singleton
@@ -16,14 +16,11 @@ class RemoteOpenAPIService {
     fun get(specUrl: String): OpenAPI {
         try {
             return OpenAPIV3Parser().read(specUrl)
-        } catch (e: UnknownHostException) {
-            logger.warn("Unknown host detected when trying to poll: $specUrl")
-
-            throw RuntimeException();
         } catch (e: Exception) {
-            logger.error(e.message)
+            val message = "Unknown host error while attempting to query spec at: $specUrl"
+            logger.warn(message)
 
-            throw RuntimeException();
+            throw ServiceUnavailableResponse(message)
         }
     }
 

@@ -13,19 +13,17 @@ class RefFinder {
 
         // Array - reset schema to process to inner array type
         const isArray: boolean = SchemaUtils.isArray(suppliedSchema);
+        let schemaRefTitle: string = isArray ? "Array<object>" : "object";
+
         if (isArray) {
             schemaToProcess = SchemaUtils.getArraySchema(suppliedSchema);
-
             if (!schemaToProcess) {
-                return "Array<object>";
+                return schemaRefTitle;
             }
-
             if (schemaToProcess.type !== "object") {
                 return `Array<${schemaToProcess.type}>`
             }
         }
-
-        let schemaRefTitle: string = isArray ? "array" : "object";
 
         // Default schema ref title
         const notArrayOrObject = !isArray && type !== "object";
@@ -33,13 +31,13 @@ class RefFinder {
             throw TypeError("Nothing defined to process")
         }
 
-        const properties = schemaToProcess.properties
+        const properties = SchemaUtils.getSchemaProps(schemaToProcess);
         if (!properties) {
             return schemaRefTitle;
         }
 
         // Get all field names from the supplied schema
-        const fieldNames: string[] = Object.entries(properties).map(([key]) => key);
+        const fieldNames: string[] = properties.map(([key]) => key);
 
         const possibleSchemas = components?.schemas && Object.entries(components?.schemas);
         if (!possibleSchemas) {
@@ -47,8 +45,7 @@ class RefFinder {
         }
 
         for (const [schemaName, resource] of possibleSchemas) {
-            const componentResource = resource as OpenAPIV3.SchemaObject;
-            const refProps = componentResource.properties;
+            const refProps = SchemaUtils.getSchemaProps(resource);
 
             // No properties, then continue to next iteration
             if (!refProps) {
@@ -56,7 +53,7 @@ class RefFinder {
             }
 
             // All properties match then set schema ref title
-            const found: boolean[] = Object.entries(refProps).map(([key]) => fieldNames.includes(key));
+            const found: boolean[] = refProps.map(([key]) => fieldNames.includes(key));
             if (found.every(Boolean)) {
                 schemaRefTitle = schemaName;
 
