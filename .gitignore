@@ -7,3 +7,4 @@ target/
 /server/.project
 /flutter_client/
 /client/node_modules
+/server/tuzzy-server.iml

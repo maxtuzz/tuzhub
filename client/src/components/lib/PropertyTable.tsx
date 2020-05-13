@@ -93,25 +93,23 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
 
         let type: string = fieldContent.type;
 
-        // If component references is includes, look up type in list
+        // If component references is included, look up type in list
         if (components) {
             if (type === "object" || type === "array") {
                 type = RefFinder.find(fieldContent, components);
 
                 // Array can have properties outside of items tag, if they aren't linked to a reference.
                 // This method gets whatever is supplied be in under schema.properties or schema.items.properties
-                if (type === "array") {
+                if (SchemaUtils.isArray(fieldContent)) {
                     const arraySchema = SchemaUtils.getArraySchema(fieldContent);
 
+                    // Set field content to whichever has properties field
                     if (arraySchema) fieldContent = arraySchema
                 }
             }
         }
 
         const onClickCapture = () => {
-            /**
-             * Todo: Compose these into single object
-             */
             setModalProps({
                 content: fieldContent,
                 open: true,
@@ -140,7 +138,7 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
                 modalProps.open &&
                 <Modal open={modalProps.open} title={modalProps.title}
                        onClose={() => setModalProps({...modalProps, open: false})}>
-                    <PropertyTable schema={modalProps.content}/>
+                    <PropertyTable schema={modalProps.content} components={components}/>
                 </Modal>
             }
             <Table>

@@ -4,6 +4,13 @@ import {OpenAPIV3} from "openapi-types";
  * Common functions for handling OpenAPI schema processing
  */
 class SchemaUtils {
+    /**
+     * An array type can either have it's own properties, or be resolved by a ref
+     * So properties will either be arraySchema.properties or arraySchema.items.properties
+     *
+     * This method will return the correct level of schema where .properties is accessible
+     * @param arraySchema
+     */
     static getArraySchema(arraySchema: OpenAPIV3.SchemaObject): OpenAPIV3.SchemaObject | undefined {
         if (!SchemaUtils.isArray(arraySchema)) {
             throw TypeError("Cannot get array schema of non array schema type");
