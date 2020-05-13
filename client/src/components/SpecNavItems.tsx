@@ -6,7 +6,7 @@ import ExpandableContent from "./lib/ExpandableContent";
 import Chevron from "./lib/Chevron";
 import {OpenAPIV3} from "openapi-types";
 import ResourceFormatter from "../util/ResourceFormatter";
-import Spinner from "./Spinner";
+import Spinner from "./lib/Spinner";
 
 const NavItemsContainer = styled.div<{ out?: boolean }>`
   width: 100%;

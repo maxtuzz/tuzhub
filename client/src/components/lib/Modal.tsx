@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {fadeIn, fadeOut, popIn, popOut} from "../../styling/anims";
 import HeaderText from "./HeaderText";
+import * as Icons from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const MODAL_CLOSE_TIMEOUT_MILLIS = 300;
 
@@ -25,6 +27,7 @@ const ModalContainer = styled.div<{ out: boolean }>`
 `;
 
 const ModalContents = styled.div<{ out: boolean }>`
+  z-index: 100;
   background-color: ${props => props.theme.colors.main};
   
   display: inline-block;
@@ -35,8 +38,30 @@ const ModalContents = styled.div<{ out: boolean }>`
   min-width: 50em;
   min-height: 40em;
   
+  @media (max-width: 1126px) {
+      width: 100vh;
+      height: 100vh;
+  }
+  
   padding: 10px 20px;
   border-radius: 5px;
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const IconButton = styled(FontAwesomeIcon)`
+  padding: 5px 8.5px;
+  border-radius: 100px; 
+  transition: all 0.1s ease-in;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: rgba(111,109,109,0.54);
+  }
 `;
 
 interface Props {
@@ -73,15 +98,18 @@ const Modal: React.FC<Props> = ({children, open, title, onClose}) => {
     };
 
     return (
-        <ModalContainer onClickCapture={onClickCapture} out={!showModal}>
+        <ModalContainer out={!showModal}>
             <ModalContents out={!showModal}>
-                {
-                    title && (
-                        <HeaderText>
-                            {title}
-                        </HeaderText>
-                    )
-                }
+                <HeaderContainer>
+                    {
+                        title ? (
+                            <HeaderText>
+                                {title}
+                            </HeaderText>
+                        ) : <></>
+                    }
+                    <IconButton icon={Icons.faTimes} color={"grey"} size={"lg"} onClickCapture={onClickCapture}/>
+                </HeaderContainer>
                 {showModal && children}
             </ModalContents>
         </ModalContainer>

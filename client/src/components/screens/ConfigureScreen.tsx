@@ -12,7 +12,7 @@ const ConfigureScreen: React.FC = () => (
         </PageTitle>
 
         <Modal open={true} title={"My title"}>
-            <Words>Modal Test</Words>
+            <Words>this modal in particular is locked to always show. Move to new page to get rid of it</Words>
         </Modal>
 
         <SubHeaderText>
