@@ -15,10 +15,8 @@ const ModalContainer = styled.div<{ out: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
- 
-  visibility: ${props => props.out ? 'hidden' : 'visible'};
-  animation: ${props => props.out ? fadeOut : fadeIn} ${MODAL_CLOSE_TIMEOUT_MILLIS}ms linear;
-  transition: visibility ${MODAL_CLOSE_TIMEOUT_MILLIS}ms linear;
+  
+  animation: ${props => props.out ? fadeOut : fadeIn} ${MODAL_CLOSE_TIMEOUT_MILLIS}ms linear forwards;
   
   width: 100vw;
   height: 100vh;
@@ -29,10 +27,8 @@ const ModalContainer = styled.div<{ out: boolean }>`
 const ModalWindow = styled.div<{ out: boolean }>`
   background-color: ${props => props.theme.colors.main};
   
-  display: inline-block;
-  visibility: ${props => props.out ? 'hidden' : 'visible'};
-  animation: ${props => props.out ? popOut : popIn} 0.1s linear;
-  transition: visibility 0.1s linear;
+  // Animation glitches see https://stackoverflow.com/questions/41965978/react-styled-components-fade-in-fade-out
+  animation: ${props => props.out ? popOut : popIn} 0.1s linear ${props => props.out ? "forwards" : "backwards"};
   
   width: 50em;
   height: 40em; 
@@ -56,6 +52,10 @@ const ModalContent = styled.div`
   overflow-y: auto;
   height: 35em;
   scrollbar-color: ${props => props.theme.colors.secondary} ${props => props.theme.colors.sidebarColor};
+  
+  @media (max-width: 1126px) {
+      height: 95vh;
+  }
 `;
 
 const IconButton = styled(FontAwesomeIcon)`
