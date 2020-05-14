@@ -26,7 +26,7 @@ const ModalContainer = styled.div<{ out: boolean }>`
   background-color: rgba(0,0,0,0.37);
 `;
 
-const ModalContents = styled.div<{ out: boolean }>`
+const ModalWindow = styled.div<{ out: boolean }>`
   background-color: ${props => props.theme.colors.main};
   
   display: inline-block;
@@ -35,9 +35,7 @@ const ModalContents = styled.div<{ out: boolean }>`
   transition: visibility 0.1s linear;
   
   width: 50em;
-  height: 40em;
-  
-  overflow-y: auto; 
+  height: 40em; 
   
   @media (max-width: 1126px) {
       width: 100vw;
@@ -52,6 +50,12 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const ModalContent = styled.div`
+  overflow-y: auto;
+  height: 35em;
+  scrollbar-color: ${props => props.theme.colors.secondary} ${props => props.theme.colors.sidebarColor};
 `;
 
 const IconButton = styled(FontAwesomeIcon)`
@@ -100,7 +104,7 @@ const Modal: React.FC<Props> = ({children, open, title, onClose}) => {
 
     return (
         <ModalContainer out={!showModal}>
-            <ModalContents out={!showModal}>
+            <ModalWindow out={!showModal}>
                 <HeaderContainer>
                     {
                         title ? (
@@ -111,8 +115,12 @@ const Modal: React.FC<Props> = ({children, open, title, onClose}) => {
                     }
                     <IconButton icon={Icons.faTimes} color={"grey"} size={"lg"} onClick={onClickCapture}/>
                 </HeaderContainer>
-                {showModal && children}
-            </ModalContents>
+                {showModal &&
+                <ModalContent>
+                    {children}
+                </ModalContent>
+                }
+            </ModalWindow>
         </ModalContainer>
     );
 };
