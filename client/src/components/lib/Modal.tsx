@@ -8,14 +8,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 const MODAL_CLOSE_TIMEOUT_MILLIS = 300;
 
 const ModalContainer = styled.div<{ out: boolean }>`
+  z-index: 100;
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  
+ 
   visibility: ${props => props.out ? 'hidden' : 'visible'};
   animation: ${props => props.out ? fadeOut : fadeIn} ${MODAL_CLOSE_TIMEOUT_MILLIS}ms linear;
   transition: visibility ${MODAL_CLOSE_TIMEOUT_MILLIS}ms linear;
@@ -27,7 +27,6 @@ const ModalContainer = styled.div<{ out: boolean }>`
 `;
 
 const ModalContents = styled.div<{ out: boolean }>`
-  z-index: 100;
   background-color: ${props => props.theme.colors.main};
   
   display: inline-block;
@@ -35,11 +34,13 @@ const ModalContents = styled.div<{ out: boolean }>`
   animation: ${props => props.out ? popOut : popIn} 0.1s linear;
   transition: visibility 0.1s linear;
   
-  min-width: 50em;
-  min-height: 40em;
+  width: 50em;
+  height: 40em;
+  
+  overflow-y: auto; 
   
   @media (max-width: 1126px) {
-      width: 100vh;
+      width: 100vw;
       height: 100vh;
   }
   
@@ -108,7 +109,7 @@ const Modal: React.FC<Props> = ({children, open, title, onClose}) => {
                             </HeaderText>
                         ) : <></>
                     }
-                    <IconButton icon={Icons.faTimes} color={"grey"} size={"lg"} onClickCapture={onClickCapture}/>
+                    <IconButton icon={Icons.faTimes} color={"grey"} size={"lg"} onClick={onClickCapture}/>
                 </HeaderContainer>
                 {showModal && children}
             </ModalContents>
