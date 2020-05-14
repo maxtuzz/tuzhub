@@ -9,7 +9,6 @@ const ScreenArea = styled.div`
   color: white;
   padding: 20px 90px 20px 50px;
   font-family: "Roboto", sans-serif;
-  overflow-y: auto;
 `;
 
 export default ScreenArea;

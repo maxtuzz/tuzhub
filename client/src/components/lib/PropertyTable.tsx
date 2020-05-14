@@ -5,6 +5,15 @@ import RefFinder from "../../util/RefFinder";
 import Modal from "./Modal";
 import SchemaUtils from "../../util/SchemaUtils";
 
+const Table = styled.table`
+  background: black;
+  text-align: left;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px;
+  overflow: hidden;
+`;
+
 const TableRow = styled.tr<{ header?: boolean, index: number }>`
    background-color: ${props => props.theme.colors.sidebarColor};
      
@@ -23,19 +32,6 @@ const TableRow = styled.tr<{ header?: boolean, index: number }>`
         background-color: #202225;
       }
   `}
-`;
-
-const Table = styled.table`
-  background: black;
-  text-align: left;
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 5px;
-  overflow: hidden;
-  
-  ${TableRow}:last-child {
-    border-radius: 0 0 6px 0;
-  }
 `;
 
 const TableData = styled.td`

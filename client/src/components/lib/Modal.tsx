@@ -24,6 +24,11 @@ const ModalContainer = styled.div<{ out: boolean }>`
   background-color: rgba(0,0,0,0.37);
 `;
 
+const ModalHeaderText = styled(HeaderText)`
+  margin-top: 0;
+  margin-bottom: 0;
+`;
+
 const ModalWindow = styled.div<{ out: boolean }>`
   background-color: ${props => props.theme.colors.main};
   
@@ -31,26 +36,28 @@ const ModalWindow = styled.div<{ out: boolean }>`
   animation: ${props => props.out ? popOut : popIn} 0.1s linear ${props => props.out ? "forwards" : "backwards"};
   
   width: 50em;
-  height: 40em; 
   
   @media (max-width: 1126px) {
       width: 100vw;
       height: 100vh;
   }
   
-  padding: 10px 20px;
+  padding: 20px;
   border-radius: 5px;
 `;
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.div<{contentExists: boolean}>`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
+  // Space before content
+  margin-bottom: 20px;
 `;
 
 const ModalContent = styled.div`
   overflow-y: auto;
-  height: 35em;
+  max-height: 35em;
   scrollbar-color: ${props => props.theme.colors.secondary} ${props => props.theme.colors.sidebarColor};
   
   @media (max-width: 1126px) {
@@ -102,15 +109,17 @@ const Modal: React.FC<Props> = ({children, open, title, onClose}) => {
         }
     };
 
+    console.log(children);
+
     return (
         <ModalContainer out={!showModal}>
             <ModalWindow out={!showModal}>
-                <HeaderContainer>
+                <HeaderContainer contentExists={children !== undefined}>
                     {
                         title ? (
-                            <HeaderText>
+                            <ModalHeaderText>
                                 {title}
-                            </HeaderText>
+                            </ModalHeaderText>
                         ) : <></>
                     }
                     <IconButton icon={Icons.faTimes} color={"grey"} size={"lg"} onClick={onClickCapture}/>
