@@ -8,7 +8,6 @@ import Words from "./lib/Words";
 import BodyView from "./lib/BodyView";
 import Tabs, {Tab} from "./lib/tabs/Tabs";
 import StatusHelper from "../util/StatusHelper";
-import CodeFormatter from "../util/CodeFormatter";
 import PropertyTableContainer from "../containers/PropertyTableContainer";
 
 interface Props {
@@ -47,16 +46,10 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
         // Todo: Accept multiple format types (responseType)
         return Object.entries(statusContent).map(([responseType, mediaType]) => {
             const schema = mediaType.schema as OpenAPIV3.SchemaObject;
-            const codeSnippet = CodeFormatter.toJson(schema);
 
             return (
                 <ExpandableContent open={open} key={responseType}>
                     {statusDescription}
-                    {/*<SyntaxHighlighter language="json" style={style} customStyle={{background: 0}}>*/}
-                    {/*    {*/}
-                    {/*        codeSnippet*/}
-                    {/*    }*/}
-                    {/*</SyntaxHighlighter>*/}
                     <PropertyTableContainer schema={schema}/>
                 </ExpandableContent>
             );

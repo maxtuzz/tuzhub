@@ -50,7 +50,7 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis, resetS
     useEffect(() => {
         resetSpec();
         getApis();
-    }, [getApis]);
+    }, [getApis, resetSpec]);
 
     // Reset filtered list when we refreshed
     useEffect(() => {

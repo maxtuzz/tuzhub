@@ -14,8 +14,5 @@ export const OpenAPI = {
         return SwaggerParser.validate(apiSpec)
             .then(resp => resp)
             .catch(error => error);
-    },
-    getObject(data: any) {
-        return JSON.parse(JSON.stringify(data))
     }
 };
