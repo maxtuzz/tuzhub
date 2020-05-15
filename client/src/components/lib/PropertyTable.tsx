@@ -118,7 +118,6 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
         }
 
         const onClickCapture = () => {
-            console.log(JSON.stringify(fieldContent));
             setModalProps({
                 content: fieldContent,
                 open: true,
