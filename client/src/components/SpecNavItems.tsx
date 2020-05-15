@@ -23,7 +23,7 @@ interface Props {
 }
 
 interface Functions {
-    scrollTo: (path: string) => void
+    scrollTo: (path: "objects" | "resources" | "home" | string) => void
 }
 
 /**
@@ -34,6 +34,7 @@ interface Functions {
  * @constructor
  */
 const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollTo}) => {
+    const [homeOpen, setHomeOpen] = useState(true);
     const [resourcesOpen, setResourcesOpen] = useState(true);
     const [objectsOpen, setObjectsOpen] = useState(false);
 
@@ -57,6 +58,14 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollT
                 <SidebarMenuItemLabel>{key}</SidebarMenuItemLabel>
             </SidebarMenuItem>
         ));
+
+    const homeSectionClick = () => {
+        setHomeOpen(!homeOpen);
+        setResourcesOpen(false);
+        setObjectsOpen(false);
+
+        scrollTo("home");
+    }
 
     const resourcesSectionClicked = () => {
         if (!resourcesOpen) {
@@ -84,8 +93,8 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollT
 
     return (
         <NavItemsContainer>
-            <SidebarMenuItem onClick={resourcesSectionClicked}>
-                <Chevron open={resourcesOpen}/>
+            <SidebarMenuItem onClick={homeSectionClick}>
+                <Chevron open={homeOpen}/>
                 <SidebarMenuItemLabel>{apiDoc.info.title}</SidebarMenuItemLabel>
             </SidebarMenuItem>
             <SidebarMenuItem onClick={resourcesSectionClicked}>

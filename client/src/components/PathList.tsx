@@ -60,6 +60,12 @@ const PathList: React.FC<Props> = ({docPaths, navPath}) => {
     // Whenever nav path changes
     useEffect(() => {
         if (navPath) {
+            if (navPath === "home") {
+                window.scrollTo({left: 0, top: 0, behavior: "smooth"});
+
+                return;
+            }
+
             setFilteredPaths(docPaths);
 
             Object.entries(refs).forEach(([key]) => {
