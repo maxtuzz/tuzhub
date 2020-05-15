@@ -29,7 +29,7 @@ class SchemaUtils {
         }
     }
 
-    static getSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject) {
+    static getSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject | undefined) {
         if (!SchemaUtils.isSchema(schema)) {
             throw TypeError("The supplied parameter is not of type schema ")
         }
@@ -54,7 +54,7 @@ class SchemaUtils {
         return Object.entries(props).filter(([, value]) => SchemaUtils.isSchema(value));
     }
 
-    static isSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject): schema is OpenAPIV3.SchemaObject {
+    static isSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject | undefined): schema is OpenAPIV3.SchemaObject {
         return !!(schema as OpenAPIV3.SchemaObject).type;
     }
 

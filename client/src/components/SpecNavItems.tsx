@@ -26,6 +26,13 @@ interface Functions {
     scrollTo: (path: string) => void
 }
 
+/**
+ * Spec nav items dynamically renders a list of links based on provided api doc resource paths and objects
+ * @param apiDoc
+ * @param specLoading
+ * @param scrollTo
+ * @constructor
+ */
 const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollTo}) => {
     const [resourcesOpen, setResourcesOpen] = useState(true);
     const [objectsOpen, setObjectsOpen] = useState(false);
@@ -77,6 +84,10 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollT
 
     return (
         <NavItemsContainer>
+            <SidebarMenuItem onClick={resourcesSectionClicked}>
+                <Chevron open={resourcesOpen}/>
+                <SidebarMenuItemLabel>{apiDoc.info.title}</SidebarMenuItemLabel>
+            </SidebarMenuItem>
             <SidebarMenuItem onClick={resourcesSectionClicked}>
                 <Chevron open={resourcesOpen}/>
                 <SidebarMenuItemLabel>Resources</SidebarMenuItemLabel>

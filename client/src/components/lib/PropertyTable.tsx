@@ -4,6 +4,8 @@ import styled, {css} from "styled-components";
 import RefFinder from "../../util/RefFinder";
 import Modal from "./Modal";
 import SchemaUtils from "../../util/SchemaUtils";
+import {monokai} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
 
 const Table = styled.table`
   background: black;
@@ -65,8 +67,14 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
         content: undefined
     });
     const [descriptionVisible, setDescriptionVisible] = useState(false);
-    const properties = SchemaUtils.getSchemaProps(schema);
 
+    // Doesn't pass schema validation
+    if (!SchemaUtils.isSchema(schema)) {
+        return <></>;
+    }
+
+    // Schema has no properties to show
+    const properties = SchemaUtils.getSchemaProps(schema);
     if (!properties) {
         return <></>;
     }
@@ -93,7 +101,6 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
         if (components) {
             if (type === "object" || type === "array") {
                 type = RefFinder.find(fieldContent, components);
-                console.log("HELLOOOOOO");
 
                 // Array can have properties outside of items tag, if they aren't linked to a reference.
                 // This method gets whatever is supplied be in under schema.properties or schema.items.properties
@@ -119,8 +126,6 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
             })
         };
 
-        console.log("NOW TO RENDER");
-
         return (
             <TableRow key={index} index={index} onClickCapture={onClickCapture}>
                 <TableData>
@@ -142,7 +147,17 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
                 modalProps.open &&
                 <Modal open={modalProps.open} title={modalProps.title}
                        onClose={() => setModalProps({...modalProps, open: false})}>
-                    <PropertyTable schema={modalProps.content} components={components}/>
+                    <div>
+                        <PropertyTable schema={modalProps.content} components={components}/>
+                        {
+                            schema.example &&
+                            <SyntaxHighlighter language="json" style={monokai} customStyle={{background: 0}}>
+                                {
+                                    JSON.stringify(schema.example, null, 2)
+                                }
+                            </SyntaxHighlighter>
+                        }
+                    </div>
                 </Modal>
             }
             <Table>

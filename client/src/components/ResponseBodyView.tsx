@@ -9,6 +9,8 @@ import BodyView from "./lib/BodyView";
 import Tabs, {Tab} from "./lib/tabs/Tabs";
 import StatusHelper from "../util/StatusHelper";
 import PropertyTableContainer from "../containers/PropertyTableContainer";
+import SectionHeader from "./lib/SectionHeader";
+import SchemaUtils from "../util/SchemaUtils";
 
 interface Props {
     responseBody?: OpenAPIV3.ResponsesObject,
@@ -45,12 +47,26 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
 
         // Todo: Accept multiple format types (responseType)
         return Object.entries(statusContent).map(([responseType, mediaType]) => {
-            const schema = mediaType.schema as OpenAPIV3.SchemaObject;
+            const schema = SchemaUtils.getSchema(mediaType.schema);
 
             return (
                 <ExpandableContent open={open} key={responseType}>
                     {statusDescription}
+                    {schema.properties && <SectionHeader>Properties</SectionHeader>}
                     <PropertyTableContainer schema={schema}/>
+                    {
+                        mediaType.example &&
+                        <div>
+                            <SectionHeader>Example</SectionHeader>
+                            <SyntaxHighlighter language="json" style={monokai}
+                                               customStyle={{background: 0, width: "100%", overflowX: "hidden"}}
+                                               wrapLines={true}>
+                                {
+                                    JSON.stringify(mediaType.example, null, 2)
+                                }
+                            </SyntaxHighlighter>
+                        </div>
+                    }
                 </ExpandableContent>
             );
         });
