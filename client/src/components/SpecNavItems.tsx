@@ -34,6 +34,8 @@ interface Functions {
  * @constructor
  */
 const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollTo}) => {
+    // Only used for styling which nav menu item has been selected
+    const [activeMenuItem, setActiveMenuItem] = useState<string>("");
     const [homeOpen, setHomeOpen] = useState(true);
     const [resourcesOpen, setResourcesOpen] = useState(true);
     const [objectsOpen, setObjectsOpen] = useState(false);
@@ -44,18 +46,23 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollT
         setObjectsOpen(false);
     }, [apiDoc]);
 
+    const setNav = (navPath: string) => {
+        setActiveMenuItem(navPath);
+        scrollTo(navPath);
+    }
+
     const resources = apiDoc?.paths && ResourceFormatter.getPaths(apiDoc?.paths).map(path =>
-        <SidebarMenuItem onClick={() => scrollTo(path)} key={path}>
+        <SidebarMenuItem onClick={() => setNav(path)} key={path}>
             <span>&#8226;</span>
-            <SidebarMenuItemLabel>{path}</SidebarMenuItemLabel>
+            <SidebarMenuItemLabel active={activeMenuItem === path}>{path}</SidebarMenuItemLabel>
         </SidebarMenuItem>
     );
 
     const objectSchemas = apiDoc?.components?.schemas
         && Object.entries(apiDoc?.components?.schemas).map(([key]) => (
-            <SidebarMenuItem onClick={() => scrollTo(key)} key={key}>
+            <SidebarMenuItem onClick={() => setNav(key)} key={key}>
                 <span>&#8226;</span>
-                <SidebarMenuItemLabel>{key}</SidebarMenuItemLabel>
+                <SidebarMenuItemLabel active={activeMenuItem === key}>{key}</SidebarMenuItemLabel>
             </SidebarMenuItem>
         ));
 
@@ -64,12 +71,12 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollT
         setResourcesOpen(false);
         setObjectsOpen(false);
 
-        scrollTo("home");
+        setNav("home");
     }
 
     const resourcesSectionClicked = () => {
         if (!resourcesOpen) {
-            scrollTo("resources");
+            setNav("resources");
             setObjectsOpen(false);
         }
         setResourcesOpen(!resourcesOpen);
@@ -77,7 +84,7 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollT
 
     const objectSectionClicked = () => {
         if (!objectsOpen) {
-            scrollTo("objects");
+            setNav("objects");
             setResourcesOpen(false);
         }
         setObjectsOpen(!objectsOpen);
@@ -91,15 +98,16 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollT
         return <Spinner/>;
     }
 
+    const title = apiDoc.info.title;
     return (
         <NavItemsContainer>
             <SidebarMenuItem onClick={homeSectionClick}>
                 <Chevron open={homeOpen}/>
-                <SidebarMenuItemLabel>{apiDoc.info.title}</SidebarMenuItemLabel>
+                <SidebarMenuItemLabel>{title ? title : 'Home'}</SidebarMenuItemLabel>
             </SidebarMenuItem>
             <SidebarMenuItem onClick={resourcesSectionClicked}>
                 <Chevron open={resourcesOpen}/>
-                <SidebarMenuItemLabel>Resources</SidebarMenuItemLabel>
+                <SidebarMenuItemLabel active={activeMenuItem === "resources"}>Resources</SidebarMenuItemLabel>
             </SidebarMenuItem>
             <ExpandableContent open={resourcesOpen}>
                 {
@@ -109,7 +117,7 @@ const SpecNavItems: React.FC<Props & Functions> = ({apiDoc, specLoading, scrollT
 
             <SidebarMenuItem onClick={objectSectionClicked}>
                 <Chevron open={objectsOpen}/>
-                <SidebarMenuItemLabel>Objects</SidebarMenuItemLabel>
+                <SidebarMenuItemLabel active={activeMenuItem === "objects"}>Objects</SidebarMenuItemLabel>
             </SidebarMenuItem>
             <ExpandableContent open={objectsOpen}>
                 {

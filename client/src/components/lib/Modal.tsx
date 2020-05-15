@@ -4,6 +4,7 @@ import {fadeIn, fadeOut, popIn, popOut} from "../../styling/anims";
 import HeaderText from "./HeaderText";
 import * as Icons from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {scrollbarStyling} from "../../styling/global";
 
 const MODAL_CLOSE_TIMEOUT_MILLIS = 300;
 
@@ -58,11 +59,12 @@ const HeaderContainer = styled.div<{contentExists: boolean}>`
 const ModalContent = styled.div`
   overflow-y: auto;
   max-height: 35em;
-  scrollbar-color: ${props => props.theme.colors.secondary} ${props => props.theme.colors.sidebarColor};
-  
+
   @media (max-width: 1126px) {
       height: 95vh;
   }
+  
+  ${scrollbarStyling}
 `;
 
 const IconButton = styled(FontAwesomeIcon)`

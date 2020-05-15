@@ -1,6 +1,13 @@
 import styled, {css} from "styled-components";
 
-export const SidebarMenuItemLabel = styled.p`
+const activeStyle = css`
+  color: #ffffff;
+  cursor: pointer;
+  background:  ${props => props.theme.colors.sidebarHighlight};
+  box-shadow: inset 3px 0 0 0 ${props => props.theme.colors.active};;
+`
+
+export const SidebarMenuItemLabel = styled.p<{ active?: boolean }>`
     font-family: "Roboto", sans-serif;
     font-size: 14px;
     line-height: 1.3;
@@ -9,17 +16,15 @@ export const SidebarMenuItemLabel = styled.p`
     margin-left: 20px;
     margin-right: 20px;
     
+    ${props => props.active && css`
+      color: #FFF;
+      text-decoration: underline;
+    `};
+    
     @media (max-width: 1126px) {
       display: none;
     }
 `;
-
-const activeStyle = css`
-  color: #ffffff;
-  cursor: pointer;
-  background:  ${props => props.theme.colors.sidebarHighlight};
-  box-shadow: inset 3px 0 0 0 ${props => props.theme.colors.active};;
-`
 
 const SidebarMenuItem = styled.li<{ selected?: boolean }>`
     display: flex;

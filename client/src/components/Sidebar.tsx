@@ -6,6 +6,7 @@ import {Link, useLocation} from "react-router-dom";
 import {delayedWiggle, fadeInTopCss} from "../styling/anims";
 import SidebarMenuItem, {SidebarMenuItemLabel} from "./lib/SidebarMenuItem";
 import SpecNavContainer from "../containers/SpecNavContainer";
+import {scrollbarStyling} from "../styling/global";
 
 const SidebarContainer = styled.div`
     display: flex;
@@ -30,7 +31,8 @@ const SidebarMenu = styled.ul`
     // Todo: White box
     overflow-x: hidden;  
     overflow-y: auto;
-    scrollbar-color: ${props => props.theme.colors.secondary} ${props => props.theme.colors.sidebarColor};
+    
+    ${scrollbarStyling}
 `;
 
 const SidebarHeader = styled(Link)`
