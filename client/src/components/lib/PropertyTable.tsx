@@ -83,7 +83,7 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
 
         const description = fieldContent.description;
 
-        if (description) {
+        if (description && !descriptionVisible) {
             setDescriptionVisible(true);
         }
 
@@ -93,6 +93,7 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
         if (components) {
             if (type === "object" || type === "array") {
                 type = RefFinder.find(fieldContent, components);
+                console.log("HELLOOOOOO");
 
                 // Array can have properties outside of items tag, if they aren't linked to a reference.
                 // This method gets whatever is supplied be in under schema.properties or schema.items.properties
@@ -117,6 +118,8 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
                 title: type
             })
         };
+
+        console.log("NOW TO RENDER");
 
         return (
             <TableRow key={index} index={index} onClickCapture={onClickCapture}>
