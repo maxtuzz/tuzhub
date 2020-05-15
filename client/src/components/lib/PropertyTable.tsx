@@ -105,7 +105,12 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
             }
         }
 
+        if (fieldContent.format) {
+            type += ` (${fieldContent.format})`;
+        }
+
         const onClickCapture = () => {
+            console.log(JSON.stringify(fieldContent));
             setModalProps({
                 content: fieldContent,
                 open: true,
