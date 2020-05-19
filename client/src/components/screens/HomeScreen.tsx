@@ -7,10 +7,12 @@ import HeaderText from "../lib/HeaderText";
 const HomeScreen: React.FC = () => (
     <ScreenArea>
         <PageTitle>
-            Introduction
+            Tuzhub
         </PageTitle>
-
         <Words>
+            Welcome to the Tuzzy API Hub demo environment. This is a sandbox environment for the current latest
+            build
+            of the hub.
             Gun six pounders fire in the hole barque no prey, no pay clipper transom port barkadeer yard. Rigging
             dead
             men tell no tales long boat run a shot across the bow sutler hearties boatswain gaff snow tackle.
