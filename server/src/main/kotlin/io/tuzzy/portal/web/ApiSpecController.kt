@@ -4,7 +4,7 @@ import io.dinject.controller.*
 import io.javalin.http.Context
 import io.tuzzy.portal.api.ApiSpec
 import io.tuzzy.portal.api.HalBuilder
-import io.tuzzy.portal.api.HalResource
+import io.tuzzy.portal.api.LinkResource
 import io.tuzzy.portal.api.Links
 import io.tuzzy.portal.service.ApiSpecService
 
@@ -16,13 +16,12 @@ class ApiSpecController(private val specService: ApiSpecService) {
      * Returns collection of hateoas links resolving to all available specs for an api entry
      */
     @Get
-    fun getMeta(apiName: String, ctx: Context): HalResource {
+    fun getMeta(apiName: String, ctx: Context): LinkResource {
         val links = Links()
         val specVersion = "active"
 
         // Create hal link builder with self path and active spec defined
         val linkBuilder = HalBuilder(ctx)
-            .toContextPath("self")
             .toSpec(
                 propertyName = specVersion,
                 apiName = apiName,
@@ -36,7 +35,7 @@ class ApiSpecController(private val specService: ApiSpecService) {
 
         links.addAll(linkBuilder.build())
 
-        return HalResource(links)
+        return LinkResource(links).withHal(ctx)
     }
 
 

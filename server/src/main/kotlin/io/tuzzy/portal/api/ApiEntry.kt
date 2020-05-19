@@ -5,7 +5,7 @@ import io.javalin.http.Context
 import io.tuzzy.portal.util.NameFormatter
 
 data class ApiEntry(val displayName: String, val description: String?, var dynamicConf: Boolean = true) :
-    HalResource() {
+    HalResource<ApiEntry>() {
     // SpecUrl only used for initial creation request
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     var specUrl: String? = null
@@ -20,7 +20,7 @@ data class ApiEntry(val displayName: String, val description: String?, var dynam
         this.specUrl = specUrl
     }
 
-    fun withHal(ctx: Context): ApiEntry {
+    override fun withHal(ctx: Context): ApiEntry {
         links.addAll {
             HalBuilder(ctx)
                 .toApiEntry("self", apiName = name)

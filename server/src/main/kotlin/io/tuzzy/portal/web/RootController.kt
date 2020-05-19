@@ -5,7 +5,7 @@ import io.dinject.controller.Get
 import io.dinject.controller.Path
 import io.javalin.http.Context
 import io.tuzzy.portal.api.HalBuilder
-import io.tuzzy.portal.api.HalResource
+import io.tuzzy.portal.api.LinkResource
 import io.tuzzy.portal.api.Links
 
 @Controller
@@ -15,18 +15,15 @@ class RootController {
      * Get meta.
      */
     @Get
-    fun getMeta(ctx: Context): HalResource {
+    fun getMeta(ctx: Context): LinkResource {
         val links = Links()
 
         links.addAll {
             HalBuilder(ctx)
-                .toContextPath("self")
                 .toApiEntryBase()
                 .build()
         }
 
-        return HalResource(
-            links = links
-        )
+        return LinkResource(links)
     }
 }

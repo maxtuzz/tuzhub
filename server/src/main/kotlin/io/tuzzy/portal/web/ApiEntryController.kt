@@ -3,8 +3,6 @@ package io.tuzzy.portal.web
 import io.dinject.controller.*
 import io.javalin.http.Context
 import io.tuzzy.portal.api.ApiEntry
-import io.tuzzy.portal.api.HalLink
-import io.tuzzy.portal.api.Links
 import io.tuzzy.portal.api.ListResponse
 import io.tuzzy.portal.service.ApiEntryService
 
@@ -29,14 +27,7 @@ class ApiEntryController(private val apiEntryService: ApiEntryService) {
      */
     @Get
     fun getAll(ctx: Context): ListResponse<ApiEntry> {
-        val apiEntries = apiEntryService.getApiEntries(ctx)
-
-        val self = HalLink(ctx.fullUrl())
-
-        return ListResponse(
-            content = apiEntries,
-            links = Links(self)
-        )
+        return ListResponse(apiEntryService.getApiEntries(ctx))
     }
 
     /**

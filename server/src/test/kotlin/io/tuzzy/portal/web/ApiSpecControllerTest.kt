@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.tuzzy.portal.ResourceHelp
 import io.tuzzy.portal.ResourceHelp.Companion.read
 import io.tuzzy.portal.api.ApiSpec
-import io.tuzzy.portal.api.HalResource
+import io.tuzzy.portal.api.LinkResource
 import io.tuzzy.portal.domain.SpecStatus
 import kong.unirest.GenericType
 import kong.unirest.Unirest
@@ -23,21 +23,21 @@ class ApiSpecControllerTest : WebTest() {
     fun `GET hateoas spec discovery`() {
         postApiSpec()
 
-        val halResource: HalResource = getSpecMeta(apiName)
+        val halResource: LinkResource = getSpecMeta(apiName)
 
         val flattenLinks = halResource.links.flattenLinks()
 
         assertThat(flattenLinks["self"]).isNull() // fixme
     }
 
-    private fun getSpecMeta(apiName: String): HalResource {
+    private fun getSpecMeta(apiName: String): LinkResource {
         val reqUrl = "$baseUrl/api-entries/${apiName}/specs"
 
         println("Doing GET to $reqUrl")
 
         return Unirest.get(reqUrl)
             .header("Content-Type", "application/json")
-            .asObject(object : GenericType<HalResource>() {})
+            .asObject(object : GenericType<LinkResource>() {})
             .body
     }
 

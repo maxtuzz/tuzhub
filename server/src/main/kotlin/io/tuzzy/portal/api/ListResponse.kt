@@ -1,9 +1,14 @@
 package io.tuzzy.portal.api
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import io.javalin.http.Context
 
-class ListResponse<T>(val content: List<T>) : HalResource() {
-    constructor(content: List<T>, @JsonProperty("_links") links: Links) : this(content) {
-        this.links = links
+class ListResponse<T>(val content: List<T>) : HalResource<ListResponse<T>>() {
+    override fun withHal(ctx: Context): ListResponse<T> {
+        links.addAll {
+            HalBuilder(ctx).toContextPath("self")
+                .build()
+        }
+
+        return this
     }
 }
