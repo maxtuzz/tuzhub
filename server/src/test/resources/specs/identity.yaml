@@ -2,7 +2,11 @@ openapi: 3.0.0
 info:
   version: 2.1.0
   title: Identity API V2
-  description: Access to identity information from University LDAP AD and EPR
+  description: |
+    ## Header 2
+    ```
+    asdasd
+    ```
 tags:
   - name: Identity
     description: Identity API endpoints

@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
 import ApiEntry from "../model/ApiEntry";
 import PageTitle from "./lib/PageTitle";
-import Words from "./lib/Words";
 import styled from "styled-components";
 import {fadeInBottomCss} from "../styling/anims";
 import LoadingSpinner from "./LoaderSpinner";
+import Markdown from "./lib/Markdown";
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -66,7 +66,9 @@ const ApiInfo: React.FC<ApiInfoProps> = ({apiEntry, loadApi, specVersion, specDe
                     </VersionTagContainer>
                 }
             </HeaderContainer>
-            <Words>{apiEntry?.description}</Words>
+            {
+                specDescription && <Markdown source={specDescription}/>
+            }
         </div>
     );
 };
