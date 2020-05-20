@@ -79,7 +79,14 @@ interface Functions {
     navTo: (resourcePath: string) => any
 }
 
-
+/**
+ * Resource path component. Renders a resource button ala. GET /petsore. That can be expanded to view details
+ * @param endpoint
+ * @param verb
+ * @param pathItem
+ * @param navTo
+ * @constructor
+ */
 const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, navTo}) => {
     const [opened, setOpened] = useState(false);
 

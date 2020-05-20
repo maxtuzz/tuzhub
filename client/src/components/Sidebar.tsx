@@ -83,13 +83,13 @@ const StyledLink = styled(Link)<{ width?: string, height?: string }>`
     text-decoration: none;
     height: ${props => props.height ? props.height : "40px"};
     width: ${props => props.width ? props.width : "100%"};
+    
+    ${fadeInTopCss}
 `;
 
 const LinkApiMenuItem = styled(SidebarMenuItem)`
   padding-left: 1rem;
-  
-  ${fadeInTopCss}
-  
+ 
   &:hover {
     cursor: pointer;
     color: #FFFF;

@@ -1,7 +1,7 @@
 import React, {ReactType} from "react";
 import ReactMarkdown from "react-markdown/with-html";
 import Words from "./Words";
-import listItem from "./ListItem";
+import ListItem from "./ListItem";
 
 interface Renderers {
     [p: string]: ReactType
@@ -19,14 +19,10 @@ interface Props {
 const Markdown: React.FC<Props> = ({source}) => {
     const renderers: Renderers = {
         "paragraph": Words,
-        "listItem": listItem
+        "listItem": ListItem
     };
 
-    return (
-        <div>
-            <ReactMarkdown renderers={renderers} source={source}/>
-        </div>
-    );
+    return <ReactMarkdown renderers={renderers} source={source}/>;
 };
 
 export default Markdown;
