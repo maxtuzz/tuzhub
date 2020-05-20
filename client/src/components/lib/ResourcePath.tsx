@@ -2,10 +2,10 @@ import SubHeaderText from "./SubHeaderText";
 import React, {useState} from "react";
 import styled, {css} from "styled-components";
 import {OpenAPIV3} from "openapi-types";
-import Words from "./Words";
 import ExpandableContent from "./ExpandableContent";
 import RequestBodyView from "../RequestBodyView";
 import ResponseBodyView from "../ResponseBodyView";
+import Markdown from "./Markdown";
 
 const AccordionContainer = styled.div`
   margin-bottom: 10px;
@@ -123,7 +123,7 @@ const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, na
                     description &&
                     <div>
                         <DescriptionHeader>Description</DescriptionHeader>
-                        <Words>{getOperation()?.description}</Words>
+                        <Markdown source={description}/>
                     </div>
                 }
 

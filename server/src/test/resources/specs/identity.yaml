@@ -3,9 +3,14 @@ info:
   version: 2.1.0
   title: Identity API V2
   description: |
-    ## Header 2
-    ```
-    asdasd
+    ## The Official University of Auckland Identity API
+    You can use this API to query information about individuals registered with the University database.
+    Not all properties are available publically and their visibility is determined by the given scopes within your access token.
+
+    ### Calling an API
+    * Via command-line:
+    ```sh
+    $ curl https://api.auckland.ac.nz/identity/v2/
     ```
 tags:
   - name: Identity

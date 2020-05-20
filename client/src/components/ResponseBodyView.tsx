@@ -11,6 +11,7 @@ import StatusHelper from "../util/StatusHelper";
 import PropertyTableContainer from "../containers/PropertyTableContainer";
 import SectionHeader from "./lib/SectionHeader";
 import SchemaUtils from "../util/SchemaUtils";
+import Markdown from "./lib/Markdown";
 
 interface Props {
     responseBody?: OpenAPIV3.ResponsesObject,
@@ -27,7 +28,7 @@ const ResponseBodyView: React.FC<Props> = ({responseBody, noTopMargin}) => {
         const statusContent = statusValue.content;
 
         const statusDescription = statusValue.description
-            ? <Words>{statusValue.description}</Words>
+            ? <Markdown source={statusValue.description}/>
             : <Words>{StatusHelper.getDescription(status)}</Words>;
 
         const style = monokai;
