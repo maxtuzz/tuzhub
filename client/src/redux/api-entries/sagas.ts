@@ -10,6 +10,7 @@ import {resetSpecPage} from "./api-specs/actions";
 import {pushNotification} from "../notifications/actions";
 import {push} from "connected-react-router";
 import Env from "../../services/Env";
+import ApiEntryUtils from "../../util/ApiEntryUtils";
 
 function* getApiList() {
     const apis: ApiEntry[] = yield select((state: AppState) => state.apiEntriesReducer.apiEntries);
@@ -39,20 +40,26 @@ function* fetchApis() {
 }
 
 function* loadApi(action: LoadApiAction) {
+    console.log("called");
     let apiList: ApiEntry[] = yield call(getApiList);
+
+    console.log("called1");
     let apiEntry = apiList.find((e: ApiEntry) => e.name === action.apiName);
+    console.log("called2");
 
     // If api doesn't exist in state, fetch it
     if (!apiEntry) {
-        apiEntry = yield call(HalApi.get, `${Env.getBaseApiUrl()}/${action.apiName}`);
-    }
+        const fetchedEntry = yield call(HalApi.get, `${Env.getBaseApiUrl()}/${action.apiName}`);
 
-    if (!apiEntry) {
-        const alert = new Notification(NotificationType.ERROR, "An API with that name cannot be found. Performing search ...");
-        yield put(pushNotification(alert));
-        yield put(push(`/apis?search=${action.apiName}`));
+        if (!ApiEntryUtils.isApiEntry(fetchedEntry)) {
+            const alert = new Notification(NotificationType.ERROR, "An API with that name cannot be found. Performing search ...");
+            yield put(pushNotification(alert));
+            yield put(push(`/apis?search=${action.apiName}`));
 
-        return;
+            return;
+        }
+
+        apiEntry = fetchedEntry;
     }
 
     yield put(setViewableApi(apiEntry))

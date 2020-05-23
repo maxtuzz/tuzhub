@@ -76,6 +76,7 @@ function* createApiEntry(action: NewApiSubmitAction) {
         .replace(" ", "-")
         .toLowerCase();
 
+    // Navigate to page
     yield put(push(`/apis/${name}`))
     yield put(pushNotification(new Notification(NotifyType.INFO, `API "${name}" created successfully ...`)))
 

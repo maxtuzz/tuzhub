@@ -111,8 +111,6 @@ const Modal: React.FC<Props> = ({children, open, title, onClose}) => {
         }
     };
 
-    console.log(children);
-
     return (
         <ModalContainer out={!showModal}>
             <ModalWindow out={!showModal}>
