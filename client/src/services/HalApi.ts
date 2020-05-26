@@ -10,8 +10,7 @@ export const HalApi = {
         return fetch(Env.getBaseApiUrl(), {
             method: 'GET',
         })
-            .then(resp => resp.json())
-            .catch(error => error);
+            .then(resp => resp.json());
     },
     get(url: string): Promise<Response> {
         return fetch(url, {

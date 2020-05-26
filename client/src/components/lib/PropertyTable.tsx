@@ -1,49 +1,11 @@
 import React, {useState} from "react";
 import {OpenAPIV3} from "openapi-types";
-import styled, {css} from "styled-components";
 import RefFinder from "../../util/RefFinder";
 import Modal from "./Modal";
 import SchemaUtils from "../../util/SchemaUtils";
 import {monokai} from "react-syntax-highlighter/dist/esm/styles/hljs";
 import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
-
-const Table = styled.table`
-  background: black;
-  text-align: left;
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 5px;
-  overflow: hidden;
-`;
-
-const TableRow = styled.tr<{ header?: boolean, index: number }>`
-   background-color: ${props => props.theme.colors.sidebarColor};
-     
-   &:hover {
-    background-color: rgba(81,174,192,0.72);
-    cursor: pointer;
-   }
-  
-  ${props => props.index % 2 !== 0 && css`
-   background-color: ${props.theme.colors.sidebarColor};
-  `}
-   
-  ${props => props.header && css`
-    background-color: #202225;
-      &:hover {
-        background-color: #202225;
-      }
-  `}
-`;
-
-const TableData = styled.td`
-  padding: 0.7em;
-   border: none;
-`;
-
-const TableHeader = styled.th`
-  padding: 0.7em;
-`;
+import Table, {TableData, TableHeader, TableRow} from "./Table";
 
 interface Props {
     schema?: OpenAPIV3.SchemaObject
@@ -126,7 +88,7 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
         };
 
         return (
-            <TableRow key={index} index={index} onClickCapture={onClickCapture}>
+            <TableRow key={index} onClickCapture={onClickCapture} clickable>
                 <TableData>
                     {fieldName}
                 </TableData>
@@ -161,7 +123,7 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
             }
             <Table>
                 <tbody>
-                <TableRow header index={0}>
+                <TableRow header>
                     <TableHeader>Field</TableHeader>
                     <TableHeader>Type</TableHeader>
                     {

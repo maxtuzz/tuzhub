@@ -31,7 +31,7 @@ function* fetchApis() {
 
         yield put(setApiEntries(content));
     } catch (e) {
-        const alert = new Notification(NotificationType.ERROR, "There was an error connecting to the Tuzzy backend, unable to retrieve APIs");
+        const alert = new Notification(NotificationType.ERROR, "There was an issue communicating with server");
         yield put(pushNotification(alert));
     }
 
@@ -39,12 +39,8 @@ function* fetchApis() {
 }
 
 function* loadApi(action: LoadApiAction) {
-    console.log("called");
     let apiList: ApiEntry[] = yield call(getApiList);
-
-    console.log("called1");
     let apiEntry = apiList.find((e: ApiEntry) => e.name === action.apiName);
-    console.log("called2");
 
     // If api doesn't exist in state, fetch it
     if (!apiEntry) {

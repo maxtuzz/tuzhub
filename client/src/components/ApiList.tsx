@@ -78,7 +78,7 @@ const ApiList: React.FC<ApiListProps> = ({apiEntries, isLoading, getApis, resetS
 
     return (
         <Container>
-            {(apiEntries.length > 1 && !isLoading) &&
+            {!isLoading &&
             <SearchBar defaultText={searchQuery != null ? searchQuery : undefined} onChange={searchInputChanged}
                        autofocus/>}
             {
