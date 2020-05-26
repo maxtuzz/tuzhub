@@ -10,7 +10,6 @@ import {resetSpecPage} from "./api-specs/actions";
 import {pushNotification} from "../notifications/actions";
 import {push} from "connected-react-router";
 import Env from "../../services/Env";
-import ApiEntryUtils from "../../util/ApiEntryUtils";
 
 function* getApiList() {
     const apis: ApiEntry[] = yield select((state: AppState) => state.apiEntriesReducer.apiEntries);
@@ -49,17 +48,15 @@ function* loadApi(action: LoadApiAction) {
 
     // If api doesn't exist in state, fetch it
     if (!apiEntry) {
-        const fetchedEntry = yield call(HalApi.get, `${Env.getBaseApiUrl()}/${action.apiName}`);
-
-        if (!ApiEntryUtils.isApiEntry(fetchedEntry)) {
+        try {
+            apiEntry = yield call(HalApi.get, `${Env.getBaseApiUrl()}/${action.apiName}`);
+        } catch (e) {
             const alert = new Notification(NotificationType.ERROR, "An API with that name cannot be found. Performing search ...");
             yield put(pushNotification(alert));
             yield put(push(`/apis?search=${action.apiName}`));
 
             return;
         }
-
-        apiEntry = fetchedEntry;
     }
 
     yield put(setViewableApi(apiEntry))

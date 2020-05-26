@@ -16,17 +16,15 @@ class SchemaUtils {
             throw TypeError("Cannot get array schema of non array schema type");
         }
 
-        if (arraySchema.items) {
-            if (SchemaUtils.isSchema(arraySchema.items)) {
-                return arraySchema.items;
-            }
+        if (arraySchema.items && SchemaUtils.isSchema(arraySchema.items)) {
+            return arraySchema.items;
         }
 
-        if (arraySchema.properties) {
-            if (SchemaUtils.isSchema(arraySchema)) {
-                return arraySchema;
-            }
+        if (arraySchema.properties && SchemaUtils.isSchema(arraySchema)) {
+            return arraySchema;
         }
+
+        return undefined;
     }
 
     static getSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject | undefined) {
@@ -55,11 +53,11 @@ class SchemaUtils {
     }
 
     static isSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject | undefined): schema is OpenAPIV3.SchemaObject {
-        return !!(schema as OpenAPIV3.SchemaObject).type;
+        return !!(schema as OpenAPIV3.SchemaObject);
     }
 
     static isArray(schema: OpenAPIV3.SchemaObject): schema is OpenAPIV3.ArraySchemaObject {
-        return !!(schema as OpenAPIV3.ArraySchemaObject).type;
+        return !!(schema as OpenAPIV3.ArraySchemaObject);
     }
 }
 

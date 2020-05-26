@@ -46,6 +46,14 @@ interface Functions {
 
 type ApiInfoProps = Props & Functions;
 
+/**
+ * Renders API information including markdown description
+ * @param apiEntry
+ * @param loadApi
+ * @param specVersion
+ * @param specDescription
+ * @constructor
+ */
 const ApiInfo: React.FC<ApiInfoProps> = ({apiEntry, loadApi, specVersion, specDescription}) => {
     useEffect(() => {
         loadApi();
