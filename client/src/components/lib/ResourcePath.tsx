@@ -118,9 +118,11 @@ const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, na
 
     const description = operation.description;
 
+
     const onClick = () => {
-        navTo(endpoint);
         setOpened(!opened);
+        // Set timeout throws operation to end of callstack. Use a promise instead
+        setTimeout(() => navTo(endpoint), 0);
     };
 
     return (
@@ -137,7 +139,7 @@ const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, na
                 {
                     description &&
                     <div>
-                        <h4>Description</h4>
+                        <DescriptionHeader>Description</DescriptionHeader>
                         <Markdown source={description}/>
                     </div>
                 }
@@ -145,7 +147,7 @@ const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, na
                 {
                     operation.parameters &&
                     <div>
-                        <DescriptionHeader>Field Parameters</DescriptionHeader>
+                        <h4>Field Parameters</h4>
                         <FieldTable parameters={operation.parameters}/>
                     </div>
                 }
