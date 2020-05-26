@@ -11,7 +11,7 @@ const initialState: IApiFormState = {
 export default function (state: IApiFormState = initialState, action: TApiFormActions) {
     if (action.type === ApiFormActions.API_SUBMIT_LOADING) {
         return {...state, isSubmitting: action.isSubmitting};
-    } else {
-        return state;
     }
-};
+
+    return state;
+}

@@ -3,6 +3,8 @@ import {OpenAPIV3} from "openapi-types";
 /**
  * Common functions for handling OpenAPI schema processing
  */
+const typeErrorMessage = "The supplied parameter is not of type schema";
+
 class SchemaUtils {
     /**
      * An array type can either have it's own properties, or be resolved by a ref
@@ -29,7 +31,7 @@ class SchemaUtils {
 
     static getSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject | undefined) {
         if (!SchemaUtils.isSchema(schema)) {
-            throw TypeError("The supplied parameter is not of type schema ")
+            throw TypeError(typeErrorMessage)
         }
 
         return schema;
@@ -41,7 +43,7 @@ class SchemaUtils {
         }
 
         if (!SchemaUtils.isSchema(schema)) {
-            throw TypeError("The supplied parameter is not of type schema ")
+            throw TypeError(typeErrorMessage)
         }
 
         const props = schema.properties;
@@ -50,6 +52,22 @@ class SchemaUtils {
         }
 
         return Object.entries(props).filter(([, value]) => SchemaUtils.isSchema(value));
+    }
+
+    /**
+     * Returns field if it is correctly derefrenced, otherwise throws a type error
+     * @param field
+     */
+    static getFieldProps(field: OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject): OpenAPIV3.ParameterObject {
+        if (!SchemaUtils.isParameterObject(field)) {
+            throw TypeError("Value has not been correctly dereferenced")
+        }
+
+        return field;
+    }
+
+    static isParameterObject(paramObject: OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject): paramObject is OpenAPIV3.ParameterObject {
+        return !!(paramObject as OpenAPIV3.ParameterObject)
     }
 
     static isSchema(schema: OpenAPIV3.ReferenceObject | OpenAPIV3.SchemaObject | undefined): schema is OpenAPIV3.SchemaObject {

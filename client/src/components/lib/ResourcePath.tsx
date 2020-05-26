@@ -6,6 +6,8 @@ import ExpandableContent from "./ExpandableContent";
 import RequestBodyView from "../RequestBodyView";
 import ResponseBodyView from "../ResponseBodyView";
 import Markdown from "./Markdown";
+import Words from "./Words";
+import FieldTable from "./FieldTable";
 
 const AccordionContainer = styled.div`
   margin-bottom: 10px;
@@ -28,7 +30,7 @@ const PathAccordionHeader = styled.div<{ open: boolean }>`
 
 const ExpandableResourceContent = styled(ExpandableContent)<{ open: boolean }>`
   border-radius: 0 0 5px 5px;
-  background-color:  ${props => props.theme.colors.main};
+  background-color: ${props => props.theme.colors.main};
   padding: ${props => (props.open ? "15px 15px" : "0 15px")};
 `;
 
@@ -105,10 +107,16 @@ const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, na
         }
     };
 
-    const requestBody = getOperation()?.requestBody as OpenAPIV3.RequestBodyObject | undefined;
-    const responseBody = getOperation()?.responses;
+    const operation = getOperation();
 
-    const description = getOperation()?.description;
+    if (!operation) {
+        return <Words>Error in swagger spec</Words>;
+    }
+
+    const requestBody = operation.requestBody as OpenAPIV3.RequestBodyObject | undefined;
+    const responseBody = operation.responses;
+
+    const description = operation.description;
 
     const onClick = () => {
         navTo(endpoint);
@@ -118,7 +126,7 @@ const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, na
     return (
         <AccordionContainer>
             <PathAccordionHeader open={opened} onClick={onClick}>
-                <SubHeaderText>{getOperation()?.summary}</SubHeaderText>
+                <SubHeaderText>{operation.summary}</SubHeaderText>
                 <PathTextContainer>
                     <VerbLabel verb={verb}>{verb}</VerbLabel>
                     <PathLabel>{endpoint}</PathLabel>
@@ -129,8 +137,16 @@ const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, na
                 {
                     description &&
                     <div>
-                        <DescriptionHeader>Description</DescriptionHeader>
+                        <h4>Description</h4>
                         <Markdown source={description}/>
+                    </div>
+                }
+
+                {
+                    operation.parameters &&
+                    <div>
+                        <DescriptionHeader>Field Parameters</DescriptionHeader>
+                        <FieldTable parameters={operation.parameters}/>
                     </div>
                 }
 
