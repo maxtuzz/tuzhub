@@ -21,7 +21,7 @@ const AccordionHeaderContainer = styled.div<{ noTopMargin?: boolean, open: boole
 
 const AccordionHeaderStyled = styled.h4`
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 10px;
 `;
 
 interface Props {

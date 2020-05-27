@@ -45,10 +45,8 @@ const PropertyTable: React.FC<Props> = ({schema, components}) => {
         let fieldName = key;
         let fieldContent = SchemaUtils.getSchema(contents);
 
-        if (schema.required) {
-            if (schema.required.includes(fieldName)) {
-                fieldName += "?";
-            }
+        if (schema.required && schema.required.includes(fieldName)) {
+            fieldName += "?";
         }
 
         const description = fieldContent.description;

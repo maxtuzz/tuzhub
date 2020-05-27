@@ -7,7 +7,7 @@ import RequestBodyView from "../RequestBodyView";
 import ResponseBodyView from "../ResponseBodyView";
 import Markdown from "./Markdown";
 import Words from "./Words";
-import FieldTable from "./FieldTable";
+import FieldView from "../FieldView";
 
 const AccordionContainer = styled.div`
   margin-bottom: 10px;
@@ -146,20 +146,18 @@ const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, na
 
                 {
                     operation.parameters &&
-                    <div>
-                        <h4>Field Parameters</h4>
-                        <FieldTable parameters={operation.parameters}/>
-                    </div>
+                    <FieldView parameters={operation.parameters} noTopMargin={!description}/>
                 }
 
                 {
                     requestBody &&
-                    <RequestBodyView requestBody={requestBody} noTopMargin={!description}/>
+                    <RequestBodyView requestBody={requestBody} noTopMargin={!description && !operation.parameters}/>
                 }
 
                 {
                     responseBody &&
-                    <ResponseBodyView responseBody={responseBody} noTopMargin={!description && !requestBody}/>
+                    <ResponseBodyView responseBody={responseBody}
+                                      noTopMargin={!description && !requestBody && !operation.parameters}/>
                 }
             </ExpandableResourceContent>
         </AccordionContainer>
