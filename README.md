@@ -1,9 +1,3 @@
-
-![alt text](https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/client/src/assets/images/logo_transparent.png)
-
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=maxtuzz_tuzzy-dev-portal&metric=alert_status)](https://sonarcloud.io/dashboard?id=maxtuzz_tuzzy-dev-portal)
-[![Build Status](https://dev.azure.com/maxtuzzolino/maxtuzzolino/_apis/build/status/maxtuzz.tuzzy-dev-portal?branchName=master)](https://dev.azure.com/maxtuzzolino/maxtuzzolino/_build/latest?definitionId=1&branchName=master)
-
 Tuzzy is a lightweight, cloud native developer portal being created that takes an opinionated approach to serving API documentation. 
 
 
