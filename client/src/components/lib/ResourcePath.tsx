@@ -1,5 +1,5 @@
 import SubHeaderText from "./SubHeaderText";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import styled, {css} from "styled-components";
 import {OpenAPIV3} from "openapi-types";
 import ExpandableContent from "./ExpandableContent";
@@ -92,11 +92,6 @@ interface Functions {
 const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, navTo}) => {
     const [opened, setOpened] = useState(false);
 
-    // After opened has changed, scroll screen to endpoint
-    useEffect(() => {
-        navTo(endpoint)
-    }, [opened]);
-
     const getOperation: () => (OpenAPIV3.OperationObject | undefined) = () => {
         switch (verb) {
             case "GET":
@@ -115,17 +110,22 @@ const ResourcePath: React.FC<Props & Functions> = ({endpoint, verb, pathItem, na
     const operation = getOperation();
 
     if (!operation) {
-        return <Words>Error in swagger spec</Words>;
+        return <Words>Error viewing OpenAPI</Words>;
     }
 
-    const requestBody = operation.requestBody as OpenAPIV3.RequestBodyObject | undefined;
+    const requestBody = operation.requestBody as OpenAPIV3.RequestBodyObject;
     const responseBody = operation.responses;
-
     const description = operation.description;
+
+    const onClick = () => {
+        setOpened(!opened);
+
+        setTimeout(() => navTo(endpoint), 0)
+    };
 
     return (
         <AccordionContainer>
-            <PathAccordionHeader open={opened} onClick={() => setOpened(!opened)}>
+            <PathAccordionHeader open={opened} onClick={onClick}>
                 <SubHeaderText>{operation.summary}</SubHeaderText>
                 <PathTextContainer>
                     <VerbLabel verb={verb}>{verb}</VerbLabel>
