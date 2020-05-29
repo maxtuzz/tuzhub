@@ -37,7 +37,7 @@ const SchemaList: React.FC<Props> = ({components, navPath}) => {
         return prevRefs;
     }, {});
 
-    // Whenever nav path changes
+    // Whenever nav path changes, scroll to schema in list
     useEffect(() => {
         if (navPath) {
             const ref = refs && refs[navPath];
