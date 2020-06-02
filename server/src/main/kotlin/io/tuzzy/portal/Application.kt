@@ -14,8 +14,7 @@ fun main() {
 }
 
 fun startServer(port: Int): Javalin {
-    return create(SystemContext.getBeans(WebRoutes::class.java))
-        .start(port)
+    return create(SystemContext.getBeans(WebRoutes::class.java)).start(port)
 }
 
 /**

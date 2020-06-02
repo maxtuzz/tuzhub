@@ -2,8 +2,7 @@
   "openapi" : "3.0.1",
   "info" : {
     "title" : "",
-    "version" : "",
-    "description": "[![Build Status](https://dev.azure.com/maxtuzzolino/maxtuzzolino/_apis/build/status/maxtuzz.tuzzy-dev-portal?branchName=master)](https://dev.azure.com/maxtuzzolino/maxtuzzolino/_build/latest?definitionId=1&branchName=master)\n## Description\nTuzzy is a lightweight, cloud native developer portal being created that takes an opinionated approach to serving API documentation. \n\n\n### Building on what's good\nTuzzy uses the incredibly popular specification standard OpenAPI 3 as a bedrock for serving API documentation. This makes it trivial to plug it in and start serving your existing Swagger specs!\n\nYou can inject an existing spec directly into Tuzzy, or let Tuzzy take care of it for you if your spec is available remotely. Tuzzy will make sure the specification is kept up to date, versioned, and available to all users.\n\nMultiple specs can be linked, and APIs can be consolidated through a centralised, easy to use interface."
+    "version" : ""
   },
   "paths" : {
     "/" : {
@@ -16,7 +15,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/HalResource"
+                  "$ref" : "#/components/schemas/LinkResource"
                 }
               }
             }
@@ -79,7 +78,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/HalResource"
+                  "$ref" : "#/components/schemas/LinkResource"
                 }
               }
             }
@@ -387,7 +386,7 @@
           }
         }
       },
-      "HalResource" : {
+      "LinkResource" : {
         "type" : "object",
         "properties" : {
           "links" : {

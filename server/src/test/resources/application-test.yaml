@@ -1,3 +1,6 @@
+tuzhub:
+  enableRemoteUpdates: true
+
 ebean:
   test:
     shutdown: remove
