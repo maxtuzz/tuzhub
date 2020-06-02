@@ -18,7 +18,7 @@ class DynamicUpdateService(private val specService: ApiSpecService) {
     }
 
     init {
-        startPolling()
+        // startPolling()
     }
 
     /**

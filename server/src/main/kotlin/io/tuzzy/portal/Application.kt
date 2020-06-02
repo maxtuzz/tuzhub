@@ -1,13 +1,12 @@
 package io.tuzzy.portal
 
-import com.fasterxml.jackson.annotation.JsonInclude
 import io.dinject.SystemContext
 import io.dinject.controller.WebRoutes
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.path
 import io.javalin.http.staticfiles.Location
 import io.javalin.plugin.json.JavalinJackson
-import io.javalin.plugin.openapi.jackson.JacksonToJsonMapper.objectMapper
+import io.tuzzy.portal.config.ObjectMapperConfig
 
 fun main() {
     startServer(8090)
@@ -33,9 +32,7 @@ fun create(routes: List<WebRoutes>): Javalin {
         }
     }
 
-    JavalinJackson.configure(
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-    )
+    JavalinJackson.configure(ObjectMapperConfig.get())
 
     return app.routes {
         path("/v1") {
