@@ -13,7 +13,6 @@ class ObjectMapperConfig {
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .registerModule(JavaTimeModule());
-
         }
     }
 }

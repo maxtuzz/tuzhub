@@ -1,5 +1,6 @@
 package io.tuzzy.portal.service
 
+import io.tuzzy.portal.config.AppGlobal
 import org.slf4j.LoggerFactory
 import java.util.*
 import javax.annotation.PreDestroy
@@ -18,7 +19,12 @@ class DynamicUpdateService(private val specService: ApiSpecService) {
     }
 
     init {
-        // startPolling()
+        if (AppGlobal.remoteEnabled()) {
+            startPolling()
+            logger.info("Dynamic remote updating is enabled");
+        } else {
+            logger.info("Dynamic remote updating is disabled");
+        }
     }
 
     /**
@@ -29,7 +35,14 @@ class DynamicUpdateService(private val specService: ApiSpecService) {
 
         logger.info("Starting spec update service, polling interval set to $refreshInterval")
 
-        val refresh: TimerTask.() -> Unit = {
+        val refresh: TimerTask.() -> Unit = refreshAllSpecs()
+
+        dynamicUpdateJob = Timer("dynamic-config", false)
+            .schedule(2000, refreshInterval, refresh)
+    }
+
+    private fun refreshAllSpecs(): TimerTask.() -> Unit {
+        return {
             // Get all pollable spec entries
             val specs = specService.getPollableSpecs()
 
@@ -43,9 +56,6 @@ class DynamicUpdateService(private val specService: ApiSpecService) {
                 }
             }
         }
-
-        dynamicUpdateJob = Timer("dynamic-config", false)
-            .schedule(2000, refreshInterval, refresh)
     }
 
     /**
@@ -66,8 +76,10 @@ class DynamicUpdateService(private val specService: ApiSpecService) {
 
     @PreDestroy
     fun stopDynamicUpdate() {
-        logger.info("Stopping [dynamic-config] thread ...")
-        pollingStatus = PollingStatus.STOPPED
-        dynamicUpdateJob.cancel()
+        if (AppGlobal.remoteEnabled()) {
+            logger.info("Stopping [dynamic-config] thread ...")
+            pollingStatus = PollingStatus.STOPPED
+            dynamicUpdateJob.cancel()
+        }
     }
 }

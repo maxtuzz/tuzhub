@@ -6,10 +6,11 @@ import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.path
 import io.javalin.http.staticfiles.Location
 import io.javalin.plugin.json.JavalinJackson
+import io.tuzzy.portal.config.AppGlobal
 import io.tuzzy.portal.config.ObjectMapperConfig
 
 fun main() {
-    startServer(8090)
+    startServer(AppGlobal.port())
 }
 
 fun startServer(port: Int): Javalin {

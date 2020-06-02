@@ -1,3 +1,11 @@
+# Google cloud run will use PORT environmental variable to bootstrap app
+app:
+  name: tuzhub-api
+  port: ${PORT:8090}
+
+tuzhub:
+  enableRemoteUpdates: ${REMOTE_UPDATE:false}
+
 ##
 ## Postgres setup - To use local docker instance see src/test/main/StartPostgresDocker.main()
 ##
