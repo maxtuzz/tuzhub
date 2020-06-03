@@ -3,6 +3,11 @@ app:
   name: tuzhub-api
   port: ${PORT:8090}
 
+  ## Kubernetes environmental variables
+  k_service: ${K_SERVICE}
+  k_revision: ${K_REVISION}
+  k_configuration: ${K_CONFIGURATION}
+
 tuzhub:
   enableRemoteUpdates: ${REMOTE_UPDATE:false}
 
