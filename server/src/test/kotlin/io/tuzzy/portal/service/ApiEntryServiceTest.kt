@@ -1,7 +1,5 @@
 package io.tuzzy.portal.service
 
-import io.javalin.http.BadRequestResponse
-import io.tuzzy.portal.ResourceHelp.Companion.read
 import io.tuzzy.portal.ResourceHelp.Companion.readYamlToJsonMap
 import io.tuzzy.portal.api.ApiEntry
 import io.tuzzy.portal.domain.query.QDApiEntry
@@ -41,7 +39,7 @@ class ApiEntryServiceTest {
 
     @Test
     fun `Create API entry from manual spec`() {
-        val json= readYamlToJsonMap("/specs/petstore.yaml")
+        val json = readYamlToJsonMap("/specs/petstore.yaml")
 
         dummyEntry.fullSpec = json
         dummyEntry.dynamicConf = false

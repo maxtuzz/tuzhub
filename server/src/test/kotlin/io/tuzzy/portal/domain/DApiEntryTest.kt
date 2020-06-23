@@ -20,6 +20,6 @@ class DApiEntryTest() {
         assertEquals(foundEntry, apiEntry)
 
         // Delete
-        apiEntry.delete();
+        apiEntry.delete()
     }
 }

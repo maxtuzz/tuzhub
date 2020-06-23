@@ -3,7 +3,6 @@ import PageTitle from "../lib/PageTitle";
 import ScreenArea from "./ScreenArea";
 import Words from "../lib/Words";
 import SubHeaderText from "../lib/SubHeaderText";
-import Modal from "../lib/Modal";
 
 const ConfigureScreen: React.FC = () => (
     <ScreenArea>
@@ -11,9 +10,9 @@ const ConfigureScreen: React.FC = () => (
             Configure
         </PageTitle>
 
-        <Modal open={true} title={"My title"}>
-            <Words>this modal in particular is locked to always show. Move to new page to get rid of it</Words>
-        </Modal>
+        {/*<Modal open={true} title={"My title"}>*/}
+        {/*    <Words>this modal in particular is locked to always show. Move to new page to get rid of it</Words>*/}
+        {/*</Modal>*/}
 
         <SubHeaderText>
             Portal settings

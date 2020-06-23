@@ -4,6 +4,7 @@ info:
   title: Identity API V2
   description: |
     ## The Official University of Auckland Identity API
+
     You can use this API to query information about individuals registered with the University database.
     Not all properties are available publically and their visibility is determined by the given scopes within your access token.
 
