@@ -6,8 +6,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "format": "prettier --list-different --write \"**/*.{ts,tsx,html,scss,css,js,json,md}\"",
-    "format:check": "prettier --list-different \"**/*.{ts,tsx,html,scss,css,js,json,md}\""
+    "format": "prettier --list-different --write \"src/*.{ts,tsx,html,scss,css,js,json,md}\"",
+    "format:check": "prettier --list-different \"src/*.{ts,tsx,html,scss,css,js,json,md}\""
   },
   "dependencies": {
     "@apidevtools/swagger-parser": "^9.0.1",
