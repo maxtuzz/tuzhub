@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const HeaderText = styled.h2`
-  color: #FFF;
+  color: #fff;
 `;
 
 export default HeaderText;

@@ -1,15 +1,15 @@
-import React from "react";
-import {Lottie} from "@crello/react-lottie";
-import animationData from "../assets/animations/api-loading.json";
-import styled from "styled-components";
+import React from 'react';
+import { Lottie } from '@crello/react-lottie';
+import animationData from '../assets/animations/api-loading.json';
+import styled from 'styled-components';
 
 const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-        preserveAspectRatio: 'xMidYMid slice'
-    }
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice',
+  },
 };
 
 const SpinnerContainer = styled.div`
@@ -21,9 +21,9 @@ const SpinnerContainer = styled.div`
 `;
 
 const LoadingSpinner: React.FC = () => (
-    <SpinnerContainer>
-        <Lottie config={defaultOptions} height="400px" width="400px"/>
-    </SpinnerContainer>
+  <SpinnerContainer>
+    <Lottie config={defaultOptions} height="400px" width="400px" />
+  </SpinnerContainer>
 );
 
 export default LoadingSpinner;

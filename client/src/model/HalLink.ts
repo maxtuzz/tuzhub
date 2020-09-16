@@ -1,8 +1,8 @@
 export interface HalLink {
-    href: string;
-    type: string;
+  href: string;
+  type: string;
 }
 
 export interface HalLinks {
-    [s: string]: HalLink;
+  [s: string]: HalLink;
 }

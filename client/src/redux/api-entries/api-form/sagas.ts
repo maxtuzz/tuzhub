@@ -1,92 +1,92 @@
-import {all, call, delay, fork, put, takeEvery} from "redux-saga/effects";
-import NotifyType from "../../../model/NotificationType";
-import {safeLoad} from "js-yaml";
-import Notification from "../../../model/Notification";
-import {HalApi} from "../../../services/HalApi";
-import Env from "../../../services/Env";
-import {ApiFormActions, NewApiSubmitAction, setApiSubmitLoading} from "./actions";
-import {push} from "connected-react-router";
-import {pushNotification} from "../../notifications/actions";
+import { all, call, delay, fork, put, takeEvery } from 'redux-saga/effects';
+import NotifyType from '../../../model/NotificationType';
+import { safeLoad } from 'js-yaml';
+import Notification from '../../../model/Notification';
+import { HalApi } from '../../../services/HalApi';
+import Env from '../../../services/Env';
+import { ApiFormActions, NewApiSubmitAction, setApiSubmitLoading } from './actions';
+import { push } from 'connected-react-router';
+import { pushNotification } from '../../notifications/actions';
 
 function* createApiEntry(action: NewApiSubmitAction) {
-    let {apiEntry} = action;
+  let { apiEntry } = action;
 
-    yield put(setApiSubmitLoading(true));
+  yield put(setApiSubmitLoading(true));
 
-    // Default to auth enabled false
-    // Todo: Make this configurable once authenticated APIs are a thing
-    apiEntry.authEnabled = false;
+  // Default to auth enabled false
+  // Todo: Make this configurable once authenticated APIs are a thing
+  apiEntry.authEnabled = false;
 
-    const fullSpec = apiEntry.fullSpec as string;
+  const fullSpec = apiEntry.fullSpec as string;
 
-    // Flag checking
-    // Todo: Think about creating a builder pattern to handle api entry payload construction
-    if (fullSpec && fullSpec.length > 20) {
-        apiEntry.dynamicConf = false;
-        apiEntry.specUrl = undefined;
+  // Flag checking
+  // Todo: Think about creating a builder pattern to handle api entry payload construction
+  if (fullSpec && fullSpec.length > 20) {
+    apiEntry.dynamicConf = false;
+    apiEntry.specUrl = undefined;
 
-        const isJson = fullSpec.trim().startsWith("{");
+    const isJson = fullSpec.trim().startsWith('{');
 
-        if (isJson) {
-            try {
-                apiEntry.fullSpec = JSON.parse(fullSpec);
-            } catch (e) {
-                yield put(pushNotification({
-                    message: `Problem when parsing supplied JSON`,
-                    type: NotifyType.ERROR
-                }));
-
-                return;
-            }
-        } else {
-            try {
-                // Convert yaml to string
-                apiEntry.fullSpec = safeLoad(fullSpec);
-            } catch (e) {
-                yield put(pushNotification({
-                    message: `Incompatible yaml file supplied. Please check syntax`,
-                    type: NotifyType.ERROR
-                }));
-
-                return;
-            }
-        }
-    }
-
-    if (apiEntry.displayName.includes("-")) {
-        const alert: Notification = {
-            message: `Illegal character found "-", in new api entry display name`,
-            type: NotifyType.ERROR
-        };
-
-        yield put(pushNotification(alert));
+    if (isJson) {
+      try {
+        apiEntry.fullSpec = JSON.parse(fullSpec);
+      } catch (e) {
+        yield put(
+          pushNotification({
+            message: `Problem when parsing supplied JSON`,
+            type: NotifyType.ERROR,
+          })
+        );
 
         return;
+      }
+    } else {
+      try {
+        // Convert yaml to string
+        apiEntry.fullSpec = safeLoad(fullSpec);
+      } catch (e) {
+        yield put(
+          pushNotification({
+            message: `Incompatible yaml file supplied. Please check syntax`,
+            type: NotifyType.ERROR,
+          })
+        );
+
+        return;
+      }
     }
+  }
 
-    yield call(HalApi.post, Env.getBaseApiUrl(), apiEntry);
+  if (apiEntry.displayName.includes('-')) {
+    const alert: Notification = {
+      message: `Illegal character found "-", in new api entry display name`,
+      type: NotifyType.ERROR,
+    };
 
-    // Give some time
-    yield delay(1000);
+    yield put(pushNotification(alert));
 
-    // Navigate to newly created API screen
-    const name = apiEntry.displayName
-        .trimStart()
-        .trimEnd()
-        .replace(" ", "-")
-        .toLowerCase();
+    return;
+  }
 
-    // Navigate to page
-    yield put(push(`/apis/${name}`))
-    yield put(pushNotification(new Notification(NotifyType.INFO, `API "${name}" created successfully ...`)))
+  yield call(HalApi.post, Env.getBaseApiUrl(), apiEntry);
 
-    yield put(setApiSubmitLoading(false));
+  // Give some time
+  yield delay(1000);
+
+  // Navigate to newly created API screen
+  const name = apiEntry.displayName.trimStart().trimEnd().replace(' ', '-').toLowerCase();
+
+  // Navigate to page
+  yield put(push(`/apis/${name}`));
+  yield put(pushNotification(new Notification(NotifyType.INFO, `API "${name}" created successfully ...`)));
+
+  yield put(setApiSubmitLoading(false));
 }
 
 function* watchNewApiSubmit() {
-    yield takeEvery(ApiFormActions.API_SUBMIT, createApiEntry);
+  yield takeEvery(ApiFormActions.API_SUBMIT, createApiEntry);
 }
 
 export default function* () {
-    yield all([fork(watchNewApiSubmit)])
+  yield all([fork(watchNewApiSubmit)]);
 }

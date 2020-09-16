@@ -1,11 +1,11 @@
-import React from "react";
-import ScreenArea from "./ScreenArea";
-import ApiFormContainer from "../../containers/ApiFormContainer";
+import React from 'react';
+import ScreenArea from './ScreenArea';
+import ApiFormContainer from '../../containers/ApiFormContainer';
 
 const LinkApiScreen: React.FC = () => (
-    <ScreenArea>
-        <ApiFormContainer/>
-    </ScreenArea>
+  <ScreenArea>
+    <ApiFormContainer />
+  </ScreenArea>
 );
 
 export default LinkApiScreen;

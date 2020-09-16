@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-const PageTitle = styled.h1 `
-  color: #FFF;
+const PageTitle = styled.h1`
+  color: #fff;
   font-size: 35px;
 `;
 

@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, { useState } from 'react';
 
-import styled from "styled-components";
-import TabButton from "./TabButton";
+import styled from 'styled-components';
+import TabButton from './TabButton';
 
 const TabsButtonContainer = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ const TabsButtonContainer = styled.div`
 export const Tab = styled.div<{ label: string }>``;
 
 interface Props {
-    children: any
+  children: any;
 }
 
 /**
@@ -22,33 +22,30 @@ interface Props {
  * @param children
  * @constructor
  */
-const Tabs: React.FC<Props> = ({children}) => {
-    const [activeTab, setActiveTab] = useState(children[0].props.label);
+const Tabs: React.FC<Props> = ({ children }) => {
+  const [activeTab, setActiveTab] = useState(children[0].props.label);
 
-    return (
-        <div>
-            <TabsButtonContainer>
-                {
-                    children.map((tab: JSX.Element, index: number) => {
-                        const label = tab.props.label;
+  return (
+    <div>
+      <TabsButtonContainer>
+        {children.map((tab: JSX.Element, index: number) => {
+          const label = tab.props.label;
 
-                        return <TabButton key={index}
-                                          label={label}
-                                          isActive={activeTab === label}
-                                          onClick={() => setActiveTab(label)}/>
-                    })
-                }
-            </TabsButtonContainer>
+          return (
+            <TabButton key={index} label={label} isActive={activeTab === label} onClick={() => setActiveTab(label)} />
+          );
+        })}
+      </TabsButtonContainer>
 
-            <div>
-                {children.map((tab: JSX.Element) => {
-                    if (tab.props.label !== activeTab) return undefined;
+      <div>
+        {children.map((tab: JSX.Element) => {
+          if (tab.props.label !== activeTab) return undefined;
 
-                    return tab.props.children;
-                })}
-            </div>
-        </div>
-    );
+          return tab.props.children;
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default Tabs;

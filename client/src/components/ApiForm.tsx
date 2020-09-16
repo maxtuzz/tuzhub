@@ -1,26 +1,26 @@
-import React, {useState} from "react";
-import HeaderText from "./lib/HeaderText";
-import Words from "./lib/Words";
-import SwitchToggle from "./lib/SwitchToggle";
-import AccordionHeader from "./lib/AccordionHeader";
-import styled from "styled-components";
-import Input from "./lib/Input";
-import ExpandableContent from "./lib/ExpandableContent";
-import Button from "./lib/Button";
-import SectionHeader from "./lib/SectionHeader";
-import FadeInContent from "./lib/FadeInContent";
-import Tabs, {Tab} from "./lib/tabs/Tabs";
-import {sampleYaml} from "../assets/samples/spec";
-import {useForm} from "react-hook-form";
-import ApiEntry from "../model/ApiEntry";
+import React, { useState } from 'react';
+import HeaderText from './lib/HeaderText';
+import Words from './lib/Words';
+import SwitchToggle from './lib/SwitchToggle';
+import AccordionHeader from './lib/AccordionHeader';
+import styled from 'styled-components';
+import Input from './lib/Input';
+import ExpandableContent from './lib/ExpandableContent';
+import Button from './lib/Button';
+import SectionHeader from './lib/SectionHeader';
+import FadeInContent from './lib/FadeInContent';
+import Tabs, { Tab } from './lib/tabs/Tabs';
+import { sampleYaml } from '../assets/samples/spec';
+import { useForm } from 'react-hook-form';
+import ApiEntry from '../model/ApiEntry';
 
 const FormContainer = styled(FadeInContent)`
   display: flex;
   flex-direction: column;
-  width: 70%; 
-  
+  width: 70%;
+
   @media (max-width: 1126px) {
-      width: 100%;
+    width: 100%;
   }
 `;
 
@@ -32,14 +32,14 @@ const Form = styled.form`
 
 const FormInput = styled(Input)<{ invalid?: boolean }>`
   margin-bottom: 1em;
-  border-bottom: ${props => props.invalid && "1px solid red"};
+  border-bottom: ${props => props.invalid && '1px solid red'};
 `;
 
 const SpecTextArea = styled.textarea`
   margin-top: 0.3em;
   padding: 0.7em 0.7em 0.7em 0.7em;
   outline: none;
-  border: none; 
+  border: none;
   width: 98%;
   height: 30em;
   background-color: #2c2c30;
@@ -50,80 +50,90 @@ const SpecTextArea = styled.textarea`
 `;
 
 interface Props {
-    isSubmitting: boolean;
+  isSubmitting: boolean;
 }
 
 interface Functions {
-    submit: (apiEntry: ApiEntry) => any
+  submit: (apiEntry: ApiEntry) => any;
 }
 
 /**
  * Used to link/create new API entry
- * Todo: Correctly implement validation
  * @param isSubmitting (loading indicator)
  * @param submit (function to call on submission)
  * @constructor
  */
-const ApiForm: React.FC<Props & Functions> = ({isSubmitting, submit}) => {
-    const [expandAdvancedSettings, setExpandAdvancedSettings] = useState(false);
-    const {register, handleSubmit, errors} = useForm<ApiEntry>();
+const ApiForm: React.FC<Props & Functions> = ({ isSubmitting, submit }) => {
+  const [expandAdvancedSettings, setExpandAdvancedSettings] = useState(false);
+  const { register, handleSubmit, errors } = useForm<ApiEntry>();
 
-    const onSubmit = handleSubmit((data: ApiEntry) => {
-        submit(data);
-    });
+  const onSubmit = handleSubmit((data: ApiEntry) => {
+    submit(data);
+  });
 
-    return (
-        <FormContainer>
-            <Form onSubmit={onSubmit}>
-                <HeaderText>Add API:</HeaderText>
-                <Words>Enter in some basic details about the API you want to link</Words>
-                <FormInput type="text" placeholder="Display name" name={"displayName"}
-                           ref={register({required: true, maxLength: 20})}/>
-                {errors.displayName && <Words>Yo nah</Words>}
-                <FormInput type="text" placeholder="Summary" name={"description"}
-                           ref={register({required: true, maxLength: 100})}/>
+  return (
+    <FormContainer>
+      <Form onSubmit={onSubmit}>
+        <HeaderText>Add API:</HeaderText>
+        <Words>Enter in some basic details about the API you want to link</Words>
+        <FormInput
+          type="text"
+          placeholder="Display name"
+          name={'displayName'}
+          ref={register({ required: true, maxLength: 20 })}
+        />
+        {errors.displayName && <Words>Yo nah</Words>}
+        <FormInput
+          type="text"
+          placeholder="Summary"
+          name={'description'}
+          ref={register({ required: true, maxLength: 100 })}
+        />
 
-                <HeaderText>Spec</HeaderText>
-                <Words>You can either choose to link a spec directly and let the hub take care of polling it for
-                    changes.
-                    Or you can upload it directly.</Words>
-                <Words>Multiple specs can be assigned to an API after creation (versions, pre-release demos
-                    etc.)</Words>
+        <HeaderText>Spec</HeaderText>
+        <Words>
+          You can either choose to link a spec directly and let the hub take care of polling it for changes. Or you can
+          upload it directly.
+        </Words>
+        <Words>Multiple specs can be assigned to an API after creation (versions, pre-release demos etc.)</Words>
 
-                <Tabs>
-                    <Tab label="Remote">
-                        <Words>Provide an URL to remote spec</Words>
-                        <FormInput type="text"
-                                   placeholder="https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
-                                   name="specUrl"
-                                   ref={register}
-                        />
-                        <SectionHeader>Auto configure</SectionHeader>
-                        <SwitchToggle name="dynamicConf" register={register}/>
-                        {/*<Words>When enabled, remote url will be polled periodically to ensure your spec is always up to date</Words>*/}
-                    </Tab>
-                    <Tab label="Upload">
-                        <FadeInContent>
-                            <Words>Paste a valid OpenAPI spec</Words>
-                            <SpecTextArea placeholder={sampleYaml} name="fullSpec" ref={register}/>
-                        </FadeInContent>
-                    </Tab>
-                </Tabs>
+        <Tabs>
+          <Tab label="Remote">
+            <Words>Provide an URL to remote spec</Words>
+            <FormInput
+              type="text"
+              placeholder="https://raw.githubusercontent.com/maxtuzz/tuzzy-dev-portal/master/server/src/test/resources/specs/petstore.yaml"
+              name="specUrl"
+              ref={register}
+            />
+            <SectionHeader>Auto configure</SectionHeader>
+            <SwitchToggle name="dynamicConf" register={register} />
+            {/*<Words>When enabled, remote url will be polled periodically to ensure your spec is always up to date</Words>*/}
+          </Tab>
+          <Tab label="Upload">
+            <FadeInContent>
+              <Words>Paste a valid OpenAPI spec</Words>
+              <SpecTextArea placeholder={sampleYaml} name="fullSpec" ref={register} />
+            </FadeInContent>
+          </Tab>
+        </Tabs>
 
-                <AccordionHeader open={expandAdvancedSettings}
-                                 onClick={() => setExpandAdvancedSettings(!expandAdvancedSettings)}>
-                    Advanced settings
-                </AccordionHeader>
-                <ExpandableContent open={expandAdvancedSettings}>
-                    <Words>Coming soon. (Disable proxy, authentication, etc.)</Words>
-                </ExpandableContent>
+        <AccordionHeader
+          open={expandAdvancedSettings}
+          onClick={() => setExpandAdvancedSettings(!expandAdvancedSettings)}
+        >
+          Advanced settings
+        </AccordionHeader>
+        <ExpandableContent open={expandAdvancedSettings}>
+          <Words>Coming soon. (Disable proxy, authentication, etc.)</Words>
+        </ExpandableContent>
 
-                <Button submit isLoading={isSubmitting}>
-                    Create
-                </Button>
-            </Form>
-        </FormContainer>
-    );
+        <Button submit isLoading={isSubmitting}>
+          Create
+        </Button>
+      </Form>
+    </FormContainer>
+  );
 };
 
 export default ApiForm;

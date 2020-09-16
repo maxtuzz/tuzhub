@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const SwitchWrapper = styled.div`
   position: relative;
@@ -15,9 +15,9 @@ const SwitchLabel = styled.label`
   background: #e52d43;
   cursor: pointer;
   transition: background 0.2s;
-  
+
   &::after {
-    content: "";
+    content: '';
     display: block;
     border-radius: 50%;
     width: 18px;
@@ -35,12 +35,12 @@ const CheckBox = styled.input`
   border-radius: 15px;
   width: 42px;
   height: 26px;
-  
+
   &:checked + ${SwitchLabel} {
     background: #4fbe79;
-    
+
     &::after {
-      content: "";
+      content: '';
       display: block;
       border-radius: 50%;
       width: 18px;
@@ -52,21 +52,19 @@ const CheckBox = styled.input`
 `;
 
 interface Props {
-    name?: string
-    register?: any
+  name?: string;
+  register?: any;
 }
 
 interface Functions {
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;
 }
 
-const SwitchToggle: React.FC<Props & Functions> = ({name, register, onChange}) => (
-    <SwitchWrapper>
-        <CheckBox id="checkbox" type="checkbox" defaultChecked={true}
-                  onChange={onChange}
-                  name={name} ref={register}/>
-        <SwitchLabel htmlFor="checkbox"/>
-    </SwitchWrapper>
+const SwitchToggle: React.FC<Props & Functions> = ({ name, register, onChange }) => (
+  <SwitchWrapper>
+    <CheckBox id="checkbox" type="checkbox" defaultChecked={true} onChange={onChange} name={name} ref={register} />
+    <SwitchLabel htmlFor="checkbox" />
+  </SwitchWrapper>
 );
 
 export default SwitchToggle;

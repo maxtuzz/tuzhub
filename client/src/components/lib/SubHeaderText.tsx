@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const SubHeaderText = styled.h3`
-  color: #FFF;
+  color: #fff;
 `;
 
 export default SubHeaderText;

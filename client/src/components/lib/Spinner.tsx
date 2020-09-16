@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import * as Icons from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as Icons from '@fortawesome/free-solid-svg-icons';
 
 const SpinnerContainer = styled.div`
   display: flex;
@@ -12,11 +12,11 @@ const SpinnerContainer = styled.div`
 `;
 
 const AnimatedIcon = styled(FontAwesomeIcon)`
-   animation: spinner 1s linear infinite; 
-  
+  animation: spinner 1s linear infinite;
+
   @keyframes spinner {
     to {
-      transform: rotate(360deg); 
+      transform: rotate(360deg);
     }
   }
 `;
@@ -26,9 +26,9 @@ const AnimatedIcon = styled(FontAwesomeIcon)`
  * @constructor
  */
 const Spinner: React.FC = () => (
-    <SpinnerContainer>
-        <AnimatedIcon icon={Icons.faSpinner} color={"white"}/>
-    </SpinnerContainer>
+  <SpinnerContainer>
+    <AnimatedIcon icon={Icons.faSpinner} color={'white'} />
+  </SpinnerContainer>
 );
 
 export default Spinner;

@@ -1,10 +1,10 @@
-import Hal from "./Hal";
+import Hal from './Hal';
 
 /**
  * List response supplies typing for hateoas resource wrapping
  */
 interface ListResp<T> extends Hal {
-    readonly content: T,
+  readonly content: T;
 }
 
 export default ListResp;

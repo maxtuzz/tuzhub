@@ -1,17 +1,17 @@
-import {ApiFormActions, TApiFormActions} from "./actions";
+import { ApiFormActions, TApiFormActions } from './actions';
 
 interface IApiFormState {
-    readonly isSubmitting: boolean;
+  readonly isSubmitting: boolean;
 }
 
 const initialState: IApiFormState = {
-    isSubmitting: false
+  isSubmitting: false,
 };
 
 export default function (state: IApiFormState = initialState, action: TApiFormActions) {
-    if (action.type === ApiFormActions.API_SUBMIT_LOADING) {
-        return {...state, isSubmitting: action.isSubmitting};
-    }
+  if (action.type === ApiFormActions.API_SUBMIT_LOADING) {
+    return { ...state, isSubmitting: action.isSubmitting };
+  }
 
-    return state;
+  return state;
 }

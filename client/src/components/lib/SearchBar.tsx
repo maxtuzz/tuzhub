@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import * as Icons from "@fortawesome/free-solid-svg-icons";
-import React from "react";
-import Input, {InputIcon} from "./Input";
+import styled from 'styled-components';
+import * as Icons from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
+import Input, { InputIcon } from './Input';
 
 const Form = styled.form`
   display: flex;
@@ -13,13 +13,13 @@ const Form = styled.form`
 `;
 
 interface Props {
-    placeholder?: string
-    autofocus?: boolean
-    defaultText?: string
+  placeholder?: string;
+  autofocus?: boolean;
+  defaultText?: string;
 }
 
 interface Functions {
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => any
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
 }
 
 /**
@@ -30,13 +30,17 @@ interface Functions {
  * @param defaultText - if there should be anything filled out in search by default
  * @constructor
  */
-const SearchBar: React.FC<Props & Functions> = ({onChange, placeholder, autofocus, defaultText = ""}) => (
-    <Form>
-        <InputIcon icon={Icons.faSearch} color={"grey"}/>
-        <Input defaultValue={defaultText}
-               onChange={onChange} type="text" placeholder={placeholder ? placeholder : "Search"}
-               autoFocus={autofocus}/>
-    </Form>
+const SearchBar: React.FC<Props & Functions> = ({ onChange, placeholder, autofocus, defaultText = '' }) => (
+  <Form>
+    <InputIcon icon={Icons.faSearch} color={'grey'} />
+    <Input
+      defaultValue={defaultText}
+      onChange={onChange}
+      type="text"
+      placeholder={placeholder ? placeholder : 'Search'}
+      autoFocus={autofocus}
+    />
+  </Form>
 );
 
 export default SearchBar;
