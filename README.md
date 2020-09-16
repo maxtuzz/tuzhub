@@ -1,10 +1,9 @@
-Tuzzy is a lightweight, cloud native developer portal being created that takes an opinionated approach to serving API documentation. 
-
+ Tuzhub is an open source, cloud native, hub created to help centralise API contracts and specifications. 
 
 ### Building on what's good
-Tuzzy uses the incredibly popular specification standard OpenAPI 3 as a bedrock for serving API documentation. This makes it trivial to plug it in and start serving your existing Swagger specs!
+Tuzhub uses the incredibly popular specification standard OpenAPI 3 as a bedrock for serving API documentation. This makes it trivial to plug it in and start serving your existing Swagger specs!
 
-You can inject an existing spec directly into Tuzzy, or let Tuzzy take care of it for you if your spec is available remotely. Tuzzy will make sure the specification is kept up to date, versioned, and available to all users.
+You can inject an existing spec directly into Tuzhub, or let Tuzhub take care of it for you if your spec is available remotely. Tuzhub will make sure the specification is kept up to date, versioned, and available to all users.
 
 Multiple specs can be linked, and APIs can be consolidated through a centralised, easy to use interface.    
 
