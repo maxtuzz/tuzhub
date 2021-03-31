@@ -1,4 +1,4 @@
- Tuzhub is an open source, cloud native, hub created to help centralise API contracts and specifications. 
+## NOT UNDER ACTIVE DEVELOPMENT 
 
 ### Building on what's good
 Tuzhub uses the incredibly popular specification standard OpenAPI 3 as a bedrock for serving API documentation. This makes it trivial to plug it in and start serving your existing Swagger specs!
