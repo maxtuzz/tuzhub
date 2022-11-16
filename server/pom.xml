@@ -20,7 +20,7 @@
         <java.release>11</java.release>
         <ebean.version>12.2.3</ebean.version>
         <dinject.version>1.15</dinject.version>
-        <jackson.version>2.11.0</jackson.version>
+        <jackson.version>2.12.7.1</jackson.version>
     </properties>
 
     <dependencies>
